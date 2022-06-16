@@ -1,0 +1,9 @@
+stepDefinitions\BrowserSetupStepDefs.class
+utilities\GenerateReport.class
+webElements\EdgeBrowser.class
+utilities\ReadConfigFile.class
+utilities\CommonMethods.class
+webElements\TestObjects.class
+utilities\CaptureScreenshot.class
+stepDefinitions\TestStepDefs.class
+utilities\Hooks.class
