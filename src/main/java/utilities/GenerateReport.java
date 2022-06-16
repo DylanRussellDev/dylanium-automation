@@ -19,7 +19,7 @@ public class GenerateReport {
 		
 		try {
 			// Add wait time before report is generated for stability purposes
-			Thread.sleep(1000);
+			CommonMethods.pauseForSeconds(1);
 			
 			// The folder to output the reports to. If the folder does not exist, it will be created.
 			File outDirectory = new File("target/~REPORTS");

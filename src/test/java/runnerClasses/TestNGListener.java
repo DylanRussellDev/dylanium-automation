@@ -26,13 +26,15 @@ public class TestNGListener implements IExecutionListener {
 	public void onExecutionFinish() {
 		try {
 			Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe");
-			CommonMethods.pauseForSeconds(2);
-			openTestReport();
 		} catch (IOException e) {
 			System.out.println("Could not kill chromedriver");
 		} // end try-catch
+
 		System.out.println("GENERATING THE REPORT...\n");
 		GenerateReport.GenerateTestNGReport();
+
+		CommonMethods.pauseForSeconds(1);
+		openTestReport();
 
 		System.out.println("************ TEST EXECUTION FINISHED ************\n");
 
