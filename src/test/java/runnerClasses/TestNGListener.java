@@ -14,8 +14,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.IExecutionListener;
 
-import utilities.CommonMethods;
-import utilities.GenerateReport;
+import utilities.core.CommonMethods;
+import utilities.core.GenerateReport;
 
 public class TestNGListener implements IExecutionListener {
 

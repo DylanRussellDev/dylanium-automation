@@ -4,7 +4,7 @@
  * Purpose: Takes a screenshot of a full web page and embeds it in the cucumber report.
  */
 
-package utilities;
+package utilities.browsers;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;

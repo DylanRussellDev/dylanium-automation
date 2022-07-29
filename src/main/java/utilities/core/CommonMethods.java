@@ -5,29 +5,37 @@
  *			from this file to keep the code readable.
  */
 
-package utilities;
+package utilities.core;
 
 import static org.testng.Assert.fail;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
+import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.devtools.Command;
+import org.openqa.selenium.devtools.DevTools;
+import org.openqa.selenium.devtools.v85.network.Network;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import utilities.browsers.CaptureScreenshot;
 
 public class CommonMethods {
 	
 	private static final ReadConfigFile readFile = new ReadConfigFile();
-	
+	public static ArrayList<String> devtoolErrors = new ArrayList<>();
+
 	/**
 	 * Returns the browser information for the reports
 	 */
@@ -36,10 +44,39 @@ public class CommonMethods {
 		String str = cap.getBrowserName() + " " + cap.getBrowserVersion();
 		return str.substring(0, 1).toUpperCase() + str.substring(1);
 	} // end browserInfo
-	
+	/**
+	 * Starts a DevTools listener. Anytime a failure is captured during execution, it is added
+	 *  to an Array list to output on the report.
+	 *
+	 * @param driver 		WebDriver
+	 */
+	public static void captureDevTools(WebDriver driver) {
+		try {
+			DevTools dt = ((ChromeDriver) driver ).getDevTools();
+			dt.createSessionIfThereIsNotOne();
+			dt.send(new Command<>("Network.enable", ImmutableMap.of()));
+			dt.addListener(Network.responseReceived(), receive -> {
+				String strStatus = receive
+						.getResponse()
+						.getStatus()
+						.toString();
+
+					if (!strStatus.equals("200")) {
+						devtoolErrors.add("DevTools error URL: " + receive
+								.getResponse()
+								.getUrl()
+								.replace("https://", "") + "\n"
+						+ "Status: "+ receive.getResponse().getStatus() + ", Error: " + receive.getResponse().getStatusText());
+					}
+			});
+		} catch (Exception e) {
+			System.out.println("Could not start DevTools listener\n");
+		}
+	}
+
 	/**
 	 * Find an element and perform a click function on it
-	 * 
+	 *
 	 * @param driver 		WebDriver
 	 * @param element 		The WebElement identifier
 	 * @param str 			String of WebElement for assert message

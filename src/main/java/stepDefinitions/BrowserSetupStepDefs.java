@@ -9,9 +9,9 @@ import org.openqa.selenium.WebElement;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import utilities.CommonMethods;
-import utilities.Hooks;
-import webElements.EdgeBrowser;
+import utilities.core.CommonMethods;
+import utilities.core.Hooks;
+import pagesElements.EdgeBrowser;
 
 public class BrowserSetupStepDefs {
 
@@ -40,7 +40,7 @@ public class BrowserSetupStepDefs {
 	}
 	
 	@Given("I am on the About Google page")
-	public void i_am_on_the_about_google_page() throws Exception {
+	public void i_am_on_the_about_google_page() {
 		CommonMethods.navigate(driver, "aboutChromeURL");
 	}
 
@@ -84,7 +84,7 @@ public class BrowserSetupStepDefs {
 	}
 
 	@Given("I am on the About Microsoft Edge page")
-	public void i_am_on_the_about_microsoft_edge_page() throws Exception {
+	public void i_am_on_the_about_microsoft_edge_page() {
 		CommonMethods.navigate(driver, "aboutEdgeURL");
 	}
 

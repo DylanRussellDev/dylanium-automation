@@ -4,13 +4,15 @@
  * Purpose: Try to read the properties file in the framework.
  */
 
-package utilities;
+package utilities.core;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
+
+import static org.testng.Assert.fail;
 
 public class ReadConfigFile {
 	
@@ -27,19 +29,18 @@ public class ReadConfigFile {
 				properties.load(reader);
 				reader.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				fail();
 			} // end inner try catch
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-			throw new RuntimeException("Properties file could not be found");
+			fail("The properties file could not be found");
 		} // end outer try catch
 	} // end constructor
 	
 	public String getTestURL() throws Exception {
 		String url = properties.getProperty("testURL");
-		if (url != null) 
+		if (!url.isEmpty())
 			return url;
-		else throw new RuntimeException("Test URL is not in the property file");
+		else throw new RuntimeException("testURL is not specified in the property file");
 	}
 	
 } // end class
