@@ -10,6 +10,7 @@ package runnerClasses;
 
 import io.cucumber.testng.CucumberOptions;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
+import org.testng.annotations.DataProvider;
 
 @CucumberOptions(features = {"src/test/java/features"},								// Location of the feature file package
 										glue = {"stepDefinitions", "utilities"},							// Package names where the step definition files and utilities are
@@ -17,4 +18,11 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 												"json:target/cucumber-reports/cucumber.json"},				// Location of the JSON cucumber file
 										monochrome = true)													// Make console easier to read
 
-public class Runner extends AbstractTestNGCucumberTests {}
+public class Runner extends AbstractTestNGCucumberTests {
+
+	@Override
+	@DataProvider(parallel = true)
+	public Object[][] scenarios() {
+		return super.scenarios();
+	}
+}

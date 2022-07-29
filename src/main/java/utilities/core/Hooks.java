@@ -31,15 +31,19 @@ import utilities.core.CommonMethods;
 
 public class Hooks {
 	
-	public static WebDriver driver;
-	public static Scenario scenario;
+	//public static WebDriver driver;
+	//public static Scenario scenario;
+
+	public static ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
+	public static ThreadLocal<Scenario> scenario = new ThreadLocal<Scenario>();
+
 	private final ChromeOptions chromeOpt = new ChromeOptions();
 	private final EdgeOptions edgeOpt = new EdgeOptions();
 	public static Capabilities cap;
 			
 	@Before
 	public void start(Scenario scenObj) throws IOException {
-		scenario = scenObj;
+		scenario.set(scenObj);
 		
 		switch (System.getProperty("Browser").toLowerCase()) {
 		
@@ -67,30 +71,30 @@ public class Hooks {
 		
 		} // end switch
 
-		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
-		driver.manage().window().maximize();
+		driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
+		driver.get().manage().window().maximize();
 		cap = ( (RemoteWebDriver) getDriver()).getCapabilities();
-		scenario.log("Executing on: " + CommonMethods.browserInfo(cap));
+		scenario.get().log("Executing on: " + CommonMethods.browserInfo(cap));
 	} // end setup
 	
 	public static WebDriver getDriver() {
-		return driver;
+		return driver.get();
 	} // end getWebdriver
 	
 	@After
 	public void afterScenario() throws IOException {
-		if (scenario.isFailed()) {
-			CommonMethods.screenshot(driver, "Error Screenshot");
+		if (scenario.get().isFailed()) {
+			CommonMethods.screenshot(driver.get(), "Error Screenshot");
 
 			if (!CommonMethods.devtoolErrors.isEmpty()) {
 				Set<String> set = new HashSet<>(CommonMethods.devtoolErrors);
 				CommonMethods.devtoolErrors.clear();
 				CommonMethods.devtoolErrors.addAll(set);
-				scenario.log(CommonMethods.devtoolErrors.toString());
+				scenario.get().log(CommonMethods.devtoolErrors.toString());
 			} // end inner if
 
 		} // end outer if
-		driver.quit();
+		driver.get().quit();
 	} // end afterScenario
 
 }

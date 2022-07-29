@@ -252,7 +252,7 @@ public class CommonMethods {
 		outStream.flush();
 		byte[] imgInBytes = outStream.toByteArray();
 		outStream.close();
-		Hooks.scenario.attach(imgInBytes, "image/png", desc);
+		Hooks.scenario.get().attach(imgInBytes, "image/png", desc);
 	} // end screenshot()
 	
 } // end CommonMethods.java

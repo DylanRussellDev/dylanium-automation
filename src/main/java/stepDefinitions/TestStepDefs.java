@@ -36,10 +36,9 @@ public class TestStepDefs {
 
 	@When("I click {string} plus {string}")
 	public void i_click_plus(String num1, String num2) {
-		CommonMethods.click(driver, By.xpath(TestObjects.btnNum.replace("NUMBER", num1)), num1 + " Button");
+		CommonMethods.click(driver, TestObjects.btn2,  "2 Button");
 	    CommonMethods.click(driver, TestObjects.btnPlus, "Plus Button");
-		CommonMethods.click(driver, By.xpath(TestObjects.btnNum.replace("NUMBER", num2)), num2 + " Button");
-	    CommonMethods.click(driver, TestObjects.btn2, "2 Button");
+		CommonMethods.click(driver, TestObjects.btn2,  "2 Button");
 	    CommonMethods.click(driver, TestObjects.btnEquals, "Equals Button");
 	}
 
