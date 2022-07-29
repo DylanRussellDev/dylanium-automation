@@ -1,14 +1,17 @@
 /*
  * Filename: Hooks.java
  * Author: Dylan Russell
- * Purpose: Based off VM arguments given in the TestNG run config, 
- * 			launch the browser with the requested options
+ * Purpose: Setup options before the tests begin to execute
  */
 
 package utilities.core;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -22,6 +25,7 @@ import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import utilities.browsers.BrowserPreferences;
 import utilities.core.CommonMethods;
 
@@ -31,6 +35,7 @@ public class Hooks {
 	public static Scenario scenario;
 	private final ChromeOptions chromeOpt = new ChromeOptions();
 	private final EdgeOptions edgeOpt = new EdgeOptions();
+	public static Capabilities cap;
 			
 	@Before
 	public void start(Scenario scenObj) throws IOException {
@@ -61,8 +66,11 @@ public class Hooks {
 			break;
 		
 		} // end switch
-		
+
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
 		driver.manage().window().maximize();
+		cap = ( (RemoteWebDriver) getDriver()).getCapabilities();
+		scenario.log("Executing on: " + CommonMethods.browserInfo(cap));
 	} // end setup
 	
 	public static WebDriver getDriver() {
@@ -73,7 +81,15 @@ public class Hooks {
 	public void afterScenario() throws IOException {
 		if (scenario.isFailed()) {
 			CommonMethods.screenshot(driver, "Error Screenshot");
-		}
+
+			if (!CommonMethods.devtoolErrors.isEmpty()) {
+				Set<String> set = new HashSet<>(CommonMethods.devtoolErrors);
+				CommonMethods.devtoolErrors.clear();
+				CommonMethods.devtoolErrors.addAll(set);
+				scenario.log(CommonMethods.devtoolErrors.toString());
+			} // end inner if
+
+		} // end outer if
 		driver.quit();
 	} // end afterScenario
 

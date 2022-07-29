@@ -39,11 +39,18 @@ public class CommonMethods {
 	/**
 	 * Returns the browser information for the reports
 	 */
-	public static String browserInfo() {
-		Capabilities cap = ((RemoteWebDriver) Hooks.driver).getCapabilities();
-		String str = cap.getBrowserName() + " " + cap.getBrowserVersion();
-		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	public static String browserInfo(Capabilities threadCap) {
+		try {
+//			Capabilities cap = ((RemoteWebDriver) Hooks.driver).getCapabilities();
+			String str = threadCap.getBrowserName().equalsIgnoreCase("Msedge") ? "MS Edge" : threadCap.getBrowserName();
+			String info = str + " " + threadCap.getBrowserVersion();
+			return info.substring(0, 1).toUpperCase() + info.substring(1);
+		} catch (Exception e) {
+			System.out.println("Could not find browser name and version the tests were executed on");
+			return null;
+		} // end try catch
 	} // end browserInfo
+
 	/**
 	 * Starts a DevTools listener. Anytime a failure is captured during execution, it is added
 	 *  to an Array list to output on the report.

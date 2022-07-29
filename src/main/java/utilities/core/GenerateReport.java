@@ -30,7 +30,7 @@ public class GenerateReport {
 			list.add("target/cucumber-reports/cucumber.json");
 			Configuration config = new Configuration(outDirectory, "Tests");
 			config.addClassifications("OS", CommonMethods.osInfo());
-			config.addClassifications("Browser", CommonMethods.browserInfo());
+			config.addClassifications("Browser", CommonMethods.browserInfo(Hooks.cap));
 			ReportBuilder repBuild = new ReportBuilder(list, config);
 			
 			// Generate the report

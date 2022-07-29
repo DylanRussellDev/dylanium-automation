@@ -25,12 +25,14 @@ public class ReadConfigFile {
 		try {
 			reader = new BufferedReader(new FileReader(FILEPATH));
 			properties = new Properties();
+
 			try {
 				properties.load(reader);
 				reader.close();
 			} catch (IOException e) {
-				fail();
+				fail("Could not load properties file");
 			} // end inner try catch
+
 		} catch (FileNotFoundException e) {
 			fail("The properties file could not be found");
 		} // end outer try catch
