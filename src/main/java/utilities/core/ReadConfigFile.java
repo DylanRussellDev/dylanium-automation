@@ -20,7 +20,7 @@ public class ReadConfigFile {
 	public Properties properties;
 	BufferedReader reader;
 	
-	// try to read the Automation.properties file
+	// Attempt to read the properties file
 	public ReadConfigFile() {
 		try {
 			reader = new BufferedReader(new FileReader(FILEPATH));
@@ -37,12 +37,5 @@ public class ReadConfigFile {
 			fail("The properties file could not be found");
 		} // end outer try catch
 	} // end constructor
-	
-	public String getTestURL() throws Exception {
-		String url = properties.getProperty("testURL");
-		if (!url.isEmpty())
-			return url;
-		else throw new RuntimeException("testURL is not specified in the property file");
-	}
-	
-} // end class
+
+} // end ReadConfigFile.java

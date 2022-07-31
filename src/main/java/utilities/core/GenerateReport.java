@@ -13,7 +13,6 @@ import java.util.List;
 
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
-import utilities.core.CommonMethods;
 
 public class GenerateReport {
 	public static void GenerateTestNGReport() {
@@ -24,7 +23,7 @@ public class GenerateReport {
 			
 			// The folder to output the reports to. If the folder does not exist, it will be created.
 			File outDirectory = new File("target/~REPORTS");
-			List<String> list = new ArrayList<String>();
+			List<String> list = new ArrayList<>();
 			
 			// Add formatting
 			list.add("target/cucumber-reports/cucumber.json");
@@ -41,4 +40,5 @@ public class GenerateReport {
 		} // end try/catch block
 		
 	} // end GenerateTestNGReport()
-} // end GenerateReport
+
+} // end GenerateReport.java

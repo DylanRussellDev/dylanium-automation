@@ -14,4 +14,5 @@ public class TestObjects {
 	public static By btnPlus = By.xpath("//span[text()=\"+\"]");
 	public static By btnEquals = By.xpath("//span[text()=\"=\"]");
 	public static By txtOutput = By.id("sciOutPut");
-}
+
+} // end TestObjects

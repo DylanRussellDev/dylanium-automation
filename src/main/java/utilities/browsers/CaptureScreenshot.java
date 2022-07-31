@@ -49,22 +49,12 @@ public class CaptureScreenshot {
 	}
 	
 	private static BufferedImage getNativeScreenshot(WebDriver wd) {
-		ByteArrayInputStream imageArrayStream = null;
 		TakesScreenshot takesScreenshot = (TakesScreenshot) new Augmenter().augment(wd);
-		try {
-			imageArrayStream = new ByteArrayInputStream(takesScreenshot.getScreenshotAs(OutputType.BYTES));
+		try (ByteArrayInputStream imageArrayStream = new ByteArrayInputStream(takesScreenshot.getScreenshotAs(OutputType.BYTES))) {
 			return ImageIO.read(imageArrayStream);
 		} catch (IOException e) {
 			throw new RuntimeException("Can not parse screenshot data", e);
-		} finally {
-			try {
-				if (imageArrayStream != null) {
-					imageArrayStream.close();
-				} // end if
-			} catch (IOException ignored) {
-				// Ignored exception
-			} // end inner try-catch
-		} // end try-catch-finally
+		} // end try catch
 	} // end getNativeScreenshot
 	
 	public static BufferedImage getScreenshot(WebDriver wd) {
@@ -95,4 +85,5 @@ public class CaptureScreenshot {
 		graphics.dispose();
 		return finalImg;
 	} // end getScreenshot
-} // end class
+
+} // end CaptureScreenshot.java

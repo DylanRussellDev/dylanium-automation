@@ -3,8 +3,15 @@ package utilities.misc;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import javax.swing.JPasswordField;
+import javax.swing.JLabel;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -99,6 +106,5 @@ public class Encryption extends JPanel implements ActionListener {
         frame.pack();
         frame.setVisible(true);
     } // end createAndShowUI
-
-
-}
+    
+} // end Encryption.java

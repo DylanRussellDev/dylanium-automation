@@ -12,14 +12,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.remote.Browser;
-import org.openqa.selenium.remote.CapabilityType;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -27,15 +22,14 @@ import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import utilities.browsers.BrowserPreferences;
-import utilities.core.CommonMethods;
 
 public class Hooks {
 	
 	//public static WebDriver driver;
 	//public static Scenario scenario;
 
-	public static ThreadLocal<WebDriver> driver = new ThreadLocal<WebDriver>();
-	public static ThreadLocal<Scenario> scenario = new ThreadLocal<Scenario>();
+	public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+	public static ThreadLocal<Scenario> scenario = new ThreadLocal<>();
 
 	private final ChromeOptions chromeOpt = new ChromeOptions();
 	private final EdgeOptions edgeOpt = new EdgeOptions();
@@ -97,4 +91,4 @@ public class Hooks {
 		driver.get().quit();
 	} // end afterScenario
 
-}
+} // end Hooks.java

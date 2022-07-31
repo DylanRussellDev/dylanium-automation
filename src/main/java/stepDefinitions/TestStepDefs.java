@@ -5,11 +5,11 @@
  */
 
 package stepDefinitions;
+
 import static org.testng.Assert.assertEquals;
 
 import java.io.IOException;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import io.cucumber.java.en.Given;
@@ -21,9 +21,8 @@ import pagesElements.TestObjects;
 
 public class TestStepDefs {
 
-	private WebDriver driver;
-//	private Map<String, String> collection = new HashMap<String, String>();	
-	
+	private final WebDriver driver;
+
 	// Instantiate the WebDriver
 	public TestStepDefs() {
 		this.driver = Hooks.getDriver();
@@ -66,4 +65,4 @@ public class TestStepDefs {
 		CommonMethods.screenshot(driver, "Output Screenshot");
 	}
 	
-}
+} // end TestStepDefs.java

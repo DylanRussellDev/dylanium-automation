@@ -21,7 +21,7 @@ public class TestNGListener implements IExecutionListener {
 
 	public void onExecutionStart() {
 		System.out.println("************ TEST EXECUTION STARTED ************\n");
-	} // end onExecutionStart()
+	} // end onExecutionStart
 	
 	public void onExecutionFinish() {
 		try {
@@ -38,7 +38,7 @@ public class TestNGListener implements IExecutionListener {
 
 		System.out.println("************ TEST EXECUTION FINISHED ************\n");
 
-	} // end onExecutionFinish()
+	} // end onExecutionFinish
 
 	public static void openTestReport() {
 		String strFile = System.getProperty("user.dir") + "\\target\\~REPORTS\\cucumber-html-reports\\overview-features.html";
@@ -46,6 +46,6 @@ public class TestNGListener implements IExecutionListener {
 		WebDriver driver = new ChromeDriver();
 		driver.get(strFile);
 		driver.manage().window().maximize();
-	}
+	} // end openTestReport
 	
-} // end TestNGListener()
+} // end TestNGListener.java

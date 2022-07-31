@@ -79,4 +79,4 @@ public class BrowserPreferences {
         httpClient.execute(request);
     }
 
-}
+} // end BrowserPreferences.java

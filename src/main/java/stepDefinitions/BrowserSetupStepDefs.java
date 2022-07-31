@@ -10,20 +10,14 @@ import org.openqa.selenium.WebElement;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import utilities.core.CommonMethods;
+import utilities.core.Constants;
 import utilities.core.Hooks;
 import pagesElements.EdgeBrowser;
 
 public class BrowserSetupStepDefs {
 
-	private WebDriver driver;
+	private final WebDriver driver;
 //	private Map<String, String> collection = new HashMap<String, String>();
-	
-	private static final String CHECKINGFORUPDATES = "Checking for updates";
-	private static final String UPTODATE = "is up to date";
-	private static final String UPDATING = "Updating";
-	private static final String CHROMERELAUNCH = "Nearly up to date";
-	private static final String EDGERELAUNCH = "restart Microsoft Edge";
-		
 	public BrowserSetupStepDefs() {
 		this.driver = Hooks.getDriver();
 	}
@@ -46,13 +40,15 @@ public class BrowserSetupStepDefs {
 
 	@Then("check if Google Chrome has an available update")
 	public void check_if_google_chrome_has_an_available_update() {
-	    if (getChromeUpdateText().contains(CHECKINGFORUPDATES) || getChromeUpdateText().contains(UPDATING)) {
+
+	    if (getChromeUpdateText().contains(Constants.CHECKINGFORUPDATES)
+				|| getChromeUpdateText().contains(Constants.UPDATING)) {
 	    	
 	    	for (int i = 0; i < 12; i++) {
 	    		String txt = getChromeUpdateText();
 	    		System.out.println("Chrome Update Status: " + txt);
 	    		
-	    		if (txt.contains(CHROMERELAUNCH) || txt.contains(UPTODATE)) {
+	    		if (txt.contains(Constants.CHROMERELAUNCH) || txt.contains(Constants.UPTODATE)) {
 	    			break;
 	    		} else {
 	    			CommonMethods.pauseForSeconds(5);
@@ -67,7 +63,7 @@ public class BrowserSetupStepDefs {
 	
 	@Then("close Chrome {string} if a new update needs applied")
 	public void relaunch_chrome_if_a_new_update_needs_applied(String version) throws IOException {
-		if (getChromeUpdateText().contains(CHROMERELAUNCH)) {
+		if (getChromeUpdateText().contains(Constants.CHROMERELAUNCH)) {
 	    	switch (version) {
 	    	case "Stable":
 	    		Runtime.getRuntime().exec("taskkill /F /IM chromedriver.exe");
@@ -79,7 +75,6 @@ public class BrowserSetupStepDefs {
 	    		Runtime.getRuntime().exec("taskkill /F /IM chromedriver-dev.exe");
 	    		break;	
 	    	} // end switch	
-	    	CommonMethods.pauseForSeconds(5);
 	    } // end if
 	}
 
@@ -91,13 +86,13 @@ public class BrowserSetupStepDefs {
 	@Then("check if Edge has an available update")
 	public void check_if_edge_has_an_available_update() {
 		String upTxt = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
-	    if (upTxt.contains(CHECKINGFORUPDATES) || upTxt.contains(UPDATING)) {
+	    if (upTxt.contains(Constants.CHECKINGFORUPDATES) || upTxt.contains(Constants.UPDATING)) {
 	    	
 	    	for (int i = 0; i < 12; i++) {
 	    		String txt = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
 	    		System.out.println("Edge Update Status: " + txt);
 	    		
-	    		if (txt.contains(EDGERELAUNCH) || txt.contains(UPTODATE)) {
+	    		if (txt.contains(Constants.EDGERELAUNCH) || txt.contains(Constants.UPTODATE)) {
 	    			break;
 	    		} else {
 	    			CommonMethods.pauseForSeconds(5);
@@ -112,10 +107,11 @@ public class BrowserSetupStepDefs {
 
 	@Then("relaunch Edge if a new update needs applied")
 	public void relaunch_edge_if_a_new_update_needs_applied() {
-		if (CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text").contains(EDGERELAUNCH)) {
+		String strUpdateStatus = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
+
+		if (strUpdateStatus.contains(Constants.EDGERELAUNCH)) {
 	    	driver.quit();
-	    	CommonMethods.pauseForSeconds(3);
 	    } // end if
 	}
 	
-}
+} // end BrowserSetupStepDefs.java
