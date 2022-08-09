@@ -111,42 +111,44 @@
 
   <build>
 	<plugins>
-	
-      <plugin>
-        <groupId>net.masterthought</groupId>
-        <artifactId>maven-cucumber-reporting</artifactId>
-        <version>${masterthought.version}</version>        
-        <executions>
-          <execution>
-            <id>execution</id>
-            <phase>verify</phase>
-            <goals>
-              <goal>generate</goal>
-            </goals>          
+
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>${surefire.version}</version>
             <configuration>
-              <projectName>cucumber-jvm-example</projectName>
-              <outputDirectory>${project.build.directory}/site/cucumber-reports</outputDirectory>
-              <jsonFiles>
-                <param>**/cucumber-reports.json</param>
-              </jsonFiles>
-              <classificationFiles>
-                <param>**/classifications/*.properties</param>
-              </classificationFiles>              
+                <suiteXmlFiles>
+                    <suiteXmlFile>${RunType}.xml</suiteXmlFile>
+                </suiteXmlFiles>
             </configuration>
-          </execution>
-        </executions>        
-      </plugin>
-      
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <version>${surefire.version}</version>
-        <configuration>        	
-          	<suiteXmlFiles>
-            	<suiteXmlFile>test.xml</suiteXmlFile>
-          	</suiteXmlFiles>          	
-        </configuration>
-      </plugin>
+        </plugin>
+
+        <plugin>
+            <groupId>net.masterthought</groupId>
+            <artifactId>maven-cucumber-reporting</artifactId>
+            <version>${masterthought.version}</version>
+            <executions>
+                <execution>
+                    <id>execution</id>
+                    <phase>verify</phase>
+                    <goals>
+                        <goal>generate</goal>
+                    </goals>
+                    <configuration>
+                        <projectName>cucumber-jvm-example</projectName>
+                        <outputDirectory>${project.build.directory}/site/cucumber-reports</outputDirectory>
+                        <jsonFiles>
+                            <param>**/cucumber-reports.json</param>
+                        </jsonFiles>
+
+                        <classificationFiles>
+                            <param>**/classifications/*.properties</param>
+                        </classificationFiles>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
         <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-compiler-plugin</artifactId>

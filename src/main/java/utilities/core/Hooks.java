@@ -25,9 +25,6 @@ import utilities.browsers.BrowserPreferences;
 
 public class Hooks {
 	
-	//public static WebDriver driver;
-	//public static Scenario scenario;
-
 	public static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 	public static ThreadLocal<Scenario> scenario = new ThreadLocal<>();
 

@@ -40,7 +40,6 @@ public class CommonMethods {
 	 */
 	public static String browserInfo(Capabilities threadCap) {
 		try {
-//			Capabilities cap = ((RemoteWebDriver) Hooks.driver).getCapabilities();
 			String str = threadCap.getBrowserName().equalsIgnoreCase("Msedge") ? "MS Edge" : threadCap.getBrowserName();
 			String info = str + " " + threadCap.getBrowserVersion();
 			return info.substring(0, 1).toUpperCase() + info.substring(1);
@@ -97,7 +96,7 @@ public class CommonMethods {
 	} // end click
 	
 	/**
-	 * Find an element and get its text
+	 * Find an element and return its text
 	 * 
 	 * @param driver 		WebDriver
 	 * @param element 		The WebElement identifier
@@ -114,7 +113,8 @@ public class CommonMethods {
 			
 			return val;
 		} catch (Exception e) {
-			return driver.findElement(element).getAttribute("value");
+			fail("Could not get text from: " + str);
+			return null;
 		} // end try-catch
 	} // end getElementText()
 	

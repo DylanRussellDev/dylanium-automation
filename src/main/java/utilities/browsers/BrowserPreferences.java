@@ -77,6 +77,6 @@ public class BrowserPreferences {
         request.addHeader("content-type", "application/json");
         request.setEntity(new StringEntity(cmd));
         httpClient.execute(request);
-    }
+    } // end enableHeadlessDownloads
 
 } // end BrowserPreferences.java

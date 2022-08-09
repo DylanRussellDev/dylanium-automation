@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Suite" data-provider-thread-count="2" verbose="1" thread-count="2" parallel="tests" configfailurepolicy="continue">
+<suite name="Suite" verbose="1" data-provider-thread-count="1" thread-count="1" parallel="tests" configfailurepolicy="continue">
   <listeners>
     <listener class-name="runnerClasses.TestNGListener" />
   </listeners>
