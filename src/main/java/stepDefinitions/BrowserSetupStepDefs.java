@@ -12,12 +12,11 @@ import io.cucumber.java.en.Then;
 import utilities.core.CommonMethods;
 import utilities.core.Constants;
 import utilities.core.Hooks;
-import pagesElements.EdgeBrowser;
+import pageElements.EdgeBrowser;
 
 public class BrowserSetupStepDefs {
 
 	private final WebDriver driver;
-//	private Map<String, String> collection = new HashMap<String, String>();
 	public BrowserSetupStepDefs() {
 		this.driver = Hooks.getDriver();
 	}

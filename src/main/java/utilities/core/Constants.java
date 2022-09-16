@@ -1,3 +1,9 @@
+/*
+ * Filename: Constants.java
+ * Purpose: This file houses constants to call to reference without the need of
+ *          redeclaring them each time.
+ */
+
 package utilities.core;
 
 public class Constants {

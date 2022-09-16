@@ -1,7 +1,6 @@
 /*
  * Filename: CaptureScreenshot.java
- * Author: Dylan Russell
- * Purpose: Takes a screenshot of a full web page and embeds it in the cucumber report.
+ * Purpose: Takes a screenshot of a full web page and embeds it in the execution report.
  */
 
 package utilities.browsers;

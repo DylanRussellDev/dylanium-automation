@@ -1,7 +1,8 @@
 /*
  * Filename: Hooks.java
- * Author: Dylan Russell
- * Purpose: Setup options before the tests begin to execute
+ * Purpose: Setup Before and After options for test execution.
+ * 			Methods are called from the BrowserPreferences.java file
+ * 			to help launch the drivers with the correct preferences.
  */
 
 package utilities.core;
@@ -22,6 +23,7 @@ import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import utilities.browsers.BrowserPreferences;
+import utilities.helpers.DevToolsListener;
 
 public class Hooks {
 	
@@ -77,11 +79,11 @@ public class Hooks {
 		if (scenario.get().isFailed()) {
 			CommonMethods.screenshot(driver.get(), "Error Screenshot");
 
-			if (!CommonMethods.devtoolErrors.isEmpty()) {
-				Set<String> set = new HashSet<>(CommonMethods.devtoolErrors);
-				CommonMethods.devtoolErrors.clear();
-				CommonMethods.devtoolErrors.addAll(set);
-				scenario.get().log(CommonMethods.devtoolErrors.toString());
+			if (!DevToolsListener.devtoolErrors.isEmpty()) {
+				Set<String> set = new HashSet<>(DevToolsListener.devtoolErrors);
+				DevToolsListener.devtoolErrors.clear();
+				DevToolsListener.devtoolErrors.addAll(set);
+				scenario.get().log(DevToolsListener.devtoolErrors.toString());
 			} // end inner if
 
 		} // end outer if

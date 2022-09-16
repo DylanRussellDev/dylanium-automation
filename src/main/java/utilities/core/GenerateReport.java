@@ -1,8 +1,7 @@
 /*
  * Filename: GenerateReport.java
- * Author: Dylan Russell
- * Purpose: Generates the pass/fail report of the execution.
- * 			The file is named: overview-features.html file 
+ * Purpose: Generates the Masterthought test execution report.
+ * 			The file to open in the target directory is: overview-features.html file
  */
 
 package utilities.core;
@@ -15,24 +14,22 @@ import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
 
 public class GenerateReport {
+
 	public static void GenerateTestNGReport() {
 		
 		try {
-			// Add wait time before report is generated for stability purposes
-			CommonMethods.pauseForSeconds(1);
-			
 			// The folder to output the reports to. If the folder does not exist, it will be created.
-			File outDirectory = new File("target/~REPORTS");
+			File outDirectory = new File("target/~REPORTS~");
 			List<String> list = new ArrayList<>();
-			
-			// Add formatting
 			list.add("target/cucumber-reports/cucumber.json");
+
+			// Formatting
 			Configuration config = new Configuration(outDirectory, "Tests");
 			config.addClassifications("OS", CommonMethods.osInfo());
 			config.addClassifications("Browser", CommonMethods.browserInfo(Hooks.cap));
-			ReportBuilder repBuild = new ReportBuilder(list, config);
-			
+
 			// Generate the report
+			ReportBuilder repBuild = new ReportBuilder(list, config);
 			repBuild.generateReports();
 		} catch (Exception e) {
 			System.out.println("There was a problem generating the report.");
@@ -41,4 +38,4 @@ public class GenerateReport {
 		
 	} // end GenerateTestNGReport()
 
-} // end GenerateReport.java
+} // end class GenerateReport.java

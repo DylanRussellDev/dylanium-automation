@@ -1,7 +1,6 @@
 /*
  * Filename: CommonMethods.java
- * Author: Dylan Russell
- * Purpose: Commonly used methods for step definition files can be called 
+ * Purpose: Commonly used methods for step definition files can be called
  *			from this file to keep the code readable.
  */
 
@@ -12,28 +11,27 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 
-import com.google.common.collect.ImmutableMap;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.devtools.Command;
-import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v85.network.Network;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.browsers.CaptureScreenshot;
 
 public class CommonMethods {
 	
 	private static final ReadConfigFile readFile = new ReadConfigFile();
-	public static ArrayList<String> devtoolErrors = new ArrayList<>();
+
 
 	/**
 	 * Returns the browser information for the reports
@@ -50,36 +48,6 @@ public class CommonMethods {
 	} // end browserInfo
 
 	/**
-	 * Starts a DevTools listener. Anytime a failure is captured during execution, it is added
-	 *  to an Array list to output on the report.
-	 *
-	 * @param driver 		WebDriver
-	 */
-	public static void captureDevTools(WebDriver driver) {
-		try {
-			DevTools dt = ((ChromeDriver) driver ).getDevTools();
-			dt.createSessionIfThereIsNotOne();
-			dt.send(new Command<>("Network.enable", ImmutableMap.of()));
-			dt.addListener(Network.responseReceived(), receive -> {
-				String strStatus = receive
-						.getResponse()
-						.getStatus()
-						.toString();
-
-					if (!strStatus.equals("200")) {
-						devtoolErrors.add("DevTools error URL: " + receive
-								.getResponse()
-								.getUrl()
-								.replace("https://", "") + "\n"
-						+ "Status: "+ receive.getResponse().getStatus() + ", Error: " + receive.getResponse().getStatusText());
-					}
-			});
-		} catch (Exception e) {
-			System.out.println("Could not start DevTools listener\n");
-		}
-	}
-
-	/**
 	 * Find an element and perform a click function on it
 	 *
 	 * @param driver 		WebDriver
@@ -88,11 +56,26 @@ public class CommonMethods {
 	 */
 	public static void click(WebDriver driver, By element, String str) {
 		isElementPresent(driver, element, str);
-		try { 
-			driver.findElement(element).click();
-		} catch (Exception e) {
-			fail("Could not click on element: " + str);
-		} // end try-catch
+		isElementClickable(driver, element, str);
+
+		int i = 0;
+
+		while (i < 5) {
+			try {
+				driver.findElement(element).click();
+				break;
+			} catch (ElementClickInterceptedException e) {
+				fail("Could not click on element: " + str + " because it became detached from the DOM structure.\n");
+			} catch (StaleElementReferenceException s) {
+				fail("Could not click on element: " + str + " because another element was concealing it.\n");
+			} catch (TimeoutException t) {
+				fail("After clicking on: " + str + ", the page took too long to load. \n");
+			} // end try-catch
+
+			i++;
+		} // end while
+
+
 	} // end click
 	
 	/**
@@ -113,7 +96,7 @@ public class CommonMethods {
 			
 			return val;
 		} catch (Exception e) {
-			fail("Could not get text from: " + str);
+			fail("Could not get text from: " + str + "\n");
 			return null;
 		} // end try-catch
 	} // end getElementText()
@@ -131,7 +114,7 @@ public class CommonMethods {
 			JavascriptExecutor executor = (JavascriptExecutor) driver;
 			executor.executeScript("arguments[0].onmouseover()", driver.findElement(element));
 		} catch (Exception e) {
-			fail(str + " could not be hovered to.");
+			fail(str + " could not be hovered to.\n");
 		} // end try-catch
 	} // end hoverJavaScript
 	
@@ -148,7 +131,7 @@ public class CommonMethods {
 			Actions action = new Actions(driver);
 			action.moveToElement(driver.findElement(element)).perform();
 		} catch (Exception e){
-			fail(str + " could not be hovered over.");
+			fail(str + " could not be hovered over.\n");
 		} // end try-catch
 	} // end hoverSelenium
 	
@@ -165,9 +148,25 @@ public class CommonMethods {
 		try {
 			driver.findElement(element).sendKeys(input);
 		} catch (Exception e) {
-			fail("Could not input text into element: " + str);
+			fail("Could not input text into element: " + str + "\n");
 		} // end try-catch
 	} // end input
+
+	/**
+	 * Checks to see if an element is able to be clicked
+	 *
+	 * @param driver  WebDriver
+	 * @param element The WebElement identifier
+	 * @param str     String of WebElement for assert message
+	 */
+	private static void isElementClickable(WebDriver driver, By element, String str) {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(readFile.properties.getProperty("Timeout"))));
+			wait.until(ExpectedConditions.elementToBeClickable(element));
+		} catch (Exception e) {
+			fail(str + " was not in a clickable state.\n");
+		} // end try-catch
+	} // end isElementPresent
 	
 	/**
 	 * Checks to see if an element is present on a web page within 60 seconds.
@@ -180,8 +179,9 @@ public class CommonMethods {
 		try {
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(readFile.properties.getProperty("Timeout"))));
 			wait.until(ExpectedConditions.visibilityOfElementLocated(element));
+			wait.until(ExpectedConditions.presenceOfElementLocated(element));
 		} catch (Exception e) {
-			fail(str + " is not present in specified time");
+			fail(str + " was not present in specified time.\n");
 		} // end try-catch
 	} // end isElementPresent
 	
@@ -195,7 +195,7 @@ public class CommonMethods {
 		try {
 			driver.get(readFile.properties.getProperty(url));
 		} catch (Exception e) {
-			fail("Could not navigate to: " + url);
+			fail("Could not navigate to: " + url + "\n");
 		} // end try-catch
 	} // end navigate()
 	
@@ -233,7 +233,7 @@ public class CommonMethods {
 		try {
 			Thread.sleep(intMilli);
 		} catch (Exception e) {
-			fail("Unable to pause execution for " + seconds + " seconds.");
+			fail("Unable to pause execution for " + seconds + " seconds.\n");
 		} // end try-catch
 	} // end pauseForSeconds()
 	
@@ -253,5 +253,35 @@ public class CommonMethods {
 		outStream.close();
 		Hooks.scenario.get().attach(imgInBytes, "image/png", desc);
 	} // end screenshot()
+
+	/**
+	 * Select an option from a dropdown list based off the order it appears
+	 *
+	 * @param driver 		WebDriver
+	 * @param element 		The WebElement identifier
+	 * @param index 		The number in the list where the desired option is
+	 * @param str 			String of WebElement for assert message
+	 */
+	public static void selectDropdownOptionByIndex(WebDriver driver, By element, int index, String str) {
+		isElementPresent(driver, element, str);
+		Select select = new Select(driver.findElement(element));
+		int i = 0;
+
+		while (i < 5) {
+
+			try {
+				select.selectByIndex(index);
+				break;
+			} catch (ElementClickInterceptedException e) {
+				fail(str + " could not be clicked because another element was concealing it.\n");
+			} catch (NoSuchElementException n) {
+				fail("There is not an option listed in the " + str + " at position " + index + "\n");
+			} catch (StaleElementReferenceException s) {
+				fail(str + " became detached from the DOM when trying to interact with it\n");
+			} // end try catch
+			i++;
+		} // end while
+
+	} // end selectDropdownOptionByIndex
 	
 } // end CommonMethods.java

@@ -1,3 +1,9 @@
+/*
+ * Filename: EncryptionApp.java
+ * Purpose: A Java swing applet that can encrypt credentials
+ *          to put into the properties files
+ */
+
 package utilities.misc;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -17,13 +23,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Encryption extends JPanel implements ActionListener {
+public class EncryptionApp extends JPanel implements ActionListener {
 
     private static final String OK = "OK";
     private final JFrame controlFrame;
     private final JPasswordField passwordField;
 
-    public Encryption (JFrame f) {
+    public EncryptionApp(JFrame f) {
         controlFrame = f;
         passwordField = new JPasswordField(10);
         passwordField.setActionCommand(OK);
@@ -91,12 +97,11 @@ public class Encryption extends JPanel implements ActionListener {
         JFrame frame = new JFrame("Encrypt a Password");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        final Encryption newContentPane = new Encryption(frame);
+        final EncryptionApp newContentPane = new EncryptionApp(frame);
 
-        // Set up with content pane
+        // Set content pane
         newContentPane.setOpaque(true);
         frame.setContentPane(newContentPane);
-
         frame.addWindowListener(new WindowAdapter() {
             public void windowActivated(WindowEvent e) {
                 newContentPane.resetFocus();
@@ -105,6 +110,9 @@ public class Encryption extends JPanel implements ActionListener {
 
         frame.pack();
         frame.setVisible(true);
+
+        // Launches in center of screen
+        frame.setLocationRelativeTo(null);
     } // end createAndShowUI
     
 } // end Encryption.java

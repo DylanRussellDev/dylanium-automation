@@ -1,3 +1,8 @@
+/*
+ * Filename: BrowserPreferences.java
+ * Purpose: Sets browser preferences in the webdrivers
+ */
+
 package utilities.browsers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,12 +27,18 @@ import java.util.Map;
 public class BrowserPreferences {
 
     public static void chromePrefs(ChromeOptions co) throws IOException {
+        HashMap<String, Object> chromeMap = new HashMap<>();
+        chromeMap.put("plugins.plugins_disabled", new String[] {"Chrome PDF Viewer"});
+        chromeMap.put("plugins.always_open_pdf_externally", true);
+        chromeMap.put("download.default_directory", System.getProperty("user.home") + "\\Downloads");
+        co.setExperimentalOption("prefs", chromeMap);
+
         System.setProperty("webdriver.chrome.args", "--disable-logging");
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
         co.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-        co.setCapability("download.default_directory", System.getProperty("user.home") + "\\downloads");
-        co.setCapability("download.prompt_for_download", true);
+//        co.setCapability("download.default_directory", System.getProperty("user.home") + "\\downloads");
+//        co.setCapability("download.prompt_for_download", true);
 
         co.addArguments("--no-sandbox", "--disable-dev-shm-usage", "enable-automation");
 
