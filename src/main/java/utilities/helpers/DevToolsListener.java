@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class DevToolsListener {
 
-    public static ArrayList<String> devtoolErrors = new ArrayList<>();
+    public static final ArrayList<String> devtoolErrors = new ArrayList<>();
 
     /**
      * Starts a DevTools listener. Anytime a failure is captured during execution,
@@ -27,10 +27,13 @@ public class DevToolsListener {
      * @param driver 		WebDriver
      */
     public static void startDevToolsListener(WebDriver driver) {
+
         try {
+
             DevTools dt = ((ChromeDriver) driver ).getDevTools();
             dt.createSessionIfThereIsNotOne();
             dt.send(new Command<>("Network.enable", ImmutableMap.of()));
+
             dt.addListener(Network.responseReceived(), receive -> {
                 String strStatus = receive
                         .getResponse()
@@ -38,16 +41,21 @@ public class DevToolsListener {
                         .toString();
 
                 if (!strStatus.equals("200")) {
+
                     devtoolErrors.add("DevTools error URL: " + receive
                             .getResponse()
                             .getUrl()
                             .replace("https://", "") + "\n"
                             + "Status: "+ receive.getResponse().getStatus() + ", Error: " + receive.getResponse().getStatusText() + "\n");
+
                 } // end if
 
             });
+
         } catch (Exception e) {
+
             System.out.println("Could not start DevTools listener\n");
+
         } // end try catch
 
     } // end startDevToolsListener()

@@ -27,6 +27,7 @@ import java.util.Map;
 public class BrowserPreferences {
 
     public static void chromePrefs(ChromeOptions co) throws IOException {
+        // Disables the PDF viewer in Chrome to enable file downloads
         HashMap<String, Object> chromeMap = new HashMap<>();
         chromeMap.put("plugins.plugins_disabled", new String[] {"Chrome PDF Viewer"});
         chromeMap.put("plugins.always_open_pdf_externally", true);
@@ -37,32 +38,31 @@ public class BrowserPreferences {
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
         co.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-//        co.setCapability("download.default_directory", System.getProperty("user.home") + "\\downloads");
-//        co.setCapability("download.prompt_for_download", true);
+        co.addArguments("no-sandbox", "start-maximized", "disable-dev-shm-usage", "enable-automation");
 
-        co.addArguments("--no-sandbox", "--disable-dev-shm-usage", "enable-automation");
-
-        if (System.getProperty("Headless").equalsIgnoreCase("true")) {
-            co.addArguments("headless", "enable-automation", "window-size=1920,1080", "no-sandbox",
-                    "disable-extensions", "disable-gpu", "dns-prefetch-disable", "hide-scrollbars");
+        if (Hooks.headless.equalsIgnoreCase("true")) {
+            co.addArguments("headless", "window-size=1920,1080", "disable-extensions",
+                    "disable-gpu", "dns-prefetch-disable", "hide-scrollbars");
             co.setPageLoadStrategy(PageLoadStrategy.NORMAL);
             enableHeadlessDownloads(co);
         } else {
             Hooks.driver.set(new ChromeDriver(co));
-        } // end if
+        } // end if-else
+
     } // end chromePrefs
 
     public static void edgePrefs(EdgeOptions edgeOpt) {
         System.setProperty("webdriver.edge.args", "--disable-logging");
         System.setProperty("webdriver.edge.silentOutput", "true");
 
-        edgeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
         edgeOpt.setCapability("download.default_directory", System.getProperty("user.home") + "\\downloads");
-        edgeOpt.setCapability("download.prompt_for_download", true);
+        edgeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
 
-        if (System.getProperty("Headless").equalsIgnoreCase("true")) {
-            edgeOpt.addArguments("--headless", "enable-automation", "--window-size=1920,1080",
-                    "--no-sandbox", "--disable-extensions", "--dns-prefetch-disable");
+        edgeOpt.addArguments("no-sandbox", "disable-dev-shm-usage", "enable-automation");
+
+        if (Hooks.headless.equalsIgnoreCase("true")) {
+            edgeOpt.addArguments("headless", "window-size=1920,1080", "disable-extensions",
+                    "disable-gpu", "dns-prefetch-disable", "hide-scrollbars");
             edgeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
         } // end if
         Hooks.driver.set(new EdgeDriver(edgeOpt));
@@ -71,6 +71,7 @@ public class BrowserPreferences {
     public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {
         ChromeDriverService ds = ChromeDriverService.createDefaultService();
         Hooks.driver.set(new ChromeDriver(ds, cOptions));
+
         Map<String, Object> commandParams = new HashMap<>();
         Map<String, Object> params = new HashMap<>();
 
@@ -81,12 +82,13 @@ public class BrowserPreferences {
 
         ObjectMapper objMapper = new ObjectMapper();
 
-        HttpClient httpClient = HttpClientBuilder.create().build();
         String cmd = objMapper.writeValueAsString(commandParams);
         String sendCmd = ds.getUrl().toString() + "/session/" + ((RemoteWebDriver) Hooks.driver.get()).getSessionId() + "/chromium/send_command";
         HttpPost request = new HttpPost(sendCmd);
         request.addHeader("content-type", "application/json");
         request.setEntity(new StringEntity(cmd));
+
+        HttpClient httpClient = HttpClientBuilder.create().build();
         httpClient.execute(request);
     } // end enableHeadlessDownloads
 

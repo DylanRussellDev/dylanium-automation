@@ -1,9 +1,3 @@
-/*
- * Filename: TestStepDefs.java
- * Author: Dylan Russell
- * Purpose: File to hold code for the feature file steps
- */
-
 package stepDefinitions;
 
 import static org.testng.Assert.assertEquals;
@@ -17,7 +11,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import utilities.core.CommonMethods;
 import utilities.core.Hooks;
-import pagesElements.TestObjects;
+import pageElements.TestObjects;
 
 public class TestStepDefs {
 
@@ -33,8 +27,8 @@ public class TestStepDefs {
 		CommonMethods.navigate(driver, "calculatorURL");
 	}
 
-	@When("I click {string} plus {string}")
-	public void i_click_plus(String num1, String num2) {
+	@When("I click two plus two")
+	public void i_click_two_plus_two() {
 		CommonMethods.click(driver, TestObjects.btn2,  "2 Button");
 	    CommonMethods.click(driver, TestObjects.btnPlus, "Plus Button");
 		CommonMethods.click(driver, TestObjects.btn2,  "2 Button");
@@ -57,7 +51,7 @@ public class TestStepDefs {
 
 	@When("I get to Google")
 	public void i_get_to_google() {
-	    
+	    CommonMethods.isElementPresent(driver, TestObjects.imgGoogleLogo, "Google Logo image");
 	}
 
 	@Then("I take a screenshot")

@@ -32,19 +32,23 @@ public class CommonMethods {
 	
 	private static final ReadConfigFile readFile = new ReadConfigFile();
 
-
 	/**
 	 * Returns the browser information for the reports
 	 */
 	public static String browserInfo(Capabilities threadCap) {
+
 		try {
+
 			String str = threadCap.getBrowserName().equalsIgnoreCase("Msedge") ? "MS Edge" : threadCap.getBrowserName();
 			String info = str + " " + threadCap.getBrowserVersion();
 			return info.substring(0, 1).toUpperCase() + info.substring(1);
+
 		} catch (Exception e) {
+
 			System.out.println("Could not find browser name and version the tests were executed on");
 			return null;
 		} // end try catch
+
 	} // end browserInfo
 
 	/**
@@ -55,26 +59,30 @@ public class CommonMethods {
 	 * @param str 			String of WebElement for assert message
 	 */
 	public static void click(WebDriver driver, By element, String str) {
+	
 		isElementPresent(driver, element, str);
 		isElementClickable(driver, element, str);
 
 		int i = 0;
 
 		while (i < 5) {
+
 			try {
 				driver.findElement(element).click();
 				break;
+
 			} catch (ElementClickInterceptedException e) {
 				fail("Could not click on element: " + str + " because it became detached from the DOM structure.\n");
+
 			} catch (StaleElementReferenceException s) {
 				fail("Could not click on element: " + str + " because another element was concealing it.\n");
+
 			} catch (TimeoutException t) {
 				fail("After clicking on: " + str + ", the page took too long to load. \n");
 			} // end try-catch
 
 			i++;
 		} // end while
-
 
 	} // end click
 	
@@ -86,7 +94,9 @@ public class CommonMethods {
 	 * @param str 			String of WebElement for assert message
 	 */
 	public static String getElementText(WebDriver driver, By element, String str) {
+
 		isElementPresent(driver, element, str);
+
 		try {
 			String val = driver.findElement(element).getText();
 			
@@ -95,10 +105,12 @@ public class CommonMethods {
 			} // end if
 			
 			return val;
+
 		} catch (Exception e) {
 			fail("Could not get text from: " + str + "\n");
 			return null;
 		} // end try-catch
+
 	} // end getElementText()
 	
 	/**
@@ -109,13 +121,20 @@ public class CommonMethods {
 	 * @param str			String of WebElement for assert message
 	 */
 	public static void hoverJavascript(WebDriver driver, By element, String str) {
+
 		isElementPresent(driver, element, str);
+
 		try {
+
 			JavascriptExecutor executor = (JavascriptExecutor) driver;
 			executor.executeScript("arguments[0].onmouseover()", driver.findElement(element));
+
 		} catch (Exception e) {
+
 			fail(str + " could not be hovered to.\n");
+
 		} // end try-catch
+
 	} // end hoverJavaScript
 	
 	/**
@@ -126,13 +145,20 @@ public class CommonMethods {
 	 * @param str 			String of WebElement for assert message
 	 */
 	public static void hoverSelenium(WebDriver driver, By element, String str) {
+
 		isElementPresent(driver, element, str);
+
 		try {
+
 			Actions action = new Actions(driver);
 			action.moveToElement(driver.findElement(element)).perform();
-		} catch (Exception e){
+
+		} catch (Exception e) {
+
 			fail(str + " could not be hovered over.\n");
+
 		} // end try-catch
+
 	} // end hoverSelenium
 	
 	/**
@@ -144,12 +170,19 @@ public class CommonMethods {
 	 * @param str 			String of WebElement for assert message
 	 */
 	public static void input(WebDriver driver, By element, String input, String str) {
+
 		isElementPresent(driver, element, str);
+
 		try {
+
 			driver.findElement(element).sendKeys(input);
+
 		} catch (Exception e) {
+
 			fail("Could not input text into element: " + str + "\n");
+
 		} // end try-catch
+
 	} // end input
 
 	/**
@@ -160,12 +193,18 @@ public class CommonMethods {
 	 * @param str     String of WebElement for assert message
 	 */
 	private static void isElementClickable(WebDriver driver, By element, String str) {
+
 		try {
+
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(readFile.properties.getProperty("Timeout"))));
 			wait.until(ExpectedConditions.elementToBeClickable(element));
+
 		} catch (Exception e) {
+
 			fail(str + " was not in a clickable state.\n");
+
 		} // end try-catch
+
 	} // end isElementPresent
 	
 	/**
@@ -176,13 +215,19 @@ public class CommonMethods {
 	 * @param str     String of WebElement for assert message
 	 */
 	public static void isElementPresent(WebDriver driver, By element, String str) {
+
 		try {
+
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(readFile.properties.getProperty("Timeout"))));
 			wait.until(ExpectedConditions.visibilityOfElementLocated(element));
 			wait.until(ExpectedConditions.presenceOfElementLocated(element));
+
 		} catch (Exception e) {
+
 			fail(str + " was not present in specified time.\n");
+
 		} // end try-catch
+
 	} // end isElementPresent
 	
 	/**
@@ -192,11 +237,17 @@ public class CommonMethods {
 	 * @param url			URL as a String
 	 */
 	public static void navigate(WebDriver driver, String url)  {
+
 		try {
+
 			driver.get(readFile.properties.getProperty(url));
+
 		} catch (Exception e) {
+
 			fail("Could not navigate to: " + url + "\n");
+
 		} // end try-catch
+
 	} // end navigate()
 	
 	/**
@@ -205,19 +256,32 @@ public class CommonMethods {
 	 * @return String		OS as a string
 	 */
 	public static String osInfo() {
+
 		String os = System.getProperty("os.name").toLowerCase();
 		String strOS;
+
 		if (os.contains("win")) {
+
 			strOS = "Windows";
+
 		} else if (os.contains("nux") || os.contains("nix")) {
+
 			strOS = "Linux";
+
 		} else if (os.contains("mac")) {
+
 			strOS = "Mac";
+
 		} else if (os.contains("sunos")) {
+
 			strOS = "Solaris";
+
 		} else {
+
 			strOS = "Other";
-		}
+
+		} // end if-else statement
+
 		return strOS;
 	} // end osInfo()
 	
@@ -228,12 +292,18 @@ public class CommonMethods {
 	 * @param seconds		The amount of seconds to wait for. This accepts fractions of seconds as well.
 	 */
 	public static void pauseForSeconds(double seconds) {
+
 		double milli = seconds * 1000;
 		int intMilli = (int) milli;
+
 		try {
+
 			Thread.sleep(intMilli);
+
 		} catch (Exception e) {
+
 			fail("Unable to pause execution for " + seconds + " seconds.\n");
+
 		} // end try-catch
 	} // end pauseForSeconds()
 	
@@ -247,10 +317,12 @@ public class CommonMethods {
 	public static void screenshot(WebDriver driver, String desc) throws IOException {
 		BufferedImage img = CaptureScreenshot.getScreenshot(driver);
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+
 		ImageIO.write(img, "png", outStream);
 		outStream.flush();
 		byte[] imgInBytes = outStream.toByteArray();
 		outStream.close();
+
 		Hooks.scenario.get().attach(imgInBytes, "image/png", desc);
 	} // end screenshot()
 
@@ -263,23 +335,30 @@ public class CommonMethods {
 	 * @param str 			String of WebElement for assert message
 	 */
 	public static void selectDropdownOptionByIndex(WebDriver driver, By element, int index, String str) {
+
 		isElementPresent(driver, element, str);
 		Select select = new Select(driver.findElement(element));
-		int i = 0;
 
+		int i = 0;
 		while (i < 5) {
 
 			try {
 				select.selectByIndex(index);
 				break;
+
 			} catch (ElementClickInterceptedException e) {
 				fail(str + " could not be clicked because another element was concealing it.\n");
+
 			} catch (NoSuchElementException n) {
 				fail("There is not an option listed in the " + str + " at position " + index + "\n");
+
 			} catch (StaleElementReferenceException s) {
 				fail(str + " became detached from the DOM when trying to interact with it\n");
+
 			} // end try catch
+
 			i++;
+
 		} // end while
 
 	} // end selectDropdownOptionByIndex
