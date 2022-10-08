@@ -1,13 +1,11 @@
 /*
  * Filename: Hooks.java
- * Purpose: Setup Before and After options for test execution.
- * 			Methods are called from the BrowserPreferences.java file
+ * Purpose: Setup Before and After options for test execution. Methods are called from the BrowserPreferences.java file
  * 			to help launch the drivers with the correct preferences.
  */
 
 package utilities.core;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.HashSet;
 import java.util.Set;
@@ -37,27 +35,34 @@ public class Hooks {
     } // end getWebdriver
 
 	@Before
-	public void start(Scenario scenObj) throws IOException {
+	public void start(Scenario scenObj) throws Exception {
 		scenario.set(scenObj);
 
+		// Setup the WebDriver
         WebDriverSetter.setDriver();
 
+		// Set the page timeout
 		driver.get().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
+
+		// Get the browser name and version to include in the reports
 		cap = ( (RemoteWebDriver) getDriver()).getCapabilities();
 		scenario.get().log("Executing on: " + CommonMethods.browserInfo(cap));
 	} // end setup
 	
 	@After
-	public void afterScenario() throws IOException {
+	public void afterScenario() {
+
 		if (scenario.get().isFailed()) {
+			CommonMethods.screenshot(driver.get());
 
-			CommonMethods.screenshot(driver.get(), "Error Screenshot");
-
+			// Print DevTools errors
 			if (!DevToolsListener.devtoolErrors.isEmpty()) {
 				Set<String> set = new HashSet<>(DevToolsListener.devtoolErrors);
-				DevToolsListener.devtoolErrors.clear();
-				DevToolsListener.devtoolErrors.addAll(set);
-				scenario.get().log(DevToolsListener.devtoolErrors.toString());
+
+				for (String s : set) {
+					scenario.get().log(s);
+				} // end for
+
 			} // end inner if
 
 		} // end outer if

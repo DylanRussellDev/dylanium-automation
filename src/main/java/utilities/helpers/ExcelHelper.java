@@ -1,7 +1,6 @@
 /*
  * Filename: ExcelHelper.java
- * Purpose: Class that enables the user of reading
- *          data from an Excel file
+ * Purpose: Class that enables the use of reading data from an Excel file
  */
 
 package utilities.helpers;

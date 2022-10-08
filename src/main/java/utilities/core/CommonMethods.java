@@ -9,19 +9,26 @@ package utilities.core;
 import static org.testng.Assert.fail;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.io.File;
+import java.io.FileFilter;
 import java.time.Duration;
+import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.io.comparator.LastModifiedFileComparator;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.StaleElementReferenceException;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -38,14 +45,11 @@ public class CommonMethods {
 	public static String browserInfo(Capabilities threadCap) {
 
 		try {
-
 			String str = threadCap.getBrowserName().equalsIgnoreCase("Msedge") ? "MS Edge" : threadCap.getBrowserName();
 			String info = str + " " + threadCap.getBrowserVersion();
 			return info.substring(0, 1).toUpperCase() + info.substring(1);
-
 		} catch (Exception e) {
-
-			System.out.println("Could not find browser name and version the tests were executed on");
+			System.out.println("Could not find browser name and version the tests were executed on \n");
 			return null;
 		} // end try catch
 
@@ -59,7 +63,7 @@ public class CommonMethods {
 	 * @param str 			String of WebElement for assert message
 	 */
 	public static void click(WebDriver driver, By element, String str) {
-	
+
 		isElementPresent(driver, element, str);
 		isElementClickable(driver, element, str);
 
@@ -70,13 +74,10 @@ public class CommonMethods {
 			try {
 				driver.findElement(element).click();
 				break;
-
 			} catch (ElementClickInterceptedException e) {
 				fail("Could not click on element: " + str + " because it became detached from the DOM structure.\n");
-
 			} catch (StaleElementReferenceException s) {
 				fail("Could not click on element: " + str + " because another element was concealing it.\n");
-
 			} catch (TimeoutException t) {
 				fail("After clicking on: " + str + ", the page took too long to load. \n");
 			} // end try-catch
@@ -112,7 +113,54 @@ public class CommonMethods {
 		} // end try-catch
 
 	} // end getElementText()
-	
+
+	/**
+	 * Returns the most recent file in a folder location with a
+	 * given file extension
+	 *
+	 * @param folderPath	Folder location
+	 * @param ext			The filename extension to look for
+	 */
+	public static File getNewestFile(String folderPath, String ext) {
+		File newestFile = null;
+		File dir = new File(folderPath);
+		FileFilter fileFilter = new WildcardFileFilter("*." + ext);
+		File[] files = dir.listFiles(fileFilter);
+
+		if (files.length > 0) {
+			Arrays.sort(files, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
+			newestFile = files[0];
+		} // end if
+
+		System.out.println("newestFile: " + newestFile);
+
+		return newestFile;
+	}
+
+    private static String ogStyle;
+
+    /**
+     * Highlights an element in yellow with a red outline around it.
+     *
+     * @param driver 		WebDriver
+     * @param element 		The WebElement identifier
+     * @param str 			String of WebElement for assert message
+     */
+	public static void highlightElement(WebDriver driver, By element, String str) {
+	    isElementPresent(driver, element, str);
+
+	    JavascriptExecutor js = (JavascriptExecutor) driver;
+	    WebElement ele = driver.findElement(element);
+        ogStyle = ele.getAttribute("style");
+
+	    try {
+            js.executeScript("arguments[0].setAttribute('style','background: yellow; border: 2px solid red;'):", ele);
+        } catch (Exception e) {
+            System.out.println("Unable to highlight element: " + str + "\n");
+        } // end try-catch
+
+	} // end highlightElement()
+
 	/**
 	 * Find an element and hover on the element using the JavaScript function. 
 	 * 
@@ -125,14 +173,10 @@ public class CommonMethods {
 		isElementPresent(driver, element, str);
 
 		try {
-
 			JavascriptExecutor executor = (JavascriptExecutor) driver;
 			executor.executeScript("arguments[0].onmouseover()", driver.findElement(element));
-
 		} catch (Exception e) {
-
 			fail(str + " could not be hovered to.\n");
-
 		} // end try-catch
 
 	} // end hoverJavaScript
@@ -149,14 +193,10 @@ public class CommonMethods {
 		isElementPresent(driver, element, str);
 
 		try {
-
 			Actions action = new Actions(driver);
 			action.moveToElement(driver.findElement(element)).perform();
-
 		} catch (Exception e) {
-
 			fail(str + " could not be hovered over.\n");
-
 		} // end try-catch
 
 	} // end hoverSelenium
@@ -174,13 +214,9 @@ public class CommonMethods {
 		isElementPresent(driver, element, str);
 
 		try {
-
 			driver.findElement(element).sendKeys(input);
-
 		} catch (Exception e) {
-
 			fail("Could not input text into element: " + str + "\n");
-
 		} // end try-catch
 
 	} // end input
@@ -195,14 +231,10 @@ public class CommonMethods {
 	private static void isElementClickable(WebDriver driver, By element, String str) {
 
 		try {
-
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(readFile.properties.getProperty("Timeout"))));
 			wait.until(ExpectedConditions.elementToBeClickable(element));
-
 		} catch (Exception e) {
-
 			fail(str + " was not in a clickable state.\n");
-
 		} // end try-catch
 
 	} // end isElementPresent
@@ -215,17 +247,12 @@ public class CommonMethods {
 	 * @param str     String of WebElement for assert message
 	 */
 	public static void isElementPresent(WebDriver driver, By element, String str) {
-
 		try {
-
 			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Long.parseLong(readFile.properties.getProperty("Timeout"))));
 			wait.until(ExpectedConditions.visibilityOfElementLocated(element));
 			wait.until(ExpectedConditions.presenceOfElementLocated(element));
-
 		} catch (Exception e) {
-
 			fail(str + " was not present in specified time.\n");
-
 		} // end try-catch
 
 	} // end isElementPresent
@@ -234,18 +261,14 @@ public class CommonMethods {
 	 * Navigates to a given URL
 	 * 
 	 * @param driver 		WebDriver
-	 * @param url			URL as a String
+	 * @param propertyURL	Property name of the URL as a String
 	 */
-	public static void navigate(WebDriver driver, String url)  {
+	public static void navigate(WebDriver driver, String propertyURL)  {
 
 		try {
-
-			driver.get(readFile.properties.getProperty(url));
-
+			driver.get(readFile.properties.getProperty(propertyURL));
 		} catch (Exception e) {
-
-			fail("Could not navigate to: " + url + "\n");
-
+			fail("Could not navigate to: " + propertyURL + "\n");
 		} // end try-catch
 
 	} // end navigate()
@@ -261,25 +284,15 @@ public class CommonMethods {
 		String strOS;
 
 		if (os.contains("win")) {
-
 			strOS = "Windows";
-
 		} else if (os.contains("nux") || os.contains("nix")) {
-
 			strOS = "Linux";
-
 		} else if (os.contains("mac")) {
-
 			strOS = "Mac";
-
 		} else if (os.contains("sunos")) {
-
 			strOS = "Solaris";
-
 		} else {
-
 			strOS = "Other";
-
 		} // end if-else statement
 
 		return strOS;
@@ -297,33 +310,42 @@ public class CommonMethods {
 		int intMilli = (int) milli;
 
 		try {
-
 			Thread.sleep(intMilli);
-
 		} catch (Exception e) {
-
 			fail("Unable to pause execution for " + seconds + " seconds.\n");
-
 		} // end try-catch
+
 	} // end pauseForSeconds()
 	
 	/**
 	 * Takes a screenshot of the entire screen
 	 * 
 	 * @param driver 		WebDriver 
-	 * @param desc			Text to display about screenshot in cucumber report
-	 * @throws IOException  Error
 	 */
-	public static void screenshot(WebDriver driver, String desc) throws IOException {
+	public static void screenshot(WebDriver driver) {
 		BufferedImage img = CaptureScreenshot.getScreenshot(driver);
 		ByteArrayOutputStream outStream = new ByteArrayOutputStream();
 
-		ImageIO.write(img, "png", outStream);
-		outStream.flush();
-		byte[] imgInBytes = outStream.toByteArray();
-		outStream.close();
+		try {
 
-		Hooks.scenario.get().attach(imgInBytes, "image/png", desc);
+			ImageIO.write(img, "png", outStream);
+			outStream.flush();
+			byte[] imgInBytes = outStream.toByteArray();
+			outStream.close();
+			Hooks.scenario.get().attach(imgInBytes, "image/png", "Click to view screenshot");
+
+		} catch (Exception e) {
+			System.out.println("Could not capture a screenshot of the entire page. Attempting to capture a partial screenshot...\n");
+
+			try {
+				final byte[] partialCapture = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
+				Hooks.scenario.get().attach(partialCapture, "image/png", "Click to view screenshot");
+			} catch (Exception i) {
+				fail("Could not capture a partial screenshot. Error: " + e.getMessage() + "\n");
+			} // end inner try catch
+
+		} // end outer try catch
+
 	} // end screenshot()
 
 	/**
@@ -345,16 +367,12 @@ public class CommonMethods {
 			try {
 				select.selectByIndex(index);
 				break;
-
 			} catch (ElementClickInterceptedException e) {
 				fail(str + " could not be clicked because another element was concealing it.\n");
-
 			} catch (NoSuchElementException n) {
 				fail("There is not an option listed in the " + str + " at position " + index + "\n");
-
 			} catch (StaleElementReferenceException s) {
 				fail(str + " became detached from the DOM when trying to interact with it\n");
-
 			} // end try catch
 
 			i++;
@@ -362,5 +380,27 @@ public class CommonMethods {
 		} // end while
 
 	} // end selectDropdownOptionByIndex
+
+	/**
+	 * Returns a previously highlighted element using the highlightElement()
+	 * method back to its original css style
+	 *
+	 * @param driver 		WebDriver
+	 * @param element 		The WebElement identifier
+	 * @param str 			String of WebElement for assert message
+	 */
+	public static void unhighlightElement(WebDriver driver, By element, String str) {
+		isElementPresent(driver, element, str);
+
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		WebElement ele = driver.findElement(element);
+
+		try {
+			js.executeScript("arguments[0].setAttribute(arguments[1], arguments[2]", ele, "style", ogStyle);
+		} catch (Exception e) {
+			System.out.println("Unable to remove highlight from element: " + str + "\n");
+		} // end try-catch
+
+	} // end unhighlightElement()
 	
 } // end CommonMethods.java

@@ -52,7 +52,7 @@ public class CaptureScreenshot {
 		try (ByteArrayInputStream imageArrayStream = new ByteArrayInputStream(takesScreenshot.getScreenshotAs(OutputType.BYTES))) {
 			return ImageIO.read(imageArrayStream);
 		} catch (IOException e) {
-			throw new RuntimeException("Can not parse screenshot data", e);
+			throw new RuntimeException("Can not parse screenshot data. Error: " + e.getMessage() + "\n");
 		} // end try catch
 	} // end getNativeScreenshot
 	

@@ -45,14 +45,14 @@ public class BrowserSetupStepDefs {
 	@Then("check if Google Chrome has an available update")
 	public void check_if_google_chrome_has_an_available_update() {
 
-	    if (getChromeUpdateText().contains(Constants.CHECKINGFORUPDATES) || getChromeUpdateText().contains(Constants.UPDATING)) {
+	    if (getChromeUpdateText().contains(Constants.CHECKING_FOR_UPDATES) || getChromeUpdateText().contains(Constants.UPDATING)) {
 	    	
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = getChromeUpdateText();
 	    		System.out.println("Chrome Update Status: " + txt);
 	    		
-	    		if (txt.contains(Constants.CHROMERELAUNCH) || txt.contains(Constants.UPTODATE)) {
+	    		if (txt.contains(Constants.CHROME_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
 	    			break;
 	    		} else {
 	    			CommonMethods.pauseForSeconds(5);
@@ -70,7 +70,7 @@ public class BrowserSetupStepDefs {
 	@Then("close Chrome {string} if a new update needs applied")
 	public void relaunch_chrome_if_a_new_update_needs_applied(String version) throws IOException {
 
-		if (getChromeUpdateText().contains(Constants.CHROMERELAUNCH)) {
+		if (getChromeUpdateText().contains(Constants.CHROME_RELAUNCH)) {
 
 	    	switch (version) {
 
@@ -101,14 +101,14 @@ public class BrowserSetupStepDefs {
 	public void check_if_edge_has_an_available_update() {
 		String upTxt = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
 
-	    if (upTxt.contains(Constants.CHECKINGFORUPDATES) || upTxt.contains(Constants.UPDATING)) {
+	    if (upTxt.contains(Constants.CHECKING_FOR_UPDATES) || upTxt.contains(Constants.UPDATING)) {
 	    	
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
 	    		System.out.println("Edge Update Status: " + txt);
 	    		
-	    		if (txt.contains(Constants.EDGERELAUNCH) || txt.contains(Constants.UPTODATE)) {
+	    		if (txt.contains(Constants.EDGE_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
 	    			break;
 	    		} else {
 	    			CommonMethods.pauseForSeconds(5);
@@ -126,7 +126,7 @@ public class BrowserSetupStepDefs {
 	public void relaunch_edge_if_a_new_update_needs_applied() {
 		String strUpdateStatus = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
 
-		if (strUpdateStatus.contains(Constants.EDGERELAUNCH)) {
+		if (strUpdateStatus.contains(Constants.EDGE_RELAUNCH)) {
 	    	driver.quit();
 	    } // end if
 	}

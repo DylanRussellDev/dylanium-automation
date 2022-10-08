@@ -1,8 +1,6 @@
 /*
  * Filename: DevToolsListener.java
- * Purpose: Creates a DevTools listener that will
- *          output network errors that do not return with a
- *          status code of 200.
+ * Purpose: Creates a DevTools listener that will output network errors that do not return with a status code of 200.
  */
 
 package utilities.helpers;

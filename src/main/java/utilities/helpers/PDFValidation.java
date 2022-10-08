@@ -1,7 +1,6 @@
 /*
  * Filename: PDFValidations.java
- * Purpose: Provides different methods that can be used to validate
- *          PDFs during test executions.
+ * Purpose: Provides different methods that can be used to validate PDFs during test executions.
  */
 
 package utilities.helpers;

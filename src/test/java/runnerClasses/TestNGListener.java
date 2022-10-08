@@ -2,7 +2,6 @@
  * Filename: TestNGListener.java
  * Purpose: This class helps with outputting clear messages
  * 			to the console for execution status.
- * 			
  */
 
 package runnerClasses;
