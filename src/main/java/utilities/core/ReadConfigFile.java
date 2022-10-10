@@ -14,26 +14,22 @@ import java.util.Properties;
 import static org.testng.Assert.fail;
 
 public class ReadConfigFile {
-	
-	public final String FILEPATH = "./src/test/java/propFiles/Automation.properties";
+
 	public Properties properties;
 
 	// Attempt to read the properties file
 	public ReadConfigFile() {
         BufferedReader reader;
 		try {
+			String FILEPATH = "./src/test/java/propFiles/Automation.properties";
 			reader = new BufferedReader(new FileReader(FILEPATH));
 			properties = new Properties();
 
 			try {
-
 				properties.load(reader);
 				reader.close();
-
 			} catch (IOException e) {
-
 				fail("Could not load properties file");
-
 			} // end inner try catch
 
 		} catch (FileNotFoundException e) {

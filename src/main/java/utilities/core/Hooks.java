@@ -32,7 +32,7 @@ public class Hooks {
 
     public static WebDriver getDriver() {
         return driver.get();
-    } // end getWebdriver
+    } // end getDriver()
 
 	@Before
 	public void start(Scenario scenObj) throws Exception {
@@ -47,7 +47,10 @@ public class Hooks {
 		// Get the browser name and version to include in the reports
 		cap = ( (RemoteWebDriver) getDriver()).getCapabilities();
 		scenario.get().log("Executing on: " + CommonMethods.browserInfo(cap));
-	} // end setup
+
+		// Start DevTools listener
+		DevToolsListener.startDevToolsListener(driver.get());
+	} // end start()
 	
 	@After
 	public void afterScenario() {
@@ -69,6 +72,6 @@ public class Hooks {
 
 		driver.get().quit();
 
-	} // end afterScenario
+	} // end afterScenario()
 
 } // end Hooks.java

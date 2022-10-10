@@ -12,34 +12,37 @@ import java.util.List;
 
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
+import net.masterthought.cucumber.presentation.PresentationMode;
 
-public class GenerateReport {
+public class MasterthoughtReport {
 
-	public static void GenerateTestNGReport() {
+	public static void GenerateTestReport() {
 		
 		try {
-
-			// The folder to output the reports to. If the folder does not exist, it will be created.
+			// Folder where the reports are generated
 			File outDirectory = new File("target/~REPORT");
 			List<String> list = new ArrayList<>();
 			list.add("target/cucumber-reports/cucumber.json");
 
-			// Formatting
+			// Configuration object for adding custom formatting
 			Configuration config = new Configuration(outDirectory, "Tests");
+
+			// Add OS and Browser info
 			config.addClassifications("OS", CommonMethods.osInfo());
 			config.addClassifications("Browser", CommonMethods.browserInfo(Hooks.cap));
+
+			// Automatically expand all steps in the report
+			config.addPresentationModes(PresentationMode.EXPAND_ALL_STEPS);
 
 			// Generate the report
 			ReportBuilder repBuild = new ReportBuilder(list, config);
 			repBuild.generateReports();
 
 		} catch (Exception e) {
-
-			System.out.println("There was a problem generating the report.");
+			System.out.println("There was a problem generating the Masterthought report.");
 			System.out.println("Error Message: " + e.getMessage());
-
 		} // end try/catch block
 		
-	} // end GenerateTestNGReport()
+	} // end GenerateTestReport()
 
-} // end class GenerateReport.java
+} // end class MasterthoughtReport.java

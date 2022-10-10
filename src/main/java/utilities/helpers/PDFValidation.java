@@ -52,10 +52,10 @@ public class PDFValidation {
 
         assertTrue(content.contains(textToVerify), "The expected text: " + textToVerify + " was not present in the pdf: " + pdfName);
 
-    } // end verifyPDFContent
+    } // end verifyPDFContent()
 
     public static void verifyDownloadedPDFText(String txtVerify, String pdfName) throws IOException {
-        URL pdfLoc = new URL("file:///" + getLastFileLocation());
+        URL pdfLoc = new URL("file:///" + getLastPDFFileLocation());
         InputStream is = pdfLoc.openStream();
         BufferedInputStream bis = new BufferedInputStream(is);
         PDDocument doc = PDDocument.load(bis);
@@ -65,7 +65,7 @@ public class PDFValidation {
         bis.close();
         is.close();
 
-        Path path = Paths.get(getLastFileLocation());
+        Path path = Paths.get(getLastPDFFileLocation());
 
         try {
             Files.deleteIfExists(path);
@@ -76,9 +76,9 @@ public class PDFValidation {
         assertTrue(txt.contains(txtVerify), "Validation failed. The text: '" + txtVerify+ " ' "
                 + " was not present in the " + pdfName + " PDF\n");
 
-    }
+    } // end verifyDownloadedPDFText()
 
-    private static String getLastFileLocation() {
+    private static String getLastPDFFileLocation() {
         String folder = System.getProperty("user.home").replace("\\", "/");
         File dir = new File(folder + "/Downloads");
         String fileName = "";
@@ -101,7 +101,7 @@ public class PDFValidation {
         } // end try catch
         
         return folder + "/Downloads/" + fileName;
-    }
+    } // end getLastFileLocation()
 
 
     public static void saveBlobPDF(WebDriver driver, String pdfName) {

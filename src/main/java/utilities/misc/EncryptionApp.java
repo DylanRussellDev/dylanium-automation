@@ -8,6 +8,7 @@ package utilities.misc;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
+import utilities.core.ReadConfigFile;
 
 import javax.swing.JFrame;
 import javax.swing.JPasswordField;
@@ -24,6 +25,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 public class EncryptionApp extends JPanel implements ActionListener {
+
+    private static final ReadConfigFile readFile = new ReadConfigFile();
 
     private static final String OK = "OK";
     private final JFrame controlFrame;
@@ -50,7 +53,7 @@ public class EncryptionApp extends JPanel implements ActionListener {
     // Main method
     public static void main(String[] args) {
         createAndShowUI();
-    }
+    } // end main()
 
     // Create the button panel
     protected JComponent createButtonPanel() {
@@ -59,7 +62,7 @@ public class EncryptionApp extends JPanel implements ActionListener {
         okButton.setActionCommand(OK);
         okButton.addActionListener(this);
         return p;
-    }
+    } // end createButtonPanel()
 
     // Handle the actions
     public void actionPerformed(ActionEvent e) {
@@ -68,10 +71,10 @@ public class EncryptionApp extends JPanel implements ActionListener {
         if (OK.equals(cmd)) {
 
             StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-            encryptor.setAlgorithm("PBEWithHMACSHA512AndAES_256");
-            encryptor.setPassword("Secret");
+            encryptor.setAlgorithm(readFile.properties.getProperty("algorithm"));
+            encryptor.setPassword(readFile.properties.getProperty("secretPass"));
             encryptor.setIvGenerator(new RandomIvGenerator());
-            encryptor.setKeyObtentionIterations(16);
+            encryptor.setKeyObtentionIterations(Integer.parseInt(readFile.properties.getProperty("keyIterations")));
 
             char[] input = passwordField.getPassword();
             String in = String.valueOf(input);
@@ -85,12 +88,12 @@ public class EncryptionApp extends JPanel implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(controlFrame, "Error Occured");
         } // end if-else
-    } // end actionPerformed
+    } // end actionPerformed()
 
     // Reset focus to text box
     protected void resetFocus() {
         passwordField.requestFocusInWindow();
-    } // end resetFocus
+    } // end resetFocus()
 
     // Build the application UI and display
     private static void createAndShowUI() {
@@ -111,7 +114,7 @@ public class EncryptionApp extends JPanel implements ActionListener {
         frame.pack();
         frame.setVisible(true);
 
-        // Launches in center of screen
+        // Launch app in the center of screen
         frame.setLocationRelativeTo(null);
     } // end createAndShowUI
     

@@ -22,47 +22,53 @@ public class CaptureScreenshot {
 	
 	public CaptureScreenshot(int time) {
 		scrollTime = time;
-	}
+	} // end constructor
 	
 	private static String getHeight(WebDriver driver) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return js.executeScript("return document.body.scrollHeight").toString();
-	}
+	} // end getHeight()
 	
 	private static int getWidth(WebDriver driver) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return ((Long) js.executeScript("return window.innerWidth", new Object[0])).intValue();
-	}
+	} // end getWidth()
 	
 	private static int getWindowHeight(WebDriver driver) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return ((Long) js.executeScript("return window.innerHeight", new Object[0])).intValue();
-	}
+	} // end getWindowHeight()
 	
 	private static void waitForScrolling() {
+
 		try {
 			Thread.sleep(scrollTime);
 		} catch (InterruptedException ignored) {
 			// Ignored exception
 		} // end try-catch
-	}
+
+	} // end waitForScrolling()
 	
 	private static BufferedImage getNativeScreenshot(WebDriver wd) {
 		TakesScreenshot takesScreenshot = (TakesScreenshot) new Augmenter().augment(wd);
+
 		try (ByteArrayInputStream imageArrayStream = new ByteArrayInputStream(takesScreenshot.getScreenshotAs(OutputType.BYTES))) {
 			return ImageIO.read(imageArrayStream);
 		} catch (IOException e) {
 			throw new RuntimeException("Can not parse screenshot data. Error: " + e.getMessage() + "\n");
 		} // end try catch
-	} // end getNativeScreenshot
+
+	} // end getNativeScreenshot()
 	
 	public static BufferedImage getScreenshot(WebDriver wd) {
 		JavascriptExecutor js = (JavascriptExecutor) wd;
+
 		int allH = Integer.parseInt(getHeight(wd));
 		int allW = getWidth(wd);
 		int winH = getWindowHeight(wd);
 		int timeScroll = allH / winH;
 		int tail = allH - winH * timeScroll;
+
 		BufferedImage finalImg = new BufferedImage(allW, allH, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D graphics = finalImg.createGraphics();
 		
@@ -83,6 +89,7 @@ public class CaptureScreenshot {
 		
 		graphics.dispose();
 		return finalImg;
-	} // end getScreenshot
+
+	} // end getScreenshot()
 
 } // end CaptureScreenshot.java

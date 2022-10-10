@@ -14,7 +14,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.IExecutionListener;
 
 import utilities.core.CommonMethods;
-import utilities.core.GenerateReport;
+import utilities.core.MasterthoughtReport;
 import utilities.core.Hooks;
 
 public class TestNGListener implements IExecutionListener {
@@ -25,7 +25,7 @@ public class TestNGListener implements IExecutionListener {
 	
 	public void onExecutionFinish() {
         System.out.println("GENERATING THE REPORT...\n");
-        GenerateReport.GenerateTestNGReport();
+        MasterthoughtReport.GenerateTestReport();
         String cmd = "taskkill /F /IM WEBDRIVEREXE";
 
         switch (Hooks.browser) {

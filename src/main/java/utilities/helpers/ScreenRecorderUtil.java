@@ -29,6 +29,7 @@ import org.monte.screenrecorder.ScreenRecorder;
 
 import utilities.core.CommonMethods;
 import utilities.core.Hooks;
+
 import static utilities.core.Constants.VIDEO_FILE_PATH;
 
 import static org.monte.media.FormatKeys.EncodingKey;
@@ -46,6 +47,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
 
     public static ScreenRecorder screenRecorder;
     public String name;
+
     public ScreenRecorderUtil(GraphicsConfiguration cfg, Rectangle captureArea, Format fileFormat,
                               Format screenFormat, Format mouseFormat, Format audioFormat, File movieFolder, String name)
             throws IOException, AWTException {
@@ -67,7 +69,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
         return new File(movieFolder, name + "-" + dateFormat.format(new Date()) + "." + Registry.getInstance().getExtension(fileFormat));
-    }
+    } // end createMovieFile()
 
     public static void startRecord(String methodName) throws Exception {
         if (Hooks.headless.equalsIgnoreCase("false")) {
@@ -98,7 +100,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
         } else {
             System.out.println("Unable to record screen while executing in headless mode. Continuing execution...");
         } // end if else
-    }
+    } // end startRecord()
 
     public static void stopRecord() throws Exception {
         // If executing in Headless mode,
@@ -110,12 +112,12 @@ public class ScreenRecorderUtil extends ScreenRecorder {
         } else {
             System.out.println("Unable to record screen while executing in headless mode. Continuing Execution...");
         } // end if else
-    }
+    } // end stopRecord()
 
     private static void attachVideo() throws IOException {
         FileInputStream is = new FileInputStream(CommonMethods.getNewestFile(VIDEO_FILE_PATH, "mp4"));
-        byte [] byteArr = IOUtils.toByteArray(is);
+        byte[] byteArr = IOUtils.toByteArray(is);
         Hooks.scenario.get().attach(byteArr, "video/mp4", "Click to view video");
-    }
+    } // end attachVideo()
 
-}
+} // end ScreenRecorderUtil

@@ -53,7 +53,7 @@ public class CommonMethods {
 			return null;
 		} // end try catch
 
-	} // end browserInfo
+	} // end browserInfo()
 
 	/**
 	 * Find an element and perform a click function on it
@@ -85,7 +85,7 @@ public class CommonMethods {
 			i++;
 		} // end while
 
-	} // end click
+	} // end click()
 	
 	/**
 	 * Find an element and return its text
@@ -135,7 +135,7 @@ public class CommonMethods {
 		System.out.println("newestFile: " + newestFile);
 
 		return newestFile;
-	}
+	} // end getNewestFile()
 
     private static String ogStyle;
 
@@ -179,7 +179,7 @@ public class CommonMethods {
 			fail(str + " could not be hovered to.\n");
 		} // end try-catch
 
-	} // end hoverJavaScript
+	} // end hoverJavaScript()
 	
 	/**
 	 * Find an element and hover on the element using the Selenium function.
@@ -199,7 +199,7 @@ public class CommonMethods {
 			fail(str + " could not be hovered over.\n");
 		} // end try-catch
 
-	} // end hoverSelenium
+	} // end hoverSelenium()
 	
 	/**
 	 * Find an element and input text into it
@@ -219,7 +219,7 @@ public class CommonMethods {
 			fail("Could not input text into element: " + str + "\n");
 		} // end try-catch
 
-	} // end input
+	} // end input()
 
 	/**
 	 * Checks to see if an element is able to be clicked
@@ -237,7 +237,7 @@ public class CommonMethods {
 			fail(str + " was not in a clickable state.\n");
 		} // end try-catch
 
-	} // end isElementPresent
+	} // end isElementClickable()
 	
 	/**
 	 * Checks to see if an element is present on a web page within 60 seconds.
@@ -255,7 +255,7 @@ public class CommonMethods {
 			fail(str + " was not present in specified time.\n");
 		} // end try-catch
 
-	} // end isElementPresent
+	} // end isElementPresent()
 	
 	/**
 	 * Navigates to a given URL
@@ -379,7 +379,7 @@ public class CommonMethods {
 
 		} // end while
 
-	} // end selectDropdownOptionByIndex
+	} // end selectDropdownOptionByIndex()
 
 	/**
 	 * Returns a previously highlighted element using the highlightElement()

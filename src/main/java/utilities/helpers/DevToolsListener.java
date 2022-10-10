@@ -14,47 +14,52 @@ import org.openqa.selenium.devtools.v85.network.Network;
 
 import java.util.ArrayList;
 
+import static org.testng.Assert.fail;
+
 public class DevToolsListener {
 
     public static final ArrayList<String> devtoolErrors = new ArrayList<>();
 
-    /**
-     * Starts a DevTools listener. Anytime a failure is captured during execution,
-     * it is added to an Array list to output on the report.
-     *
-     * @param driver 		WebDriver
-     */
     public static void startDevToolsListener(WebDriver driver) {
 
-        try {
+        DevTools dt = ((ChromeDriver) driver ).getDevTools();
 
-            DevTools dt = ((ChromeDriver) driver ).getDevTools();
+        // Attempt to start the DevTools listener
+        try {
             dt.createSessionIfThereIsNotOne();
             dt.send(new Command<>("Network.enable", ImmutableMap.of()));
+        } catch (Exception e) {
+            fail("Could not start DevTools listener. Error Message: " + e.getMessage() + "\n");
+        } // end try/catch block
+
+        // Attempt to gather DevTools information
+        try {
 
             dt.addListener(Network.responseReceived(), receive -> {
-                String strStatus = receive
-                        .getResponse()
-                        .getStatus()
-                        .toString();
+                String strStatus =
+                receive
+                .getResponse()
+                .getStatus()
+                .toString();
 
+                // If a network response does not have 200 as the status code, add the info to the ArrayList
                 if (!strStatus.equals("200")) {
 
-                    devtoolErrors.add("DevTools error URL: " + receive
-                            .getResponse()
-                            .getUrl()
-                            .replace("https://", "") + "\n"
-                            + "Status: "+ receive.getResponse().getStatus() + ", Error: " + receive.getResponse().getStatusText() + "\n");
+                    devtoolErrors.add("DevTools error URL: "
+                    + receive
+                    .getResponse()
+                    .getUrl()
+                    .replace("https://", "") + "\n"
+                    + "Status: "+ receive.getResponse().getStatus() + "\n"
+                    + "Error: " + receive.getResponse().getStatusText() + "\n");
 
                 } // end if
 
             });
 
         } catch (Exception e) {
-
-            System.out.println("Could not start DevTools listener\n");
-
-        } // end try catch
+            fail("Could not gather information from DevTools. Error Message: " + e.getMessage() + "\n");
+        } // end try/catch block
 
     } // end startDevToolsListener()
 

@@ -27,6 +27,7 @@ import java.util.Map;
 public class BrowserPreferences {
 
     public static void chromePrefs(ChromeOptions co) throws IOException {
+
         // Disables the PDF viewer in Chrome to enable file downloads
         HashMap<String, Object> chromeMap = new HashMap<>();
         chromeMap.put("plugins.plugins_disabled", new String[] {"Chrome PDF Viewer"});
@@ -34,12 +35,15 @@ public class BrowserPreferences {
         chromeMap.put("download.default_directory", System.getProperty("user.home") + "\\Downloads");
         co.setExperimentalOption("prefs", chromeMap);
 
+        // Disable unnecessary console logging from Chrome
         System.setProperty("webdriver.chrome.args", "--disable-logging");
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
+        // Add Chrome Options
         co.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
         co.addArguments("no-sandbox", "start-maximized", "disable-dev-shm-usage", "enable-automation");
 
+        // Enable Headless execution if -DHeadless is set to true
         if (Hooks.headless.equalsIgnoreCase("true")) {
             co.addArguments("headless", "window-size=1920,1080", "disable-extensions",
                     "disable-gpu", "dns-prefetch-disable", "hide-scrollbars");
@@ -49,25 +53,34 @@ public class BrowserPreferences {
             Hooks.driver.set(new ChromeDriver(co));
         } // end if-else
 
-    } // end chromePrefs
+    } // end chromePrefs()
 
     public static void edgePrefs(EdgeOptions edgeOpt) {
+
+        // Disable unnecessary console logging from Edge
         System.setProperty("webdriver.edge.args", "--disable-logging");
         System.setProperty("webdriver.edge.silentOutput", "true");
 
+        // Set the default download directory
         edgeOpt.setCapability("download.default_directory", System.getProperty("user.home") + "\\downloads");
+
+        // Add Edge Options
         edgeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+        edgeOpt.addArguments("no-sandbox", "start-maximized", "disable-dev-shm-usage", "enable-automation");
 
-        edgeOpt.addArguments("no-sandbox", "disable-dev-shm-usage", "enable-automation");
-
+        // Enable Headless execution if -DHeadless is set to true
         if (Hooks.headless.equalsIgnoreCase("true")) {
             edgeOpt.addArguments("headless", "window-size=1920,1080", "disable-extensions",
                     "disable-gpu", "dns-prefetch-disable", "hide-scrollbars");
             edgeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-        } // end if
-        Hooks.driver.set(new EdgeDriver(edgeOpt));
-    } // end edgePrefs
+        } else {
+            Hooks.driver.set(new EdgeDriver(edgeOpt));
+        } // end if else
 
+    } // end edgePrefs()
+
+    // By default, chrome does not support the downloading of files in headless mode
+    // This enables that feature by sending the browser a http post request
     public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {
         ChromeDriverService ds = ChromeDriverService.createDefaultService();
         Hooks.driver.set(new ChromeDriver(ds, cOptions));
@@ -90,6 +103,6 @@ public class BrowserPreferences {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         httpClient.execute(request);
-    } // end enableHeadlessDownloads
+    } // end enableHeadlessDownloads()
 
 } // end BrowserPreferences.java
