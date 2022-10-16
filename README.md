@@ -1,11 +1,20 @@
 # Selenium-Automation
-An open-source, robust, and scalable test automation framework for performing UI tests.
+A template Selenium test automation framework that is open-source and robust.
 
 Tools used in this project:
 - Selenium
 - Java
 - Maven
 - Cucumber
+
+# Features
+This framework includes a variety of features that make developing and maintaining scripts very easy
+- Clean and informative Masterthought test execution reports
+- Validate downloaded files and the contents within them
+- Screen recorder that embeds the video within the Mastethought report
+- Perform database validations
+- Read data from Excel files
+- Capture and print network DevTools errors
 
 # How to run
 
