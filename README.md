@@ -10,7 +10,7 @@ Tools used in this project:
 
 # Features
 
-This framework includes a variety of robust features that can handle many validation tasks. 
+This framework includes a variety of features that can handle many validation tasks. 
 
 - Masterthough test execution reports
 - Validate downloaded files and the contents within them
