@@ -13,8 +13,8 @@ Tools used in this project:
 This framework includes a variety of features that can handle many validation tasks. 
 
 - Masterthough test execution reports
-- Validate downloaded files and the contents within them
-- Screen recorder that embeds the video within the Mastethought report
+- Validate downloaded files and the text within them
+- Screen recorder that embeds the video within the Masterthought report
 - Perform database validations
 - Read data from Excel files
 - Capture and print network DevTools errors
