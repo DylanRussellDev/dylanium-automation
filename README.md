@@ -12,7 +12,7 @@ Tools used in this project:
 
 This framework includes a variety of features that can handle many validation tasks. 
 
-- Masterthough test execution reports
+- Masterthought and Extent Report test execution reports
 - Validate downloaded files and the text within them
 - Screen recorder that embeds the video within the Masterthought report
 - Perform database validations
@@ -22,7 +22,8 @@ This framework includes a variety of features that can handle many validation ta
 
 # How to run
 
-mvn clean test -Dcucumber.filter.tags="@INSERT_TAGS_HERE" -DBrowser=chrome -DHeadless=false -DThreads=1
+To see a demo of the various tools included, run this from the command line in the project directory:
+mvn clean test -Dcucumber.filter.tags="@FrameworkShowcase" -DBrowser=chrome -DHeadless=false -DThreads=1
 
 - DBrowser can be used to specify which browser to execute the tests on.
 - DHeadless will enable/disable headless (without GUI) execution.
