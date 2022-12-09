@@ -5,24 +5,22 @@
 
 package utilities.helpers;
 
-import org.apache.commons.io.comparator.LastModifiedFileComparator;
-import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import utilities.core.CommonMethods;
+import utilities.core.Constants;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileFilter;
 import java.io.FileOutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.Base64;
 
 import static org.testng.Assert.assertTrue;
@@ -55,7 +53,7 @@ public class PDFValidation {
     } // end verifyPDFContent()
 
     public static void verifyDownloadedPDFText(String txtVerify, String pdfName) throws IOException {
-        URL pdfLoc = new URL("file:///" + getLastPDFFileLocation());
+        URL pdfLoc = new URL("file:///" + CommonMethods.getNewestFile(Constants.PDF_FOLDER_PATH, "pdf"));
         InputStream is = pdfLoc.openStream();
         BufferedInputStream bis = new BufferedInputStream(is);
         PDDocument doc = PDDocument.load(bis);
@@ -65,7 +63,8 @@ public class PDFValidation {
         bis.close();
         is.close();
 
-        Path path = Paths.get(getLastPDFFileLocation());
+        String p = String.valueOf(CommonMethods.getNewestFile(Constants.PDF_FOLDER_PATH, "pdf"));
+        Path path = Paths.get(p);
 
         try {
             Files.deleteIfExists(path);
@@ -77,32 +76,6 @@ public class PDFValidation {
                 + " was not present in the " + pdfName + " PDF\n");
 
     } // end verifyDownloadedPDFText()
-
-    private static String getLastPDFFileLocation() {
-        String folder = System.getProperty("user.home").replace("\\", "/");
-        File dir = new File(folder + "/Downloads");
-        String fileName = "";
-
-        File[] dirFiles = dir.listFiles((FileFilter) FileFilterUtils.fileFileFilter());
-        assert dirFiles != null;
-        Arrays.sort(dirFiles, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
-
-        try {
-
-            if (dirFiles[0].getName().endsWith(".pdf")) {
-                fileName = dirFiles[0].getName();
-                System.out.println("PDF File downloaded: " +fileName);
-            } else {
-                fail("The last downloaded file: " + dirFiles[0].getName() + " is not a PDF\n");
-            } // end if else
-
-        } catch (ArrayIndexOutOfBoundsException a) {
-            fail("The download directory is empty. The file was not downloaded\n");
-        } // end try catch
-        
-        return folder + "/Downloads/" + fileName;
-    } // end getLastFileLocation()
-
 
     public static void saveBlobPDF(WebDriver driver, String pdfName) {
         String url = driver.getCurrentUrl();

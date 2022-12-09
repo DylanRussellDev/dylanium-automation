@@ -12,14 +12,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import utilities.core.CommonMethods;
+import utilities.core.Constants;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.encode.AudioAttributes;
 import ws.schild.jave.encode.EncodingAttributes;
 import ws.schild.jave.encode.VideoAttributes;
 import ws.schild.jave.info.VideoSize;
-
-import static utilities.core.Constants.VIDEO_FILE_PATH;
 
 public class AVItoMP4 {
 
@@ -28,10 +27,13 @@ public class AVItoMP4 {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
         // Declare the AVI file to convert
-        File aviFile = new File(String.valueOf(CommonMethods.getNewestFile(VIDEO_FILE_PATH, "avi")));
+
+        File aviFile = CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "avi");
+
+ //       File aviFile = new File(String.valueOf(CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "avi")));
 
         // Declare where to put the converted MP4 file
-        File target = new File(VIDEO_FILE_PATH + "\\result-video-" + dateFormat.format(new Date()) + ".mp4");
+        File target = new File(Constants.VIDEO_FOLDER_PATH + "\\result-video-" + dateFormat.format(new Date()) + ".mp4");
 
         // Set the Audio Attributes
         AudioAttributes audio = new AudioAttributes();

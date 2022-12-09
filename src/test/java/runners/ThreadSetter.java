@@ -5,7 +5,7 @@
  * 			executing in parallel.
  */
 
-package runnerClasses;
+package runners;
 
 import org.testng.IAlterSuiteListener;
 import org.testng.xml.XmlSuite;

@@ -48,6 +48,8 @@ public class Hooks {
 		cap = ( (RemoteWebDriver) getDriver()).getCapabilities();
 		scenario.get().log("Executing on: " + CommonMethods.browserInfo(cap));
 
+		ExtentReport.startReporting();
+
 		// Start DevTools listener
 		DevToolsListener.startDevToolsListener(driver.get());
 	} // end start()
@@ -71,6 +73,8 @@ public class Hooks {
 		} // end outer if
 
 		driver.get().quit();
+
+		ExtentReport.endReporting();
 
 	} // end afterScenario()
 

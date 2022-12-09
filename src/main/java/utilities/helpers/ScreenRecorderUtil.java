@@ -28,9 +28,8 @@ import org.monte.media.math.Rational;
 import org.monte.screenrecorder.ScreenRecorder;
 
 import utilities.core.CommonMethods;
+import utilities.core.Constants;
 import utilities.core.Hooks;
-
-import static utilities.core.Constants.VIDEO_FILE_PATH;
 
 import static org.monte.media.FormatKeys.EncodingKey;
 import static org.monte.media.FormatKeys.FrameRateKey;
@@ -73,7 +72,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
 
     public static void startRecord(String methodName) throws Exception {
         if (Hooks.headless.equalsIgnoreCase("false")) {
-            File file = new File(VIDEO_FILE_PATH);
+            File file = new File(Constants.VIDEO_FOLDER_PATH);
 
             // Get the size of the screen
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -105,17 +104,18 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     public static void stopRecord() throws Exception {
         // If executing in Headless mode,
         if (Hooks.headless.equalsIgnoreCase("false")) {
+            CommonMethods.pauseForSeconds(1);
             screenRecorder.stop();
             CommonMethods.pauseForSeconds(1);
             AVItoMP4.convertAVIToMP4();
             attachVideo();
         } else {
-            System.out.println("Unable to record screen while executing in headless mode. Continuing Execution...");
+            System.out.println("Unable to record screen while executing in headless mode. Continuing execution...");
         } // end if else
     } // end stopRecord()
 
     private static void attachVideo() throws IOException {
-        FileInputStream is = new FileInputStream(CommonMethods.getNewestFile(VIDEO_FILE_PATH, "mp4"));
+        FileInputStream is = new FileInputStream(CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "mp4"));
         byte[] byteArr = IOUtils.toByteArray(is);
         Hooks.scenario.get().attach(byteArr, "video/mp4", "Click to view video");
     } // end attachVideo()

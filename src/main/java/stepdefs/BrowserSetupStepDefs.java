@@ -1,4 +1,4 @@
-package stepDefinitions;
+package stepdefs;
 
 import java.io.IOException;
 
@@ -12,7 +12,7 @@ import io.cucumber.java.en.Then;
 import utilities.core.CommonMethods;
 import utilities.core.Constants;
 import utilities.core.Hooks;
-import pageElements.EdgeBrowser;
+import elements.EdgeBrowser;
 
 public class BrowserSetupStepDefs {
 

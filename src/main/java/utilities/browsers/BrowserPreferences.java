@@ -1,6 +1,6 @@
 /*
  * Filename: BrowserPreferences.java
- * Purpose: Sets browser preferences in the webdrivers
+ * Purpose: Sets browser preferences for the webdrivers
  */
 
 package utilities.browsers;
@@ -18,6 +18,7 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import utilities.core.Constants;
 import utilities.core.Hooks;
 
 import java.io.IOException;
@@ -32,7 +33,7 @@ public class BrowserPreferences {
         HashMap<String, Object> chromeMap = new HashMap<>();
         chromeMap.put("plugins.plugins_disabled", new String[] {"Chrome PDF Viewer"});
         chromeMap.put("plugins.always_open_pdf_externally", true);
-        chromeMap.put("download.default_directory", System.getProperty("user.home") + "\\Downloads");
+        chromeMap.put("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
         co.setExperimentalOption("prefs", chromeMap);
 
         // Disable unnecessary console logging from Chrome
@@ -62,7 +63,7 @@ public class BrowserPreferences {
         System.setProperty("webdriver.edge.silentOutput", "true");
 
         // Set the default download directory
-        edgeOpt.setCapability("download.default_directory", System.getProperty("user.home") + "\\downloads");
+        edgeOpt.setCapability("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
 
         // Add Edge Options
         edgeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
@@ -82,6 +83,7 @@ public class BrowserPreferences {
     // By default, chrome does not support the downloading of files in headless mode
     // This enables that feature by sending the browser a http post request
     public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {
+
         ChromeDriverService ds = ChromeDriverService.createDefaultService();
         Hooks.driver.set(new ChromeDriver(ds, cOptions));
 
@@ -90,7 +92,7 @@ public class BrowserPreferences {
 
         commandParams.put("cmd", "Page.setDownloadBehavior");
         params.put("behavior", "allow");
-        params.put("downloadPath", System.getProperty("user.home") + "\\Downloads");
+        params.put("downloadPath", Constants.DOWNLOAD_DIRECTORY);
         commandParams.put("params", params);
 
         ObjectMapper objMapper = new ObjectMapper();
@@ -103,6 +105,7 @@ public class BrowserPreferences {
 
         HttpClient httpClient = HttpClientBuilder.create().build();
         httpClient.execute(request);
+
     } // end enableHeadlessDownloads()
 
 } // end BrowserPreferences.java

@@ -1,13 +1,14 @@
 /*
  * Filename: EncryptionApp.java
  * Purpose: A Java swing applet that can encrypt credentials
- *          to put into the properties files
+ *          to put into a properties files
  */
 
 package utilities.misc;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
+import utilities.core.Hooks;
 import utilities.core.ReadConfigFile;
 
 import javax.swing.JFrame;
@@ -26,7 +27,7 @@ import java.awt.event.WindowEvent;
 
 public class EncryptionApp extends JPanel implements ActionListener {
 
-    private static final ReadConfigFile readFile = new ReadConfigFile();
+    private static final ReadConfigFile propFile = new ReadConfigFile();
 
     private static final String OK = "OK";
     private final JFrame controlFrame;
@@ -58,9 +59,10 @@ public class EncryptionApp extends JPanel implements ActionListener {
     // Create the button panel
     protected JComponent createButtonPanel() {
         JPanel p = new JPanel(new GridLayout(0, 1));
-        JButton okButton = new JButton("OK");
-        okButton.setActionCommand(OK);
-        okButton.addActionListener(this);
+        JButton encryptButton = new JButton("Encrypt");
+        encryptButton.setActionCommand(OK);
+        encryptButton.addActionListener(this);
+        p.add(encryptButton);
         return p;
     } // end createButtonPanel()
 
@@ -71,10 +73,10 @@ public class EncryptionApp extends JPanel implements ActionListener {
         if (OK.equals(cmd)) {
 
             StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-            encryptor.setAlgorithm(readFile.properties.getProperty("algorithm"));
-            encryptor.setPassword(readFile.properties.getProperty("secretPass"));
+            encryptor.setAlgorithm(propFile.properties.getProperty("algorithm"));
+            encryptor.setPassword(propFile.properties.getProperty("secretPass"));
             encryptor.setIvGenerator(new RandomIvGenerator());
-            encryptor.setKeyObtentionIterations(Integer.parseInt(readFile.properties.getProperty("keyIterations")));
+            encryptor.setKeyObtentionIterations(Integer.parseInt(propFile.properties.getProperty("keyIterations")));
 
             char[] input = passwordField.getPassword();
             String in = String.valueOf(input);

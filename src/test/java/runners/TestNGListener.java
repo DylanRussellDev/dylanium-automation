@@ -4,7 +4,7 @@
  * 			to the console for execution status.
  */
 
-package runnerClasses;
+package runners;
 
 import java.io.IOException;
 
@@ -61,7 +61,7 @@ public class TestNGListener implements IExecutionListener {
 
 	// Open the report after execution finishes
 	public static void openTestReport() {
-		String strFile = System.getProperty("user.dir") + "\\target\\~REPORT\\cucumber-html-reports\\overview-features.html";
+		String strFile = System.getProperty("user.dir") + "\\target\\~Masterthought-Report\\cucumber-html-reports\\overview-features.html";
 		WebDriverManager.chromedriver().setup();
 		WebDriver driver = new ChromeDriver();
 		driver.get(strFile);

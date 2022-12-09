@@ -21,7 +21,7 @@ public class ReadConfigFile {
 	public ReadConfigFile() {
         BufferedReader reader;
 		try {
-			String FILEPATH = "./src/test/java/propFiles/Automation.properties";
+			String FILEPATH = System.getProperty("user.dir")+"\\src\\test\\java\\properties\\Automation.properties";
 			reader = new BufferedReader(new FileReader(FILEPATH));
 			properties = new Properties();
 

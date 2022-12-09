@@ -1,164 +1,181 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <groupId>SeleniumTesting</groupId>
-  <artifactId>SeleniumTests</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+    <groupId>SeleniumTesting</groupId>
+    <artifactId>SeleniumTests</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
 
-  <name>SeleniumTests</name>
+    <name>SeleniumTests</name>
 
-  <properties>
+    <properties>
 
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
 
-    <selenium.version>4.5.0</selenium.version>
-    <testng.version>7.6.1</testng.version>
-    <cucumber.version>7.8.0</cucumber.version>
-    <cucumberjvm.version>1.0.6</cucumberjvm.version>
-    <webdrivermanager.version>5.3.0</webdrivermanager.version>
-    <masterthought.version>5.7.1</masterthought.version>
-    <jasypt.version>1.9.3</jasypt.version>
-    <ooxml.version>5.2.2</ooxml.version>
-    <mysql.version>8.0.30</mysql.version>
-    <pdfbox.version>2.0.27</pdfbox.version>
-    <recorder.version>0.7.7.0</recorder.version>
-    <ws.child.version>3.3.1</ws.child.version>
+        <selenium.version>4.5.3</selenium.version>
+        <testng.version>7.6.1</testng.version>
+        <cucumber.version>7.8.1</cucumber.version>
+        <cucumberjvm.version>1.0.6</cucumberjvm.version>
+        <webdrivermanager.version>5.3.0</webdrivermanager.version>
+        <masterthought.version>5.7.1</masterthought.version>
+        <extentreport.version>5.0.9</extentreport.version>
+        <jasypt.version>1.9.3</jasypt.version>
+        <lombok.version>1.18.24</lombok.version>
+        <ooxml.version>5.2.2</ooxml.version>
+        <mysql.version>8.0.30</mysql.version>
+        <pdfbox.version>2.0.27</pdfbox.version>
+        <recorder.version>0.7.7.0</recorder.version>
+        <ws.schild.version>3.3.1</ws.schild.version>
 
-    <surefire.version>3.0.0-M7</surefire.version>
+        <surefire.version>3.0.0-M7</surefire.version>
 
-  </properties>
+    </properties>
 
-  <dependencies>
+    <dependencies>
 
-    <!-- Selenium -->
-    <dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>${selenium.version}</version>
-    </dependency>
- 
-	<!-- TestNG -->
-	<dependency>
-        <groupId>org.testng</groupId>
-        <artifactId>testng</artifactId>
-        <version>${testng.version}</version>
-    </dependency>
- 
-	<!-- Cucumber TestNG -->
-	<dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-testng</artifactId>
-        <version>${cucumber.version}</version>
-	</dependency>
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
 
-    <!-- Cucumber Java -->
-	<dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-java</artifactId>
-        <version>${cucumber.version}</version>
-    </dependency>
-    
-    <!-- Used to prevent conflicts when Cucumber-JVM is used
-    along with other projects depending on the same libraries -->
-	<dependency>
-        <groupId>io.cucumber</groupId>
-        <artifactId>cucumber-jvm-deps</artifactId>
-        <version>${cucumberjvm.version}</version>
-        <scope>provided</scope>
-	</dependency>
+        <!-- TestNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+        </dependency>
 
-	<!-- WebDriver Manager-->
-	<dependency>
-        <groupId>io.github.bonigarcia</groupId>
-        <artifactId>webdrivermanager</artifactId>
-        <version>${webdrivermanager.version}</version>
-	</dependency>
+        <!-- Cucumber TestNG -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
 
-    <!-- Masterthought Reports -->
-	<dependency>
-        <groupId>net.masterthought</groupId>
-	    <artifactId>maven-cucumber-reporting</artifactId>
-	    <version>${masterthought.version}</version>
-    </dependency>
+        <!-- Cucumber Java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
 
-    <!-- Jasypt  -->
-	<dependency>
-	    <groupId>org.jasypt</groupId>
-        <artifactId>jasypt</artifactId>
-        <version>${jasypt.version}</version>
-	</dependency>
-	    
-	<!-- Allows reading of Microsoft files -->
-	<dependency>
-        <groupId>org.apache.poi</groupId>
-        <artifactId>poi-ooxml</artifactId>
-        <version>${ooxml.version}</version>
-    </dependency>
+        <!-- Used to prevent conflicts when Cucumber-JVM is used
+        along with other projects depending on the same libraries -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-jvm-deps</artifactId>
+            <version>${cucumberjvm.version}</version>
+            <scope>provided</scope>
+        </dependency>
 
-	<!-- Allows for connection to MySQL databases -->
-	<dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <version>${mysql.version}</version>
-	</dependency>
+        <!-- WebDriver Manager-->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>${webdrivermanager.version}</version>
+        </dependency>
 
-    <!-- Validate PDF Content -->
-	<dependency>
-        <groupId>org.apache.pdfbox</groupId>
-        <artifactId>pdfbox</artifactId>
-        <version>${pdfbox.version}</version>
-	</dependency>
-
-    <!-- Enables recording the screen during test execution -->
-	<dependency>
-        <groupId>com.github.stephenc.monte</groupId>
-        <artifactId>monte-screen-recorder</artifactId>
-        <version>${recorder.version}</version>
-	</dependency>
-
-    <!-- Converts AVI files to MP4 -->
-	<dependency>
-        <groupId>ws.schild</groupId>
-        <artifactId>jave-core</artifactId>
-        <version>${ws.child.version}</version>
-	</dependency>
-
-  </dependencies>
-
-  <build>
-    <plugins>
-
-        <!-- Maven Surefire for executing tests-->
-        <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-surefire-plugin</artifactId>
-            <version>${surefire.version}</version>
-            <configuration>
-                <suiteXmlFiles>
-                    <suiteXmlFile>test.xml</suiteXmlFile>
-                </suiteXmlFiles>
-            </configuration>
-        </plugin>
-
-        <!-- For generating masterthought reports -->
-        <plugin>
+        <!-- Masterthought Reports -->
+        <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>maven-cucumber-reporting</artifactId>
             <version>${masterthought.version}</version>
-            <executions>
-                <execution>
-                    <id>execution</id>
-                    <phase>verify</phase>
-                    <goals>
-                        <goal>generate</goal>
-                    </goals>
-                </execution>
-            </executions>
-        </plugin>
+        </dependency>
 
-    </plugins>
-  </build>
+        <!-- Extent Reports -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>${extentreport.version}</version>
+        </dependency>
+
+        <!-- Jasypt  -->
+        <dependency>
+            <groupId>org.jasypt</groupId>
+            <artifactId>jasypt</artifactId>
+            <version>${jasypt.version}</version>
+        </dependency>
+
+        <!-- Lombok  -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Allows reading of Microsoft files -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${ooxml.version}</version>
+        </dependency>
+
+        <!-- Allows for connection to MySQL databases -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.version}</version>
+        </dependency>
+
+        <!-- Validate PDF Content -->
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>${pdfbox.version}</version>
+        </dependency>
+
+        <!-- Enables recording the screen during test execution -->
+        <dependency>
+            <groupId>com.github.stephenc.monte</groupId>
+            <artifactId>monte-screen-recorder</artifactId>
+            <version>${recorder.version}</version>
+        </dependency>
+
+        <!-- Converts AVI files to MP4 -->
+        <dependency>
+            <groupId>ws.schild</groupId>
+            <artifactId>jave-all-deps</artifactId>
+            <version>${ws.schild.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+
+            <!-- Maven Surefire for executing tests-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>test.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                </configuration>
+            </plugin>
+
+            <!-- For generating masterthought reports -->
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>${masterthought.version}</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
 </project>

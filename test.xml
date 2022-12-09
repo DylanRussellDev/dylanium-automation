@@ -3,13 +3,13 @@
 <suite name="Suite" verbose="1" parallel="tests" configfailurepolicy="continue">
 
   <listeners>
-    <listener class-name="runnerClasses.ThreadSetter" />
-    <listener class-name="runnerClasses.TestNGListener" />
+    <listener class-name="runners.ThreadSetter" />
+    <listener class-name="runners.TestNGListener" />
   </listeners>
 
   <test name = "Selenium Tests">
     <classes>
-    	<class name="runnerClasses.Runner" />
+    	<class name="runners.Runner" />
     </classes>
   </test>
 </suite>

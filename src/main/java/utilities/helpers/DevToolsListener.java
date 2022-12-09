@@ -10,7 +10,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.Command;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v85.network.Network;
+import org.openqa.selenium.devtools.v106.network.Network;
 
 import java.util.ArrayList;
 
@@ -36,22 +36,20 @@ public class DevToolsListener {
         try {
 
             dt.addListener(Network.responseReceived(), receive -> {
-                String strStatus =
+                Integer statusCode =
                 receive
                 .getResponse()
-                .getStatus()
-                .toString();
+                .getStatus();
 
                 // If a network response does not have 200 as the status code, add the info to the ArrayList
-                if (!strStatus.equals("200")) {
+                if (statusCode >= 400) {
 
-                    devtoolErrors.add("DevTools error URL: "
-                    + receive
-                    .getResponse()
-                    .getUrl()
-                    .replace("https://", "") + "\n"
-                    + "Status: "+ receive.getResponse().getStatus() + "\n"
-                    + "Error: " + receive.getResponse().getStatusText() + "\n");
+                    devtoolErrors.add("DevTools error URL: " + receive
+                        .getResponse()
+                        .getUrl()
+                        .replace("https://", "") + "\n"
+                            + "Status: "+ receive.getResponse().getStatus() + "\n"
+                            + "Error: " + receive.getResponse().getStatusText());
 
                 } // end if
 

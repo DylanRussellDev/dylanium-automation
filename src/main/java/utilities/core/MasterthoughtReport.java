@@ -20,7 +20,7 @@ public class MasterthoughtReport {
 		
 		try {
 			// Folder where the reports are generated
-			File outDirectory = new File("target/~REPORT");
+			File outDirectory = new File("target/~Masterthought-Report");
 			List<String> list = new ArrayList<>();
 			list.add("target/cucumber-reports/cucumber.json");
 
@@ -39,8 +39,8 @@ public class MasterthoughtReport {
 			repBuild.generateReports();
 
 		} catch (Exception e) {
-			System.out.println("There was a problem generating the Masterthought report.");
-			System.out.println("Error Message: " + e.getMessage());
+			System.out.println("There was a problem generating the Masterthought report.\n"
+			+ "Error Message: " + e.getMessage());
 		} // end try/catch block
 		
 	} // end GenerateTestReport()

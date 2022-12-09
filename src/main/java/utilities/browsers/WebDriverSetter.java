@@ -1,7 +1,7 @@
 /*
  * Filename: WebDriverSetter.java
  * Purpose: Sets the webdriver to the one desired based on the
- *          argument from the -DBrowser maven goal
+ *          argument in the -DBrowser maven goal
  */
 
 package utilities.browsers;
