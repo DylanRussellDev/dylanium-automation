@@ -26,9 +26,8 @@ public class TestStepDefs {
     } // end constructor
 
     @Given("the user navigates to the calculator website")
-    public void the_user_navigates_to_the_calculator_website() throws Exception {
+    public void the_user_navigates_to_the_calculator_website() {
         CommonMethods.navigate(driver, "calculatorURL");
-        ScreenRecorderUtil.startRecord("navigate");
     }
 
     @When("the user clicks two plus two")
@@ -40,11 +39,10 @@ public class TestStepDefs {
     }
 
     @Then("verify the output is {string}")
-    public void verify_the_output_is(String answer) throws Throwable {
+    public void verify_the_output_is(String answer) {
         String result = CommonMethods.getElementText(driver, CalculatorObjects.txtOutput, "Result").replaceAll("\\s", "");
         assertEquals(answer, result, "Output: " + answer + " is not correct");
         CommonMethods.screenshot(driver);
-        ScreenRecorderUtil.stopRecord();
     }
 
     @Given("the screen recorder is started")
@@ -92,8 +90,19 @@ public class TestStepDefs {
     }
 
     @Then("a success message will be displayed")
-    public void a_success_message_will_be_displayed() throws IOException {
+    public void a_success_message_will_be_displayed() {
         CommonMethods.isElementPresent(driver, DemoSiteObjects.msgSuccessLogin, "Login Successful message");
+        CommonMethods.partialScreenshot(driver);
+    }
+
+    @When("the user clicks the {string} code")
+    public void the_user_clicks_the_code(String code) {
+        CommonMethods.click(driver, By.xpath(DemoSiteObjects.lnkStatusCodes.replace("STATUS_CODE", code)),
+                "Status Code " + code + " option");
+    }
+
+    @Then("the error information is captured and will be available in the report")
+    public void the_error_information_is_captured_and_will_be_available_in_the_report() {
         CommonMethods.partialScreenshot(driver);
     }
 

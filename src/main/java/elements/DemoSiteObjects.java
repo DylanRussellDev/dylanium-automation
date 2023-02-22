@@ -6,6 +6,7 @@ public class DemoSiteObjects {
 
     // Replace LINK_TEXT with desired option
     public static String lnkAvailableExamples = "//ul//a[contains(text(), 'LINK_TEXT')]";
+    public static String lnkStatusCodes = "//a[text()=STATUS_CODE]";
 
     // TinyMCE WYSIWYG Editor
     public static By iframeWYSIWYG = By.id("mce_0_ifr");

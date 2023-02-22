@@ -31,7 +31,7 @@ public class BrowserPreferences {
 
         // Disables the PDF viewer in Chrome to enable file downloads
         HashMap<String, Object> chromeMap = new HashMap<>();
-        chromeMap.put("plugins.plugins_disabled", new String[] {"Chrome PDF Viewer"});
+        chromeMap.put("plugins.plugins_disabled", new String[]{"Chrome PDF Viewer"});
         chromeMap.put("plugins.always_open_pdf_externally", true);
         chromeMap.put("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
         co.setExperimentalOption("prefs", chromeMap);
@@ -42,28 +42,31 @@ public class BrowserPreferences {
 
         // Add Chrome Options
         co.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-        co.addArguments("no-sandbox", "start-maximized", "disable-dev-shm-usage", "enable-automation");
+        co.addArguments("--remote-allow-origins=*","no-sandbox", "start-maximized", "disable-dev-shm-usage",
+                "enable-automation", "disable-gpu", "dns-prefetch-disable");
 
         // Enable Headless execution if -DHeadless is set to true
         if (Hooks.headless.equalsIgnoreCase("true")) {
-            co.addArguments("headless", "window-size=1920,1080", "disable-extensions",
-                    "disable-gpu", "dns-prefetch-disable", "hide-scrollbars");
+            co.addArguments("headless", "window-size=1920,1080", "disable-extensions", "hide-scrollbars");
             co.setPageLoadStrategy(PageLoadStrategy.NORMAL);
             enableHeadlessDownloads(co);
-        } else {
-            Hooks.driver.set(new ChromeDriver(co));
-        } // end if-else
+        } // end if
 
+        Hooks.driver.set(new ChromeDriver(co));
     } // end chromePrefs()
 
     public static void edgePrefs(EdgeOptions edgeOpt) {
 
-        // Disable unnecessary console logging from Edge
+        // Set the default download directory
+        HashMap<String, Object> edgeMap = new HashMap<>();
+        edgeMap.put("plugins.plugins_disabled", new String[]{"Edge PDF Viewer"});
+        edgeMap.put("plugins.always_open_pdf_externally", true);
+        edgeMap.put("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
+        edgeOpt.setExperimentalOption("prefs", edgeMap);
+
+        // Disable unnecessary console logging from Browser
         System.setProperty("webdriver.edge.args", "--disable-logging");
         System.setProperty("webdriver.edge.silentOutput", "true");
-
-        // Set the default download directory
-        edgeOpt.setCapability("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
 
         // Add Edge Options
         edgeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
@@ -74,10 +77,9 @@ public class BrowserPreferences {
             edgeOpt.addArguments("headless", "window-size=1920,1080", "disable-extensions",
                     "disable-gpu", "dns-prefetch-disable", "hide-scrollbars");
             edgeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-        } else {
-            Hooks.driver.set(new EdgeDriver(edgeOpt));
-        } // end if else
+        } // end if
 
+        Hooks.driver.set(new EdgeDriver(edgeOpt));
     } // end edgePrefs()
 
     // By default, chrome does not support the downloading of files in headless mode

@@ -14,18 +14,20 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.IExecutionListener;
 
 import utilities.core.CommonMethods;
+import utilities.core.Constants;
 import utilities.core.MasterthoughtReport;
 import utilities.core.Hooks;
 
 public class TestNGListener implements IExecutionListener {
 
-	public void onExecutionStart() {
-		System.out.println("************ TEST EXECUTION STARTED ************\n");
-	} // end onExecutionStart
-	
-	public void onExecutionFinish() {
-        System.out.println("GENERATING THE REPORT...\n");
+    public void onExecutionStart() {
+        System.out.println("\n************ TEST EXECUTION STARTED ************");
+    } // end onExecutionStart
+
+    public void onExecutionFinish() {
+        System.out.println("\nGENERATING THE REPORT...\n");
         MasterthoughtReport.GenerateTestReport();
+
         String cmd = "taskkill /F /IM WEBDRIVEREXE";
 
         switch (Hooks.browser) {
@@ -44,28 +46,30 @@ public class TestNGListener implements IExecutionListener {
             case "edge":
                 cmd = cmd.replace("WEBDRIVEREXE", "edgedriver.exe");
                 break;
-        }
+        } // end switch statement
 
-		// Attempt to end the chromedriver task
-		try {
-			Runtime.getRuntime().exec(cmd);
-			CommonMethods.pauseForSeconds(2);
-		} catch (IOException e) {
-			System.out.println("Could not kill webdriver instance");
-		} // end try-catch
+        // Attempt to end the chromedriver task
+        try {
+            Runtime.getRuntime().exec(cmd);
+            CommonMethods.pauseForSeconds(2);
+        } catch (IOException e) {
+            System.out.println("Could not kill webdriver instance");
+        } // end try-catch
 
+        CommonMethods.pauseForSeconds(1);
         openTestReport();
+        System.out.println("\n************ TEST EXECUTION FINISHED ************\n");
+    } // end onExecutionFinish
 
-		System.out.println("************ TEST EXECUTION FINISHED ************\n");
-	} // end onExecutionFinish
+    /**
+     * Opens the Masterthought report after execution is finished.
+     */
+    private void openTestReport() {
+        String strFile = System.getProperty("user.dir") + "\\target\\~Masterthought-Report\\cucumber-html-reports\\overview-features.html";
+        WebDriverManager.chromedriver().setup();
+        WebDriver driver = new ChromeDriver();
+        driver.get(strFile);
+        driver.manage().window().maximize();
+    } // end openTestReport
 
-	// Open the report after execution finishes
-	public static void openTestReport() {
-		String strFile = System.getProperty("user.dir") + "\\target\\~Masterthought-Report\\cucumber-html-reports\\overview-features.html";
-		WebDriverManager.chromedriver().setup();
-		WebDriver driver = new ChromeDriver();
-		driver.get(strFile);
-		driver.manage().window().maximize();
-	} // end openTestReport
-	
 } // end TestNGListener.java

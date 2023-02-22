@@ -273,6 +273,7 @@ public class CommonMethods {
 
         try {
 
+            driver.findElement(element).clear();
             driver.findElement(element).sendKeys(input);
 
         } catch (Exception e) {

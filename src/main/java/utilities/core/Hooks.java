@@ -31,7 +31,7 @@ public class Hooks {
 	public static final ThreadLocal<Scenario> scenario = new ThreadLocal<>();
 
     public static WebDriver getDriver() {
-        return driver.get();
+		return driver.get();
     } // end getDriver()
 
 	@Before
@@ -46,26 +46,26 @@ public class Hooks {
 
 		// Get the browser name and version to include in the reports
 		cap = ( (RemoteWebDriver) getDriver()).getCapabilities();
+
 		scenario.get().log("Executing on: " + CommonMethods.browserInfo(cap));
 
-		ExtentReport.startReporting();
+//		ExtentReport.startReporting();
 
 		// Start DevTools listener
 		DevToolsListener.startDevToolsListener(driver.get());
 	} // end start()
 	
 	@After
-	public void afterScenario() {
+	public void afterScenario(Scenario scenario) {
 
-		if (scenario.get().isFailed()) {
+		if (scenario.isFailed()) {
 			CommonMethods.screenshot(driver.get());
-
 			// Print DevTools errors
 			if (!DevToolsListener.devtoolErrors.isEmpty()) {
 				Set<String> set = new HashSet<>(DevToolsListener.devtoolErrors);
 
 				for (String s : set) {
-					scenario.get().log(s);
+					scenario.log(s);
 				} // end for
 
 			} // end inner if
@@ -74,7 +74,7 @@ public class Hooks {
 
 		driver.get().quit();
 
-		ExtentReport.endReporting();
+//		ExtentReport.endReporting();
 
 	} // end afterScenario()
 

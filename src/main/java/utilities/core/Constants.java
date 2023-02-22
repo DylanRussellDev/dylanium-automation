@@ -18,6 +18,11 @@ public class Constants {
     public static final String CHROME_RELAUNCH = "Nearly up to date";
     public static final String EDGE_RELAUNCH = "restart Microsoft Edge";
 
+    public static final String CHROME_DRIVER_EXE = "chromedriver.exe";
+    public static final String CHROME_BETA_DRIVER_EXE = "chromedriver-beta.exe";
+    public static final String CHROME_DEV_DRIVER_EXE = "chromedriver-dev.exe";
+    public static final String EDGE_DRIVER_EXE = "edgedriver.exe";
+
     // Screen Recorder constants
     public static final String VIDEO_FOLDER_PATH = System.getProperty("user.dir") + "\\target\\video-recordings\\";
 
