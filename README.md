@@ -1,5 +1,5 @@
 # Selenium-Automation
-A template Selenium test automation framework that is open-source and robust.
+An open-source Selenium test automation framework.
 
 Tools used in this project:
 
