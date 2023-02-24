@@ -1,16 +1,0 @@
-
-g	java:S112*"FDefine and throw a dedicated exception instead of using a generic one.(ú€òÛøÿÿÿÿ8·¯ÉÍ0
-d
-java:S1192"IDefine a constant instead of duplicating this literal "navigate" 3 times.(¶‹Ãåıÿÿÿÿ
-c	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Şê•Ü
-h	java:S100""NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(–½ ¸úÿÿÿÿ
-h	java:S100*"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ú€òÛøÿÿÿÿ
-c	java:S1002"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ñ¯Ò
-h	java:S1008"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ƒ¿¦ıÿÿÿÿ
-c	java:S100="NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(’Ğæ§
-c	java:S100C"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®Ó
-h	java:S100J"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(éÑĞ—üÿÿÿÿ
-c	java:S100P"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô‹†¡
-h	java:S100V"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Öÿ£åûÿÿÿÿ
-h	java:S100["NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚•İßûÿÿÿÿ
-c	java:S100a"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ô¥æ™
