@@ -49,7 +49,7 @@ public class Hooks {
 
 		scenario.get().log("Executing on: " + CommonMethods.browserInfo(cap));
 
-//		ExtentReport.startReporting();
+		ExtentReport.startReporting();
 
 		// Start DevTools listener
 		DevToolsListener.startDevToolsListener(driver.get());
@@ -60,8 +60,10 @@ public class Hooks {
 
 		if (scenario.isFailed()) {
 			CommonMethods.screenshot(driver.get());
+
 			// Print DevTools errors
 			if (!DevToolsListener.devtoolErrors.isEmpty()) {
+
 				Set<String> set = new HashSet<>(DevToolsListener.devtoolErrors);
 
 				for (String s : set) {
@@ -74,7 +76,7 @@ public class Hooks {
 
 		driver.get().quit();
 
-//		ExtentReport.endReporting();
+		ExtentReport.endReporting();
 
 	} // end afterScenario()
 

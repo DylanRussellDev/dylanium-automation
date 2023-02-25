@@ -1,5 +1,5 @@
 /*
- * Filename: GenerateReport.java
+ * Filename: MasterthoughtReport.java
  * Purpose: Generates the Masterthought test execution report.
  * 			The file to open in the target directory is: overview-features.html file
  */

@@ -17,12 +17,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.Augmenter;
 
 public class CaptureScreenshot {
-
-	private static int scrollTime = 0;
-	
-	public CaptureScreenshot(int time) {
-		scrollTime = time;
-	} // end constructor
 	
 	private static String getHeight(WebDriver driver) {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -38,16 +32,6 @@ public class CaptureScreenshot {
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		return ((Long) js.executeScript("return window.innerHeight", new Object[0])).intValue();
 	} // end getWindowHeight()
-	
-	private static void waitForScrolling() {
-
-		try {
-			Thread.sleep(scrollTime);
-		} catch (InterruptedException ignored) {
-			// Ignored exception
-		} // end try-catch
-
-	} // end waitForScrolling()
 	
 	private static BufferedImage getNativeScreenshot(WebDriver wd) {
 		TakesScreenshot takesScreenshot = (TakesScreenshot) new Augmenter().augment(wd);
@@ -74,14 +58,12 @@ public class CaptureScreenshot {
 		
 		for (int i = 0; i < timeScroll; i++) {
 			js.executeScript("scrollTo(0, arguments[0])", winH * i);
-			waitForScrolling();
 			BufferedImage last = getNativeScreenshot(wd);
 			graphics.drawImage(last, 0, i * winH, null);
 		} // end for
 		
 		if (tail > 0) {
 			js.executeScript("scrollTo(0, document.body.scrollHeight)");
-			waitForScrolling();
 			BufferedImage last = getNativeScreenshot(wd);
 			BufferedImage tailImg = last.getSubimage(0, last.getHeight() - tail, last.getWidth(), tail);
 			graphics.drawImage(tailImg, 0, timeScroll * winH, null);

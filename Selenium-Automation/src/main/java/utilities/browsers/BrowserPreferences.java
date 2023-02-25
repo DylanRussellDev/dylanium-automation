@@ -43,11 +43,11 @@ public class BrowserPreferences {
         // Add Chrome Options
         co.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
         co.addArguments("--remote-allow-origins=*","no-sandbox", "start-maximized", "disable-dev-shm-usage",
-                "enable-automation", "disable-gpu", "dns-prefetch-disable");
+                "enable-automation", "disable-gpu", "dns-prefetch-disable", "disable-extensions");
 
         // Enable Headless execution if -DHeadless is set to true
         if (Hooks.headless.equalsIgnoreCase("true")) {
-            co.addArguments("headless", "window-size=1920,1080", "disable-extensions", "hide-scrollbars");
+            co.addArguments("headless", "window-size=1920,1080", "hide-scrollbars");
             co.setPageLoadStrategy(PageLoadStrategy.NORMAL);
             enableHeadlessDownloads(co);
         } // end if
@@ -70,20 +70,20 @@ public class BrowserPreferences {
 
         // Add Edge Options
         edgeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-        edgeOpt.addArguments("no-sandbox", "start-maximized", "disable-dev-shm-usage", "enable-automation");
+        edgeOpt.addArguments("no-sandbox", "start-maximized", "disable-dev-shm-usage", "enable-automation",
+                "disable-gpu", "dns-prefetch-disable", "disable-extensions");
 
         // Enable Headless execution if -DHeadless is set to true
         if (Hooks.headless.equalsIgnoreCase("true")) {
-            edgeOpt.addArguments("headless", "window-size=1920,1080", "disable-extensions",
-                    "disable-gpu", "dns-prefetch-disable", "hide-scrollbars");
+            edgeOpt.addArguments("headless", "window-size=1920,1080", "hide-scrollbars");
             edgeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
         } // end if
 
         Hooks.driver.set(new EdgeDriver(edgeOpt));
     } // end edgePrefs()
 
-    // By default, chrome does not support the downloading of files in headless mode
-    // This enables that feature by sending the browser a http post request
+    // By default, chrome does not support the downloading of files in headless mode.
+    // This enables that feature by sending a http post request to the browser
     public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {
 
         ChromeDriverService ds = ChromeDriverService.createDefaultService();
