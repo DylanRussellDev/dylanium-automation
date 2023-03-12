@@ -27,18 +27,6 @@ public class WebDriverSetter {
                 BrowserPreferences.chromePrefs(co);
                 break;
 
-            case "chrome beta":
-                System.setProperty("webdriver.chrome.driver", ".//WebDrivers//chromedriver-beta.exe");
-                co.setBinary("C:\\Program Files\\Google\\Chrome Beta\\Application\\chrome.exe");
-                BrowserPreferences.chromePrefs(co);
-                break;
-
-            case "chrome dev":
-                System.setProperty("webdriver.chrome.driver", ".//WebDrivers//chromedriver-dev.exe");
-                co.setBinary("C:\\Program Files\\Google\\Chrome Dev\\Application\\chrome.exe");
-                BrowserPreferences.chromePrefs(co);
-                break;
-
             case "edge":
                 WebDriverManager.edgedriver().setup();
                 BrowserPreferences.edgePrefs(eo);
