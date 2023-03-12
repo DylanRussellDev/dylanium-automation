@@ -1,0 +1,7 @@
+
+U
+java:S1118&":Add a private constructor to hide the implicit public one.(¤Û…”ûÿÿÿÿ
+Z	java:S1066"9Replace this use of System.out or System.err by a logger.(ÉÆ³şÿÿÿÿ8Ä‰œÉÍ0
+|
+java:S2142¾"^Either re-interrupt this method or rethrow the "InterruptedException" that can be caught here.(”ı¾8Î‰œÉÍ0
+[	java:S106Ö"9Replace this use of System.out or System.err by a logger.(ƒšÕÛúÿÿÿÿ8Ğ‰œÉÍ0
