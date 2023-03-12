@@ -13,7 +13,7 @@ This framework includes a variety of features that can handle many validation ta
 - Log network DevTools errors
 - Parallel execution
 
-# How to run
+# How to Execute
 
 To see a demo of the various tools included, run this from the command line in the project directory:
 mvn clean test -Dcucumber.filter.tags="@FrameworkShowcase" -DBrowser=chrome -DHeadless=false -DThreads=1
