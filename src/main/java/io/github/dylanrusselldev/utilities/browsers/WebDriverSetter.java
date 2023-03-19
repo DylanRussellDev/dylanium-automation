@@ -8,7 +8,9 @@ package io.github.dylanrusselldev.utilities.browsers;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.dylanrusselldev.utilities.core.Hooks;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 
 import java.io.IOException;
@@ -24,12 +26,12 @@ public class WebDriverSetter {
 
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-                BrowserPreferences.chromePrefs(co);
+                Hooks.driver.set(new ChromeDriver(BrowserPreferences.chromePrefs(co)));
                 break;
 
             case "edge":
                 WebDriverManager.edgedriver().setup();
-                BrowserPreferences.edgePrefs(eo);
+                Hooks.driver.set(new EdgeDriver(BrowserPreferences.edgePrefs(eo)));
                 break;
 
         } // end switch

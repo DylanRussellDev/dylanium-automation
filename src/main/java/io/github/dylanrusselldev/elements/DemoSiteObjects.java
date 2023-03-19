@@ -17,4 +17,10 @@ public class DemoSiteObjects {
     public static By txtPassword = By.id("password");
     public static By btnLogin = By.xpath("//button[@type='submit']");
     public static By msgSuccessLogin = By.xpath("//div[@class='flash success']");
+
+    public static By lbl500Text = By.xpath("//p[contains(text(), '500 status code')]");
+
+    public static By hdInputs = By.xpath("//h3[text()='Inputs']");
+    public static By txtNumbers = By.id("invalidID");
+
 }

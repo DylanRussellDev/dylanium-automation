@@ -16,8 +16,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.Set;
 
 public class Hooks {
 
@@ -45,9 +43,9 @@ public class Hooks {
 
 		// Get the browser name and version to include in the reports
 		cap = ( (RemoteWebDriver) getDriver()).getCapabilities();
-
 		scenario.get().log("Executing on: " + CommonMethods.browserInfo(cap));
 
+		// Start the Extent Report
 		ExtentReport.startReporting();
 
 		// Start DevTools listener
@@ -59,22 +57,13 @@ public class Hooks {
 
 		if (scenario.isFailed()) {
 			CommonMethods.screenshot(driver.get());
-
-			// Print DevTools errors
-			if (!DevToolsListener.devtoolErrors.isEmpty()) {
-
-				Set<String> set = new HashSet<>(DevToolsListener.devtoolErrors);
-
-				for (String s : set) {
-					scenario.log(s);
-				} // end for
-
-			} // end inner if
-
+			DevToolsListener.logDevToolErrors();
 		} // end outer if
 
+		// Quit the driver
 		driver.get().quit();
 
+		// End the Extent Report
 		ExtentReport.endReporting();
 
 	} // end afterScenario()

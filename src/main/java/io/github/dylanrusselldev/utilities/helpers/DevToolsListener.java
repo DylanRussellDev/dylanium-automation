@@ -6,6 +6,7 @@
 package io.github.dylanrusselldev.utilities.helpers;
 
 import com.google.common.collect.ImmutableMap;
+import io.github.dylanrusselldev.utilities.core.Hooks;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.Command;
@@ -13,52 +14,49 @@ import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v109.network.Network;
 
 import java.util.ArrayList;
-
-import static org.testng.Assert.fail;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DevToolsListener {
 
-    public static final ArrayList<String> devtoolErrors = new ArrayList<>();
+    public static ArrayList<String> devtoolErrors = new ArrayList<>();
 
     public static void startDevToolsListener(WebDriver driver) {
 
-        DevTools dt = ((ChromeDriver) driver ).getDevTools();
+        DevTools dt = ((ChromeDriver) driver).getDevTools();
+        dt.createSessionIfThereIsNotOne();
+        dt.send(new Command<>("Network.enable", ImmutableMap.of()));
 
-        // Attempt to start the DevTools listener
-        try {
-            dt.createSessionIfThereIsNotOne();
-            dt.send(new Command<>("Network.enable", ImmutableMap.of()));
-        } catch (Exception e) {
-            fail("Could not start DevTools listener. Error Message: " + e.getMessage() + "\n");
-        } // end try/catch block
+        dt.addListener(Network.responseReceived(), receive -> {
+            Integer statusCode = receive.getResponse().getStatus();
 
-        // Attempt to gather DevTools information
-        try {
+            // If a network response has a status code >= 400, add the info to the ArrayList
+            if (statusCode >= 400) {
 
-            dt.addListener(Network.responseReceived(), receive -> {
-                Integer statusCode =
-                receive
-                .getResponse()
-                .getStatus();
+                devtoolErrors.add("DevTools error found.\n" +
+                        "URL: " + receive.getResponse().getUrl().replace("https://", "") + "\n" +
+                        "Status: " + receive.getResponse().getStatus() + "\n" +
+                        "Error: " + receive.getResponse().getStatusText());
 
-                // If a network response does not have 200 as the status code, add the info to the ArrayList
-                if (statusCode >= 400) {
+            } // end if
 
-                    devtoolErrors.add("DevTools error URL: " + receive
-                        .getResponse()
-                        .getUrl()
-                        .replace("https://", "") + "\n"
-                            + "Status: "+ receive.getResponse().getStatus() + "\n"
-                            + "Error: " + receive.getResponse().getStatusText());
 
-                } // end if
-
-            });
-
-        } catch (Exception e) {
-            fail("Could not gather information from DevTools. Error Message: " + e.getMessage() + "\n");
-        } // end try/catch block
+        });
 
     } // end startDevToolsListener()
+
+    // Print DevTools errors
+    public static void logDevToolErrors() {
+        if (!devtoolErrors.isEmpty()) {
+
+            Set<String> set = new HashSet<>(devtoolErrors);
+
+            for (String s : set) {
+                Hooks.scenario.get().log(s);
+            } // end for
+
+        } // end if
+
+    } // end logDevToolErrors()
 
 } // end DevToolsListener.java

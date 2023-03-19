@@ -7,11 +7,12 @@
 package io.github.dylanrusselldev.runners;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.dylanrusselldev.utilities.browsers.BrowserPreferences;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.MasterthoughtReport;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.IExecutionListener;
 
 import java.io.IOException;
@@ -51,21 +52,32 @@ public class TestNGListener implements IExecutionListener {
             Runtime.getRuntime().exec(cmd);
             CommonMethods.pauseForSeconds(2);
         } catch (IOException e) {
-            System.out.println("Could not kill webdriver instance");
+            System.out.println("Could not kill WebDriver instance with command: " + cmd);
         } // end try-catch
 
         CommonMethods.pauseForSeconds(1);
-        openTestReport();
+
+        try {
+            openTestReport();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } // end try-catch
+
         System.out.println("\n************ TEST EXECUTION FINISHED ************\n");
     } // end onExecutionFinish
 
     /**
      * Opens the Masterthought report after execution is finished.
      */
-    private void openTestReport() {
-        String strFile = System.getProperty("user.dir") + "\\target\\~Masterthought-Report\\cucumber-html-reports\\overview-features.html";
+    private void openTestReport() throws IOException {
+        // The report path
+        final String strFile = System.getProperty("user.dir") + "\\target\\~Masterthought-Report\\cucumber-html-reports\\overview-features.html";
+
         WebDriverManager.chromedriver().setup();
-        WebDriver driver = new ChromeDriver();
+
+        ChromeOptions co = new ChromeOptions();
+        ChromeDriver driver = new ChromeDriver(BrowserPreferences.chromePrefs(co));
+
         driver.get(strFile);
         driver.manage().window().maximize();
     } // end openTestReport

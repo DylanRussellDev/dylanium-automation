@@ -8,6 +8,7 @@ import io.github.dylanrusselldev.elements.DemoSiteObjects;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.ReadConfigFile;
+import io.github.dylanrusselldev.utilities.helpers.DevToolsListener;
 import io.github.dylanrusselldev.utilities.helpers.ScreenRecorderUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -99,9 +100,22 @@ public class TestStepDefs {
                 "Status Code " + code + " option");
     }
 
-    @Then("the error information is captured and will be available in the report")
-    public void the_error_information_is_captured_and_will_be_available_in_the_report() {
+    @Then("print the DevTools error information in the log file")
+    public void print_the_DevTools_information_in_the_log_file() {
+        CommonMethods.isElementPresent(driver, DemoSiteObjects.lbl500Text, "500 status code text");
         CommonMethods.partialScreenshot(driver);
+        DevToolsListener.logDevToolErrors();
+    }
+
+    @When("the SDET wrote the Selenium identifier incorrectly for the text box")
+    public void the_sdet_wrote_the_selenium_identifier_incorrectly_for_the_text_box() {
+        CommonMethods.isElementPresent(driver, DemoSiteObjects.hdInputs, "Inputs header text");
+        CommonMethods.partialScreenshot(driver);
+    }
+
+    @Then("the scenario will fail and a user friendly exception message will display on the report")
+    public void the_scenario_will_fail_and_a_user_friendly_exception_message_will_display_on_the_report() {
+        CommonMethods.input(driver, DemoSiteObjects.txtNumbers, "Test", "Numbers text box");
     }
 
 } // end TestStepDefs.java

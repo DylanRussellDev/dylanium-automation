@@ -16,7 +16,6 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -27,35 +26,36 @@ import java.util.Map;
 
 public class BrowserPreferences {
 
-    public static void chromePrefs(ChromeOptions co) throws IOException {
+    public static ChromeOptions chromePrefs(ChromeOptions chromeOpt) throws IOException {
 
         // Disables the PDF viewer in Chrome to enable file downloads
         HashMap<String, Object> chromeMap = new HashMap<>();
         chromeMap.put("plugins.plugins_disabled", new String[]{"Chrome PDF Viewer"});
         chromeMap.put("plugins.always_open_pdf_externally", true);
         chromeMap.put("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
-        co.setExperimentalOption("prefs", chromeMap);
+        chromeOpt.setExperimentalOption("prefs", chromeMap);
 
         // Disable unnecessary console logging from Chrome
         System.setProperty("webdriver.chrome.args", "--disable-logging");
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
         // Add Chrome Options
-        co.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-        co.addArguments("--remote-allow-origins=*","no-sandbox", "start-maximized", "disable-dev-shm-usage",
+        chromeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+        chromeOpt.addArguments("--remote-allow-origins=*","no-sandbox", "start-maximized", "disable-dev-shm-usage",
                 "enable-automation", "disable-gpu", "dns-prefetch-disable", "disable-extensions");
 
         // Enable Headless execution if -DHeadless is set to true
         if (Hooks.headless.equalsIgnoreCase("true")) {
-            co.addArguments("headless", "window-size=1920,1080", "hide-scrollbars");
-            co.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-            enableHeadlessDownloads(co);
+            chromeOpt.addArguments("headless", "window-size=1920,1080", "hide-scrollbars");
+            chromeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+            enableHeadlessDownloads(chromeOpt);
         } // end if
 
-        Hooks.driver.set(new ChromeDriver(co));
+        return chromeOpt;
+
     } // end chromePrefs()
 
-    public static void edgePrefs(EdgeOptions edgeOpt) {
+    public static EdgeOptions edgePrefs(EdgeOptions edgeOpt) {
 
         // Set the default download directory
         HashMap<String, Object> edgeMap = new HashMap<>();
@@ -79,7 +79,8 @@ public class BrowserPreferences {
             edgeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
         } // end if
 
-        Hooks.driver.set(new EdgeDriver(edgeOpt));
+        return edgeOpt;
+
     } // end edgePrefs()
 
     // By default, chrome does not support the downloading of files in headless mode.
