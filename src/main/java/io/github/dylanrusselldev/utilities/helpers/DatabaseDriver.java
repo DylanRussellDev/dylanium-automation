@@ -1,10 +1,6 @@
-/*
- * Filename: DatabaseDriver.java
- * Purpose: Enables the use of connecting to a database in order to perform validations through it
- */
-
 package io.github.dylanrusselldev.utilities.helpers;
 
+import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import io.github.dylanrusselldev.utilities.core.ReadConfigFile;
 
 import java.sql.Connection;
@@ -13,8 +9,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static org.testng.Assert.fail;
-
+/*
+ * Filename: DatabaseDriver.java
+ * Purpose: Enables the use of connecting to a database in order to perform validations through it
+ */
 public class DatabaseDriver {
 
     // Connection to DB for queries
@@ -23,6 +21,8 @@ public class DatabaseDriver {
 
     // ReadConfigFile object to read from properties files
     private static ReadConfigFile propFile = new ReadConfigFile();
+
+    private static final LoggerClass LOGGER = new LoggerClass(DatabaseDriver.class);
 
     public DatabaseDriver() {
 
@@ -38,7 +38,7 @@ public class DatabaseDriver {
 
         } catch (Exception e) {
 
-            fail("Could not establish connection to the Database. Error Message: " + e.getMessage());
+            LOGGER.errorAndFail("Could not establish connection to the Database.", e);
 
         } // end try-catch
 
@@ -52,13 +52,13 @@ public class DatabaseDriver {
 
                 connection.close();
                 connection = null;
-                System.out.println("Connection to the Database is closed.\n");
+                LOGGER.info("Connection to the Database is closed.\n");
 
             } // end if
 
         } catch (SQLException e) {
 
-            throw new RuntimeException(e);
+            LOGGER.errorAndFail("Unable to close the connection to the Database.", e);
 
         } // end try-catch
 
@@ -74,7 +74,7 @@ public class DatabaseDriver {
 
         } // end while
 
-        System.out.println("Query Result: " +strData);
+        LOGGER.info("Query Result: " + strData);
 
         return strData;
     } // end queryData()
@@ -82,9 +82,7 @@ public class DatabaseDriver {
     private ResultSet getResult(String query) throws SQLException {
 
         if (connection == null || connection.isClosed()) {
-
-            fail("There is not active connection to the database.\n");
-
+            LOGGER.errorAndFail("There is not active connection to the database.");
         } // end if
 
         try {
@@ -95,7 +93,7 @@ public class DatabaseDriver {
 
         } catch (Exception e) {
 
-            fail("Error encountered when executing query: " + query + "\nException: " + e.getMessage());
+            LOGGER.errorAndFail("Error encountered when executing query: " + query, e);
             return null;
 
         } // end try-catch

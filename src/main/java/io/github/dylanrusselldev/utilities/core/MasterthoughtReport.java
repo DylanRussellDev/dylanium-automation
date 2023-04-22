@@ -1,9 +1,3 @@
-/*
- * Filename: MasterthoughtReport.java
- * Purpose: Generates the Masterthought test execution report.
- * 			The file to open in the target directory is: overview-features.html file
- */
-
 package io.github.dylanrusselldev.utilities.core;
 
 import net.masterthought.cucumber.Configuration;
@@ -14,15 +8,22 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Filename: MasterthoughtReport.java
+ * Purpose: Generates the Masterthought test execution report.
+ * 			The file to open in the target directory is: overview-features.html file
+ */
 public class MasterthoughtReport {
 
+	private static final LoggerClass LOGGER = new LoggerClass(MasterthoughtReport.class);
+
 	public static void GenerateTestReport() {
-		
+
 		try {
 			// Folder where the reports are generated
-			File outDirectory = new File("target/~Masterthought-Report");
+			File outDirectory = new File(Constants.MASTERTHOUGHT_REPORT_PATH);
 			List<String> list = new ArrayList<>();
-			list.add("target/cucumber-reports/cucumber.json");
+			list.add(Constants.CUCUMBER_JSON_REPORT_PATH);
 
 			// Configuration object for adding custom formatting
 			Configuration config = new Configuration(outDirectory, "Tests");
@@ -39,9 +40,8 @@ public class MasterthoughtReport {
 			repBuild.generateReports();
 
 		} catch (Exception e) {
-			System.out.println("There was a problem generating the Masterthought report.\n"
-			+ "Error Message: " + e.getMessage());
-		} // end try/catch block
+			LOGGER.error("Error encountered when generating the Masterthought report.", e);
+		} // end try-catch
 		
 	} // end GenerateTestReport()
 

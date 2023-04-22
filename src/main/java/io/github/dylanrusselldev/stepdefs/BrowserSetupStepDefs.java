@@ -2,10 +2,11 @@ package io.github.dylanrusselldev.stepdefs;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.github.dylanrusselldev.elements.EdgeBrowser;
+import io.github.dylanrusselldev.webelements.EdgeBrowser;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -16,6 +17,7 @@ import java.io.IOException;
 public class BrowserSetupStepDefs {
 
 	private final WebDriver driver;
+	private static final LoggerClass LOGGER = new LoggerClass(BrowserSetupStepDefs.class);
 
 	public BrowserSetupStepDefs() {
 		this.driver = Hooks.getDriver();
@@ -49,7 +51,7 @@ public class BrowserSetupStepDefs {
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = getChromeUpdateText();
-	    		System.out.println("Chrome Update Status: " + txt);
+	    		LOGGER.info("Chrome Update Status: " + txt);
 	    		
 	    		if (txt.contains(Constants.CHROME_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
 	    			break;
@@ -61,7 +63,7 @@ public class BrowserSetupStepDefs {
 	    	
 	    } else {
 
-	    	System.out.println("Chrome is up to date");
+			LOGGER.info("Chrome is up to date");
 
 	    } // end outer if-else
 	}
@@ -105,7 +107,7 @@ public class BrowserSetupStepDefs {
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
-	    		System.out.println("Edge Update Status: " + txt);
+				LOGGER.info("Edge Update Status: " + txt);
 	    		
 	    		if (txt.contains(Constants.EDGE_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
 	    			break;
@@ -116,7 +118,7 @@ public class BrowserSetupStepDefs {
 	    	} // end for
 	    	
 	    } else {
-	    	System.out.println("Edge is up to date");
+			LOGGER.info("Edge is up to date");
 	    } // end outer if-else
 
 	}

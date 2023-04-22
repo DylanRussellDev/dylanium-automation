@@ -1,8 +1,3 @@
-/*
- * Filename: BrowserPreferences.java
- * Purpose: Sets browser preferences for the webdrivers
- */
-
 package io.github.dylanrusselldev.utilities.browsers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,6 +19,10 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/*
+ * Filename: BrowserPreferences.java
+ * Purpose: Sets browser preferences for the webdrivers
+ */
 public class BrowserPreferences {
 
     public static ChromeOptions chromePrefs(ChromeOptions chromeOpt) throws IOException {

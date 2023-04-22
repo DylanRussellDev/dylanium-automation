@@ -1,16 +1,9 @@
-/*
- * Filename: ScreenRecorderUtil.java
- * Purpose: Enables the ability to record the desktop during test execution and save the file as an AVI file.
- *          In the stopRecord method, the AVI file is converted toan MP4 for easy viewing on any system and
- *          to also embed in the test execution report.
- *          Please note that screen recording won't capture browser actions while executing in Headless mode.
- */
-
 package io.github.dylanrusselldev.utilities.helpers;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import org.apache.commons.io.IOUtils;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys.MediaType;
@@ -18,7 +11,12 @@ import org.monte.media.Registry;
 import org.monte.media.math.Rational;
 import org.monte.screenrecorder.ScreenRecorder;
 
-import java.awt.*;
+import java.awt.AWTException;
+import java.awt.Dimension;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -36,10 +34,18 @@ import static org.monte.media.VideoFormatKeys.DepthKey;
 import static org.monte.media.VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE;
 import static org.monte.media.VideoFormatKeys.QualityKey;
 
+/*
+ * Filename: ScreenRecorderUtil.java
+ * Purpose: Enables the ability to record the desktop during test execution and save the file as an AVI file.
+ *          In the stopRecord method, the AVI file is converted to a MP4 for easy viewing on any system and
+ *          to also embed in the test execution report.
+ *          Please note that screen recording will not capture browser actions while executing in Headless mode.
+ */
 public class ScreenRecorderUtil extends ScreenRecorder {
 
     public static ScreenRecorder screenRecorder;
-    public String name;
+    private String name;
+    private static final LoggerClass LOGGER = new LoggerClass(ScreenRecorderUtil.class);
 
     public ScreenRecorderUtil(GraphicsConfiguration cfg, Rectangle captureArea, Format fileFormat,
                               Format screenFormat, Format mouseFormat, Format audioFormat, File movieFolder, String name)
@@ -51,7 +57,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     @Override
     protected File createMovieFile(Format fileFormat) throws IOException {
 
-        // Create the directory to put the AVI file in
+        // Create the directory for the AVI file
         if (!movieFolder.exists()) {
             movieFolder.mkdirs();
         } else if (!movieFolder.isDirectory()) {
@@ -65,6 +71,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     } // end createMovieFile()
 
     public static void startRecord(String methodName) throws Exception {
+
         if (Hooks.headless.equalsIgnoreCase("false")) {
             File file = new File(Constants.VIDEO_FOLDER_PATH);
 
@@ -75,36 +82,37 @@ public class ScreenRecorderUtil extends ScreenRecorder {
 
             Rectangle captureSize = new Rectangle(0, 0, width, height);
 
-            GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().
-                    getDefaultScreenDevice()
+            GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                    .getDefaultScreenDevice()
                     .getDefaultConfiguration();
 
+            // Build the screen recorder object
             screenRecorder = new ScreenRecorderUtil(gc, captureSize,
                     new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_AVI),
                     new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
                             CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, DepthKey, 24, FrameRateKey,
                             Rational.valueOf(15), QualityKey, 1.0f, KeyFrameIntervalKey, 15 * 60),
                     new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black", FrameRateKey, Rational.valueOf(30)),
-
                     null, file, methodName);
 
             // Start the recording
             screenRecorder.start();
-        } else {
-            System.out.println("Unable to record screen while executing in headless mode. Continuing execution...");
+            LOGGER.info("Started the screen recorder");
+        } else if (Hooks.headless.equalsIgnoreCase("true")) {
+            LOGGER.warn("Unable to record screen while executing in headless mode. Continuing execution...");
         } // end if else
     } // end startRecord()
 
     public static void stopRecord() throws Exception {
         // If executing in Headless mode,
         if (Hooks.headless.equalsIgnoreCase("false")) {
-            CommonMethods.pauseForSeconds(1);
             screenRecorder.stop();
+            LOGGER.info("Stopped the screen recorder");
             CommonMethods.pauseForSeconds(1);
             AVItoMP4.convertAVIToMP4();
             attachVideo();
         } else {
-            System.out.println("Unable to record screen while executing in headless mode. Continuing execution...");
+            LOGGER.warn("Unable to record screen while executing in headless mode. Continuing execution...");
         } // end if else
     } // end stopRecord()
 

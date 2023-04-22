@@ -1,15 +1,17 @@
 package io.github.dylanrusselldev.stepdefs;
 
+import com.assertthat.selenium_shutterbug.core.Capture;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.dylanrusselldev.elements.CalculatorObjects;
-import io.github.dylanrusselldev.elements.DemoSiteObjects;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import io.github.dylanrusselldev.utilities.core.ReadConfigFile;
 import io.github.dylanrusselldev.utilities.helpers.DevToolsListener;
 import io.github.dylanrusselldev.utilities.helpers.ScreenRecorderUtil;
+import io.github.dylanrusselldev.webelements.CalculatorObjects;
+import io.github.dylanrusselldev.webelements.DemoSiteObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -19,6 +21,7 @@ public class TestStepDefs {
 
     private final WebDriver driver;
     private static final ReadConfigFile propFile = new ReadConfigFile();
+    private static final LoggerClass LOGGER = new LoggerClass(TestStepDefs.class);
 
     public TestStepDefs() {
         this.driver = Hooks.getDriver();
@@ -40,13 +43,15 @@ public class TestStepDefs {
     @Then("verify the output is {string}")
     public void verify_the_output_is(String answer) {
         String result = CommonMethods.getElementText(driver, CalculatorObjects.txtOutput, "Result").replaceAll("\\s", "");
+        LOGGER.info("Calculated Result: " + answer);
         assertEquals(answer, result, "Output: " + answer + " is not correct");
-        CommonMethods.screenshot(driver);
+        CommonMethods.screenshot(driver, Capture.FULL);
     }
 
     @Given("the screen recorder is started")
     public void the_screen_recorder_is_started() throws Exception {
         ScreenRecorderUtil.startRecord("navigate");
+
     }
 
     // SELENIUM DEMO SITE STEPS
@@ -65,7 +70,7 @@ public class TestStepDefs {
     @Then("the user is able to input {string} into the text area")
     public void the_user_is_able_to_input_into_the_text_area(String text) {
         CommonMethods.switchiFrame(driver, DemoSiteObjects.iframeWYSIWYG, "WYSIWYG iFrame");
-        CommonMethods.input(driver, DemoSiteObjects.txtTinyMCE, text, "Text area box");
+        CommonMethods.enterText(driver, DemoSiteObjects.txtTinyMCE, text, "Text area box");
     }
 
     @Then("the screen recorder is stopped")
@@ -75,12 +80,12 @@ public class TestStepDefs {
 
     @When("the user enters the username")
     public void the_user_enters_the_username() {
-        CommonMethods.input(driver, DemoSiteObjects.txtUsername, propFile.properties.getProperty("demoUser"), "Username text box");
+        CommonMethods.enterText(driver, DemoSiteObjects.txtUsername, propFile.properties.getProperty("demoUser"), "Username text box");
     }
 
     @When("the user enters the decrypted password")
     public void the_user_enters_the_decrypted_password() {
-        CommonMethods.input(driver, DemoSiteObjects.txtPassword, CommonMethods.decrypt("demoPass"), "Password text box");
+        CommonMethods.enterText(driver, DemoSiteObjects.txtPassword, CommonMethods.decrypt("demoPass"), "Password text box");
     }
 
     @When("the user clicks the login button")
@@ -96,26 +101,50 @@ public class TestStepDefs {
 
     @When("the user clicks the {string} code")
     public void the_user_clicks_the_code(String code) {
+        // Start DevTools listener
+        DevToolsListener dt = new DevToolsListener(driver);
+        dt.startDevToolsListener();
+
         CommonMethods.click(driver, By.xpath(DemoSiteObjects.lnkStatusCodes.replace("STATUS_CODE", code)),
                 "Status Code " + code + " option");
     }
 
-    @Then("print the DevTools error information in the log file")
-    public void print_the_DevTools_information_in_the_log_file() {
+    @Then("print the DevTools error information in the report")
+    public void print_the_DevTools_information_in_the_report() {
         CommonMethods.isElementPresent(driver, DemoSiteObjects.lbl500Text, "500 status code text");
         CommonMethods.partialScreenshot(driver);
         DevToolsListener.logDevToolErrors();
     }
 
-    @When("the SDET wrote the Selenium identifier incorrectly for the text box")
-    public void the_sdet_wrote_the_selenium_identifier_incorrectly_for_the_text_box() {
+    @When("the user attempts to interact with a label")
+    public void the_user_attempts_to_interact_with_a_label() {
         CommonMethods.isElementPresent(driver, DemoSiteObjects.hdInputs, "Inputs header text");
-        CommonMethods.partialScreenshot(driver);
     }
 
     @Then("the scenario will fail and a user friendly exception message will display on the report")
     public void the_scenario_will_fail_and_a_user_friendly_exception_message_will_display_on_the_report() {
-        CommonMethods.input(driver, DemoSiteObjects.txtNumbers, "Test", "Numbers text box");
+        CommonMethods.enterText(driver, DemoSiteObjects.hdInputs, "text comment", "Inputs header text");
+    }
+
+    @Then("log the user actions when they click different buttons")
+    public void log_the_user_actions_when_they_click_different_buttons() {
+        CommonMethods.click(driver, DemoSiteObjects.hdAddRemoveElements, "Add/Remove Elements heading");
+        CommonMethods.click(driver, DemoSiteObjects.btnAddElement, "Add Element button");
+        LOGGER.info("User clicked on the Add Element button");
+        CommonMethods.click(driver, DemoSiteObjects.btnDelete, "Delete button");
+        LOGGER.info("User clicked on the Delete button");
+    }
+
+    @Then("take a screenshot of the page with the username and password fields blurred out")
+    public void take_a_screenshot_of_the_page_with_the_username_and_password_fields_blurred_out() {
+        CommonMethods.enterText(driver, DemoSiteObjects.txtUsername, propFile.properties.getProperty("demoUser"), "Username text box");
+        CommonMethods.blurElement(driver, DemoSiteObjects.txtUsername, "Username text box");
+
+        CommonMethods.enterText(driver, DemoSiteObjects.txtPassword, CommonMethods.decrypt("demoPass"), "Password text box");
+        CommonMethods.blurElement(driver, DemoSiteObjects.txtPassword, "Username text box");
+
+        CommonMethods.pauseForSeconds(3);
+        CommonMethods.screenshot(driver, Capture.FULL);
     }
 
 } // end TestStepDefs.java

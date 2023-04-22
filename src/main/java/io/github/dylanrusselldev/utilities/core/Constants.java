@@ -1,10 +1,9 @@
-/*
- * Filename: Constants.java
- * Purpose: This file houses constants to call to reference without the need of redeclaring them each time.
- */
-
 package io.github.dylanrusselldev.utilities.core;
 
+/*
+ * Filename: Constants.java
+ * Purpose: Constant variables to call without the need of redeclaring them each time.
+ */
 public class Constants {
 
     private static final ReadConfigFile readFile = new ReadConfigFile();
@@ -18,24 +17,26 @@ public class Constants {
     public static final String CHROME_RELAUNCH = "Nearly up to date";
     public static final String EDGE_RELAUNCH = "restart Microsoft Edge";
 
-    public static final String CHROME_DRIVER_EXE = "chromedriver.exe";
-    public static final String CHROME_BETA_DRIVER_EXE = "chromedriver-beta.exe";
-    public static final String CHROME_DEV_DRIVER_EXE = "chromedriver-dev.exe";
-    public static final String EDGE_DRIVER_EXE = "edgedriver.exe";
+    //***** FOLDERS & FILEPATHS *****
 
-    // Properties file path
-    public static final String PROP_FILEPATH = ".//src//test//java//io//github//dylanrusselldev//properties//";
+    // Masterthought Report
+    public static final String MASTERTHOUGHT_REPORT_PATH = System.getProperty("user.dir") + "\\target\\Execution-Resources\\masterthought-report\\";
+    public static final String CUCUMBER_HTML_REPORT_PATH = "target/Execution-Resources/cucumber-reports/cucumber-report.html";
+    public static final String CUCUMBER_JSON_REPORT_PATH = "target/Execution-Resources/cucumber-reports/cucumber.json";
 
     // Screen Recorder constants
-    public static final String VIDEO_FOLDER_PATH = System.getProperty("user.dir") + "\\target\\video-recordings\\";
+    public static final String VIDEO_FOLDER_PATH = System.getProperty("user.dir") + "\\target\\Execution-Resources\\video-recordings\\";
+
+    // Log file path
+    public static final String LOG_FOLDER_PATH = System.getProperty("user.dir") + "\\target\\Execution-Resources\\log-files\\";
 
     // PDF Download constants
-    public static final String PDF_FOLDER_PATH = System.getProperty("user.dir") + "\\target\\PDF-Downloads\\";
+    public static final String PDF_FOLDER_PATH = System.getProperty("user.dir") + "\\target\\Execution-Resources\\pdf-downloads\\";
 
     // System download directory
-    public static final String DOWNLOAD_DIRECTORY = System.getProperty("user.home") + "\\Downloads";
+    public static final String DOWNLOAD_DIRECTORY = System.getProperty("user.home") + "\\Downloads\\";
 
-    // Extent report directory
-    public static final String EXTENT_FOLDER_PATH = System.getProperty("user.dir") + "\\target\\Extent-Report\\";
+    // Properties file path
+    public static final String PROP_FILEPATH = ".//src//test//java//properties//";
 
 } // end Constants.java

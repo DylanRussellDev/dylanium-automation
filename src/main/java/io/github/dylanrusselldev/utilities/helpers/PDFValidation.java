@@ -1,8 +1,3 @@
-/*
- * Filename: PDFValidation.java
- * Purpose: Provides different methods that can be used to validate PDFs during test executions.
- */
-
 package io.github.dylanrusselldev.utilities.helpers;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
@@ -14,9 +9,9 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileOutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,8 +21,23 @@ import java.util.Base64;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+/*
+ * Filename: PDFValidation.java
+ * Purpose: Provides different methods that can be used to validate PDFs during test executions.
+ */
 public class PDFValidation {
 
+    /**
+     * Method to validate a PDF's text that is open in a browser tab/window
+     *
+     * @param driver
+     *          WebDriver object
+     * @param textToVerify
+     *          The text to check for
+     * @param pdfName
+     *          The PDF name for exception message
+     * @throws IOException
+     */
     public static void verifyTextInBrowserPDF(WebDriver driver, String textToVerify, String pdfName) throws IOException {
         String content;
         PDFTextStripper p = new PDFTextStripper();
@@ -52,6 +62,15 @@ public class PDFValidation {
 
     } // end verifyPDFContent()
 
+    /**
+     * Method to validate a PDF's text that is locally downloaded
+     *
+     * @param txtVerify
+     *          The text to check
+     * @param pdfName
+     *          The PDF name for exception message
+     * @throws IOException
+     */
     public static void verifyDownloadedPDFText(String txtVerify, String pdfName) throws IOException {
         URL pdfLoc = new URL("file:///" + CommonMethods.getNewestFile(Constants.PDF_FOLDER_PATH, "pdf"));
         InputStream is = pdfLoc.openStream();
@@ -77,6 +96,12 @@ public class PDFValidation {
 
     } // end verifyDownloadedPDFText()
 
+    /**
+     * Saves a local copy of a PDF that is accessed via a blob url
+     *
+     * @param driver    WebDriver object
+     * @param pdfName   name of the PDF for exception handling
+     */
     public static void saveBlobPDF(WebDriver driver, String pdfName) {
         String url = driver.getCurrentUrl();
         File file = new File("./downloadedPDF.pdf");
@@ -89,12 +114,20 @@ public class PDFValidation {
             fos.close();
         } catch (Exception e) {
             fail("Could not save local copy of the report: " + pdfName);
-        }
+        } // end try-catch
 
     } // end savePDFInTab
 
+    /**
+     * Executes a script that saves the page contents into a Base64 String
+     * to use for converting into a PDF
+     *
+     * @param driver    WebDriver object
+     * @param url       The URL
+     * @return String   The result as a Base64 string to convert
+     */
     private static String getBytesBase64FromBlob(WebDriver driver, String url) {
-        String script = " "
+        final String script = " "
                 + "var uri = arguments[0];"
                 + "var callback = arguments[1];"
                 + "var toBase64 = function(buffer)"

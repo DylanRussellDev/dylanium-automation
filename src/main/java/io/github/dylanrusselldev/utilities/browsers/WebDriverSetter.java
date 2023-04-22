@@ -1,9 +1,3 @@
-/*
- * Filename: WebDriverSetter.java
- * Purpose: Sets the webdriver to the one desired based on the
- *          argument in the -DBrowser maven goal
- */
-
 package io.github.dylanrusselldev.utilities.browsers;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -15,6 +9,10 @@ import org.openqa.selenium.edge.EdgeOptions;
 
 import java.io.IOException;
 
+/*
+ * Filename: WebDriverSetter.java
+ * Purpose: Sets the WebDriver type based on the argument in the -DBrowser maven goal
+ */
 public class WebDriverSetter {
 
     private static final ChromeOptions co = new ChromeOptions();

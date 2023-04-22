@@ -5,7 +5,7 @@
  * 			executing in parallel.
  */
 
-package io.github.dylanrusselldev.runners;
+package runners;
 
 import org.testng.IAlterSuiteListener;
 import org.testng.xml.XmlSuite;
@@ -35,7 +35,7 @@ public class ThreadSetter implements IAlterSuiteListener {
 
         } catch (Exception e) {
 
-            fail("The -DThreads Maven goal was not set in the run configuration. Please rerun with the -DThreads goal.");
+            fail("The -DThreads Maven goal was not set in the run configuration. Please rerun with the -DThreads goal.", e);
 
         } // end try-catch
 

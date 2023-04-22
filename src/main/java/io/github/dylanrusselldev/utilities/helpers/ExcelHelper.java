@@ -1,8 +1,3 @@
-/*
- * Filename: ExcelHelper.java
- * Purpose: Class that enables the use of reading data from an Excel file
- */
-
 package io.github.dylanrusselldev.utilities.helpers;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -15,6 +10,10 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import java.io.FileInputStream;
 import java.util.Iterator;
 
+/*
+ * Filename: ExcelHelper.java
+ * Purpose: Class that enables the use of reading data from an Excel file
+ */
 public class ExcelHelper {
 
     private final Sheet sheet;

@@ -1,11 +1,6 @@
-/*
- * Filename: Hooks.java
- * Purpose: Setup Before and After options for test execution. Methods are called from the BrowserPreferences.java file
- * 			to help launch the drivers with the correct preferences.
- */
-
 package io.github.dylanrusselldev.utilities.core;
 
+import com.assertthat.selenium_shutterbug.core.Capture;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -17,6 +12,11 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.time.Duration;
 
+/*
+ * Filename: Hooks.java
+ * Purpose: Setup Before and After options for test execution. Methods are called from the BrowserPreferences.java file
+ * 			to help launch the drivers with the correct preferences.
+ */
 public class Hooks {
 
     public static Capabilities cap;
@@ -35,6 +35,9 @@ public class Hooks {
 	public void start(Scenario scenObj) throws Exception {
 		scenario.set(scenObj);
 
+		// Set the name of the thread to be the scenario name
+		Thread.currentThread().setName(scenario.get().getName());
+
 		// Setup the WebDriver
         WebDriverSetter.setDriver();
 
@@ -45,26 +48,18 @@ public class Hooks {
 		cap = ( (RemoteWebDriver) getDriver()).getCapabilities();
 		scenario.get().log("Executing on: " + CommonMethods.browserInfo(cap));
 
-		// Start the Extent Report
-		ExtentReport.startReporting();
-
-		// Start DevTools listener
-		DevToolsListener.startDevToolsListener(driver.get());
 	} // end start()
 	
 	@After
 	public void afterScenario(Scenario scenario) {
 
 		if (scenario.isFailed()) {
-			CommonMethods.screenshot(driver.get());
+			CommonMethods.screenshot(driver.get(), Capture.FULL);
 			DevToolsListener.logDevToolErrors();
 		} // end outer if
 
 		// Quit the driver
 		driver.get().quit();
-
-		// End the Extent Report
-		ExtentReport.endReporting();
 
 	} // end afterScenario()
 

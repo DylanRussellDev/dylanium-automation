@@ -1,12 +1,7 @@
-/*
- * Filename: CommonMethods.java
- * Purpose: Commonly used methods for step definition files can be called
- *			from this file to keep the code readable.
- */
-
 package io.github.dylanrusselldev.utilities.core;
 
-import io.github.dylanrusselldev.utilities.browsers.CaptureScreenshot;
+import com.assertthat.selenium_shutterbug.core.Capture;
+import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -35,11 +30,39 @@ import java.io.FileFilter;
 import java.time.Duration;
 import java.util.Arrays;
 
-import static org.testng.Assert.fail;
-
+/*
+ * Filename: CommonMethods.java
+ * Purpose: Commonly used methods during test execution.
+ */
 public class CommonMethods {
 
     private static final ReadConfigFile propFile = new ReadConfigFile();
+
+    private static final LoggerClass LOGGER = new LoggerClass(CommonMethods.class);
+
+    /**
+     * Blurs an element via it's CSS property
+     *
+     * @param driver  WebDriver
+     * @param element The WebElement identifier
+     * @param str     String of WebElement for assert message
+     */
+    public static void blurElement(WebDriver driver, By element, String str) {
+        isElementPresent(driver, element, str);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        WebElement ele = driver.findElement(element);
+
+        try {
+
+            js.executeScript("arguments[0].setAttribute('style', 'filter: blur(0.25rem);');", ele);
+
+        } catch (Exception e) {
+
+            LOGGER.errorAndFail("Could not blur out " + str, e);
+
+        } // end try-catch
+
+    }
 
     /**
      * Returns the browser information for the reports
@@ -56,7 +79,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            System.out.println("Could not find browser name and version the tests were executed on \n");
+            LOGGER.warn("Could not find browser name and version the tests were executed on", e);
             return null;
 
         } // end try catch
@@ -86,15 +109,15 @@ public class CommonMethods {
 
             } catch (ElementClickInterceptedException e) {
 
-                fail("Could not click on element: " + str + " because it became detached from the DOM structure.\n");
+                LOGGER.errorAndFail("Could not click on element: " + str + " because it became detached from the DOM structure", e);
 
             } catch (StaleElementReferenceException s) {
 
-                fail("Could not click on element: " + str + " because another element was concealing it.\n");
+                LOGGER.errorAndFail("Could not click on element: " + str + " because another element was concealing it", s);
 
             } catch (TimeoutException t) {
 
-                fail("After clicking on: " + str + ", the page took too long to load. \n");
+                LOGGER.errorAndFail("After clicking on: " + str + ", the page took too long to load", t);
 
             } // end try-catch
 
@@ -109,15 +132,23 @@ public class CommonMethods {
      * @param property The property name of the string to decrypt
      */
     public static String decrypt(String property) {
-
         StandardPBEStringEncryptor decryptor = new StandardPBEStringEncryptor();
 
-        decryptor.setAlgorithm(propFile.properties.getProperty("algorithm"));
-        decryptor.setPassword(propFile.properties.getProperty("secretPass"));
-        decryptor.setIvGenerator(new RandomIvGenerator());
-        decryptor.setKeyObtentionIterations(Integer.parseInt(propFile.properties.getProperty("keyIterations")));
+        try {
 
-        return decryptor.decrypt(propFile.properties.getProperty(property));
+            decryptor.setAlgorithm(propFile.properties.getProperty("algorithm"));
+            decryptor.setPassword(propFile.properties.getProperty("secretPass"));
+            decryptor.setIvGenerator(new RandomIvGenerator());
+            decryptor.setKeyObtentionIterations(Integer.parseInt(propFile.properties.getProperty("keyIterations")));
+
+            return decryptor.decrypt(propFile.properties.getProperty(property));
+
+        } catch (Exception e) {
+
+            LOGGER.errorAndFail("Error encountered when trying to decrypt the information", e);
+            return null;
+
+        } // end try-catch
 
     } // end decrypt()
 
@@ -145,7 +176,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail("Could not get text from: " + str + "\n");
+            LOGGER.errorAndFail("Could not get text from: " + str + "\n");
             return null;
 
         } // end try-catch
@@ -173,7 +204,7 @@ public class CommonMethods {
 
         } else {
 
-            fail("There were no files found in the folder path: " + folderPath);
+            LOGGER.errorAndFail("There were no files found in the folder path: " + folderPath);
 
         } // end if-else
 
@@ -204,7 +235,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail("Unable to highlight element: " + str + "\n");
+            LOGGER.errorAndFail("Unable to highlight element: " + str, e);
 
         } // end try-catch
 
@@ -228,7 +259,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail(str + " could not be hovered to.\n");
+            LOGGER.errorAndFail(str + " could not be hovered over", e);
 
         } // end try-catch
 
@@ -251,7 +282,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail(str + " could not be hovered over.\n");
+            LOGGER.errorAndFail(str + " could not be hovered over", e);
 
         } // end try-catch
 
@@ -265,7 +296,7 @@ public class CommonMethods {
      * @param input   The string to input into the WebElement
      * @param str     String of WebElement for assert message
      */
-    public static void input(WebDriver driver, By element, String input, String str) {
+    public static void enterText(WebDriver driver, By element, String input, String str) {
 
         isElementPresent(driver, element, str);
 
@@ -276,7 +307,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail("Could not input text: " + input + " into element: " + str + "\n");
+            LOGGER.errorAndFail("Could not input text '" + input + "' into " + str, e);
 
         } // end try-catch
 
@@ -298,7 +329,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail(str + " was not in a clickable state.\n");
+            LOGGER.errorAndFail(str + " was not in a clickable state", e);
 
         } // end try-catch
 
@@ -322,7 +353,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail(str + " was not present on the page within " + Constants.TIMEOUT + " seconds.\n");
+            LOGGER.errorAndFail(str + " was not present on the page within " + Constants.TIMEOUT + " seconds", e);
 
         } // end try-catch
 
@@ -342,7 +373,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail("Could not navigate to: " + propertyURL + "\n");
+            LOGGER.errorAndFail("Could not navigate to " + propertyURL, e);
 
         } // end try-catch
 
@@ -388,7 +419,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail("Could not capture a partial screenshot. Error: " + e.getMessage() + "\n");
+            LOGGER.errorAndFail("Could not capture a partial screenshot", e);
 
         } // end try catch
 
@@ -411,36 +442,36 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail("Unable to pause execution for " + seconds + " seconds.\n");
+            LOGGER.errorAndFail("Unable to pause execution for " + seconds + " seconds", e);
 
         } // end try-catch
 
     } // end pauseForSeconds()
 
     /**
-     * Takes a screenshot of the entire screen
+     * Takes a screenshot and embed its in the report
      *
      * @param driver WebDriver
+     * @param captureType   How much of the page to capture
      */
-    public static void screenshot(WebDriver driver) {
-
-        BufferedImage img = CaptureScreenshot.getScreenshot(driver);
-        ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-
+    public static void screenshot(WebDriver driver, Capture captureType) {
         try {
 
-            ImageIO.write(img, "png", outStream);
+            BufferedImage image = Shutterbug.shootPage(driver, captureType, true).getImage();
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            ImageIO.write(image, "png", outStream);
             outStream.flush();
             byte[] imgInBytes = outStream.toByteArray();
             outStream.close();
-            Hooks.scenario.get().attach(imgInBytes, "image/png", "Click to view screenshot");
+            Hooks.scenario.get().attach(imgInBytes, "image/png", "Screenshot");
 
         } catch (Exception e) {
 
-            System.out.println("Could not capture a screenshot of the entire page. Attempting to capture a partial screenshot...\n");
+            LOGGER.warn("Could not capture a screenshot of the page using Shutterbug. " +
+                    "Attempting to capture an in-view screenshot with Selenium...", e);
             partialScreenshot(driver);
 
-        } // end outer try catch
+        } // end try-catch
 
     } // end screenshot()
 
@@ -467,15 +498,15 @@ public class CommonMethods {
 
             } catch (ElementClickInterceptedException e) {
 
-                fail(str + " could not be clicked because another element was concealing it.\n");
+                LOGGER.errorAndFail(str + " could not be clicked because another element was concealing it", e);
 
             } catch (NoSuchElementException n) {
 
-                fail("There is not an option listed in the " + str + " at position " + index + "\n");
+                LOGGER.errorAndFail("There is no option listed in the " + str + " at position " + index, n);
 
             } catch (StaleElementReferenceException s) {
 
-                fail(str + " became detached from the DOM when trying to interact with it\n");
+                LOGGER.errorAndFail(str + " became detached from the DOM when trying to interact with it", s);
 
             } // end try catch
 
@@ -502,7 +533,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail("Could not switch to iFrame: " + str);
+            LOGGER.errorAndFail("Could not switch to iFrame: " + str, e);
 
         } // end try-catch
 
@@ -531,7 +562,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            fail("Unable to remove highlight from element: " + str + "\n");
+            LOGGER.errorAndFail("Unable to remove highlight from element: " + str, e);
 
         } // end try-catch
 

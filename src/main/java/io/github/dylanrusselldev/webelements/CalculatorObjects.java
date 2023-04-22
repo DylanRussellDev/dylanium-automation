@@ -1,4 +1,4 @@
-package io.github.dylanrusselldev.elements;
+package io.github.dylanrusselldev.webelements;
 
 import org.openqa.selenium.By;
 

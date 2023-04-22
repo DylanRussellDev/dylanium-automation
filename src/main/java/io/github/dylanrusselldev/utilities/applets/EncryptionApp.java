@@ -1,10 +1,4 @@
-/*
- * Filename: EncryptionApp.java
- * Purpose: A Java swing applet that can encrypt credentials
- *          to put into a properties files
- */
-
-package io.github.dylanrusselldev.utilities.misc;
+package io.github.dylanrusselldev.utilities.applets;
 
 import io.github.dylanrusselldev.utilities.core.ReadConfigFile;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -24,6 +18,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+/*
+ * Filename: EncryptionApp.java
+ * Purpose: A Java swing applet that accepts a string input and encrypts it to put into a properties file.
+ */
 public class EncryptionApp extends JPanel implements ActionListener {
 
     private static final ReadConfigFile propFile = new ReadConfigFile();

@@ -1,4 +1,4 @@
-package io.github.dylanrusselldev.elements;
+package io.github.dylanrusselldev.webelements;
 
 import org.openqa.selenium.By;
 
@@ -18,9 +18,16 @@ public class DemoSiteObjects {
     public static By btnLogin = By.xpath("//button[@type='submit']");
     public static By msgSuccessLogin = By.xpath("//div[@class='flash success']");
 
+    // Status Codes
     public static By lbl500Text = By.xpath("//p[contains(text(), '500 status code')]");
 
+    // Inputs
     public static By hdInputs = By.xpath("//h3[text()='Inputs']");
     public static By txtNumbers = By.id("invalidID");
+
+    // Add/Remove Elements
+    public static By hdAddRemoveElements = By.xpath("//h3[text()='Add/Remove Elements']");
+    public static By btnAddElement = By.xpath("//button[text()='Add Element']");
+    public static By btnDelete = By.xpath("//button[text()='Delete']");
 
 }

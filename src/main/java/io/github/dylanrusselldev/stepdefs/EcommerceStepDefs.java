@@ -1,13 +1,14 @@
 package io.github.dylanrusselldev.stepdefs;
 
-import io.github.dylanrusselldev.elements.eCommerceObjects;
+import com.assertthat.selenium_shutterbug.core.Capture;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.openqa.selenium.WebDriver;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.ReadConfigFile;
+import io.github.dylanrusselldev.webelements.eCommerceObjects;
+import org.openqa.selenium.WebDriver;
 
 public class EcommerceStepDefs {
 
@@ -35,13 +36,13 @@ public class EcommerceStepDefs {
             case "MacBook Air":
                 CommonMethods.click(driver, eCommerceObjects.btnCompareMacBookAir, "MacBook Air Compare button");
                 CommonMethods.isElementPresent(driver, eCommerceObjects.msgSuccessProductComparison, "Success Message");
-                CommonMethods.screenshot(driver);
+                CommonMethods.screenshot(driver, Capture.FULL);
                 break;
 
             case "MacBook Pro":
                 CommonMethods.click(driver, eCommerceObjects.btnCompareMacBookPro, "MacBook Pro Compare button");
                 CommonMethods.isElementPresent(driver, eCommerceObjects.msgSuccessProductComparison, "Success Message");
-                CommonMethods.screenshot(driver);
+                CommonMethods.screenshot(driver, Capture.FULL);
                 break;
         } // end case statement
     }
@@ -55,7 +56,7 @@ public class EcommerceStepDefs {
     public void the_two_macbooks_will_be_compared_side_by_side() {
         CommonMethods.isElementPresent(driver, eCommerceObjects.lblMacBookAir, "MacBook Air link text");
         CommonMethods.isElementPresent(driver, eCommerceObjects.lblMacBookPro, "MacBook Pro link text");
-        CommonMethods.screenshot(driver);
+        CommonMethods.screenshot(driver, Capture.FULL);
     }
 
 }
