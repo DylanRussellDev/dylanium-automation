@@ -3,15 +3,17 @@ An open-source BDD Selenium Java test automation framework.
 
 # Features
 
-This framework includes a variety of features that can handle many validation tasks. 
+This framework includes many features that can perform a wide variety of validation tasks. Including, but not limited to:
 
-- Masterthought and Extent Report test execution reports
-- Validate downloaded files and their text
-- Screen recorder that embeds the video within the execution report
-- Perform database validations
-- Read data from Excel files
-- Log network DevTools errors
+- Detailed test execution reports
 - Parallel execution
+- Logging library
+- User friendly exception messages
+- Validation of text in PDFs
+- Log Network DevTools errors
+- A screen recorder
+- Database validations
+- Read data from Excel files
 
 # How to Execute
 
