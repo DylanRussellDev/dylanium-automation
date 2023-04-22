@@ -17,7 +17,7 @@ This framework includes many features that can perform a wide variety of validat
 
 # How to Execute
 
-To see a demo of the various tools included, run this from the command line in the project directory:
+To see a demo, run the following from the command line in the project directory:
 mvn clean test -Dcucumber.filter.tags="@FrameworkShowcase" -DBrowser=chrome -DHeadless=false -DThreads=1
 
 - DBrowser can be used to specify which browser to execute the tests on.
