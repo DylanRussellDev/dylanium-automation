@@ -1,4 +1,4 @@
-# Selenium-Automation
+# selenium-automation
 An open-source BDD Selenium Java test automation framework.
 
 # Features
