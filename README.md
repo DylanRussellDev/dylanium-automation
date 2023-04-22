@@ -21,6 +21,6 @@ To see a demo, run the following from the command line in the project directory:
 
 mvn clean test -Dcucumber.filter.tags="@FrameworkShowcase" -DBrowser=chrome -DHeadless=false -DThreads=1
 
-- DBrowser can be used to specify which browser to execute the tests on.
-- DHeadless will enable/disable headless (without GUI) execution.
-- DThreads specifies how many scenarios to execute in parallel.
+- DBrowser can be used to specify which browser to execute the tests on
+- DHeadless will enable/disable headless (without GUI) execution
+- DThreads specifies how many scenarios to execute in parallel
