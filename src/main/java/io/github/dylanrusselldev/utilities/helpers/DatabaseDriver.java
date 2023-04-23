@@ -1,3 +1,9 @@
+/*
+ * Filename: DatabaseDriver.java
+ * Author: Dylan Russell
+ * Purpose: Enables the use of connecting to a database in order to perform validations through it
+ */
+
 package io.github.dylanrusselldev.utilities.helpers;
 
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
@@ -9,18 +15,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/*
- * Filename: DatabaseDriver.java
- * Purpose: Enables the use of connecting to a database in order to perform validations through it
- */
 public class DatabaseDriver {
 
-    // Connection to DB for queries
+    // Database connection object
     private static Connection connection;
-    private final ReadConfigFile propReader = new ReadConfigFile();
 
     // ReadConfigFile object to read from properties files
-    private static ReadConfigFile propFile = new ReadConfigFile();
+    private static ReadConfigFile propReader = new ReadConfigFile();
 
     private static final LoggerClass LOGGER = new LoggerClass(DatabaseDriver.class);
 
@@ -30,9 +31,9 @@ public class DatabaseDriver {
         try {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = propFile.properties.getProperty("dbURL");
-            String username = propFile.properties.getProperty("dbUser");
-            String password = propFile.properties.getProperty("dbPass");
+            String url = propReader.properties.getProperty("dbURL");
+            String username = propReader.properties.getProperty("dbUser");
+            String password = propReader.properties.getProperty("dbPass");
             connection = DriverManager.getConnection(url, username, password);
             connection.setAutoCommit(false);
 
@@ -44,7 +45,9 @@ public class DatabaseDriver {
 
     } // end constructor
 
-    // Closes the connection to the Database
+    /**
+     * Close the connection to the database
+     */
     public void closeConnection() {
         try {
 
@@ -64,6 +67,12 @@ public class DatabaseDriver {
 
     } // end closeConnection()
 
+    /**
+     * Get the result returned from an executed query statement
+     *
+     * @param query The query to execute
+     * @throws Exception
+     */
     public String queryData(String query) throws Exception {
         String strData = null;
         ResultSet rs = getResult(query);
@@ -79,6 +88,12 @@ public class DatabaseDriver {
         return strData;
     } // end queryData()
 
+    /**
+     * Executes a given query
+     *
+     * @param query The query to execute
+     * @throws SQLException
+     */
     private ResultSet getResult(String query) throws SQLException {
 
         if (connection == null || connection.isClosed()) {

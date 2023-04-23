@@ -1,3 +1,9 @@
+/*
+ * Filename: ReadConfigFile.java
+ * Author: Dylan Russell
+ * Purpose: Enables the use of reading data of the properties file.
+ */
+
 package io.github.dylanrusselldev.utilities.core;
 
 import java.io.BufferedReader;
@@ -6,29 +12,27 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import static org.testng.Assert.fail;
-
-/*
- * Filename: ReadConfigFile.java
- * Purpose: Enables the use of reading data of the properties file.
- */
 public class ReadConfigFile {
 
     public Properties properties;
     private static final LoggerClass LOGGER = new LoggerClass(ReadConfigFile.class);
 
-    // Attempt to read the properties file
+    /**
+     * Load the properties file
+     */
     public ReadConfigFile() {
         BufferedReader reader;
+        String path = Constants.PROP_FILEPATH + "Automation.properties";
+
         try {
-            reader = new BufferedReader(new FileReader(Constants.PROP_FILEPATH + "Automation.properties"));
+            reader = new BufferedReader(new FileReader(path));
             properties = new Properties();
 
             try {
                 properties.load(reader);
                 reader.close();
             } catch (IOException e) {
-                fail("Could not load properties file");
+                LOGGER.errorAndFail("Could not load the properties file", e);
             } // end inner try catch
 
         } catch (FileNotFoundException e) {

@@ -1,3 +1,12 @@
+/*
+ * Filename: ScreenRecorderUtil.java
+ * Author: Dylan Russell
+ * Purpose: Enables the ability to record the desktop during test execution and save the file as an AVI file.
+ *          In the stopRecord method, the AVI file is converted to a MP4 for easy viewing on any system and
+ *          to also embed in the test execution report.
+ *          Please note that screen recording will not capture browser actions while executing in Headless mode.
+ */
+
 package io.github.dylanrusselldev.utilities.helpers;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
@@ -34,13 +43,6 @@ import static org.monte.media.VideoFormatKeys.DepthKey;
 import static org.monte.media.VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE;
 import static org.monte.media.VideoFormatKeys.QualityKey;
 
-/*
- * Filename: ScreenRecorderUtil.java
- * Purpose: Enables the ability to record the desktop during test execution and save the file as an AVI file.
- *          In the stopRecord method, the AVI file is converted to a MP4 for easy viewing on any system and
- *          to also embed in the test execution report.
- *          Please note that screen recording will not capture browser actions while executing in Headless mode.
- */
 public class ScreenRecorderUtil extends ScreenRecorder {
 
     public static ScreenRecorder screenRecorder;
@@ -54,6 +56,12 @@ public class ScreenRecorderUtil extends ScreenRecorder {
         this.name = name;
     } // end constructor
 
+    /**
+     * Create the file for the screen recorder
+     *
+     * @param fileFormat       The format of the file
+     * @throws IOException
+     */
     @Override
     protected File createMovieFile(Format fileFormat) throws IOException {
 
@@ -70,6 +78,12 @@ public class ScreenRecorderUtil extends ScreenRecorder {
         return new File(movieFolder, name + "-" + dateFormat.format(new Date()) + "." + Registry.getInstance().getExtension(fileFormat));
     } // end createMovieFile()
 
+    /**
+     * Start the screen recorder
+     *
+     * @param methodName    The name of the method where the screen recorder is being started
+     * @throws Exception
+     */
     public static void startRecord(String methodName) throws Exception {
 
         if (Hooks.headless.equalsIgnoreCase("false")) {
@@ -103,8 +117,13 @@ public class ScreenRecorderUtil extends ScreenRecorder {
         } // end if else
     } // end startRecord()
 
+    /**
+     * Stop the screen recorder
+     *
+     * @throws Exception
+     */
     public static void stopRecord() throws Exception {
-        // If executing in Headless mode,
+        // Print warning message that
         if (Hooks.headless.equalsIgnoreCase("false")) {
             screenRecorder.stop();
             LOGGER.info("Stopped the screen recorder");
@@ -112,10 +131,15 @@ public class ScreenRecorderUtil extends ScreenRecorder {
             AVItoMP4.convertAVIToMP4();
             attachVideo();
         } else {
-            LOGGER.warn("Unable to record screen while executing in headless mode. Continuing execution...");
+            LOGGER.warn("Screen recorder was never started due to -DHeadless=true. Continuing execution...");
         } // end if else
     } // end stopRecord()
 
+    /**
+     * Attach the screen recorder file to the execution report
+     *
+     * @throws IOException
+     */
     private static void attachVideo() throws IOException {
         FileInputStream is = new FileInputStream(CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "mp4"));
         byte[] byteArr = IOUtils.toByteArray(is);

@@ -1,7 +1,7 @@
 /*
  * Filename: TestNGListener.java
- * Purpose: This class helps with outputting clear messages
- * 			to the console for execution status.
+ * Author: Dylan Russell
+ * Purpose: Methods that determine what to do before and after test execution
  */
 
 package runners;
@@ -23,10 +23,16 @@ public class TestNGListener implements IExecutionListener {
 
     private static final LoggerClass LOGGER = new LoggerClass(TestNGListener.class);
 
+    /**
+     * Code that executes before all tests have started
+     */
     public void onExecutionStart() {
         LOGGER.info("*** TEST EXECUTION STARTED ***");
     } // end onExecutionStart
 
+    /**
+     * Code that executes after all tests have finished
+     */
     public void onExecutionFinish() {
         LOGGER.info("*** All scenarios have been run. Now generating the report ***");
 
@@ -64,7 +70,7 @@ public class TestNGListener implements IExecutionListener {
     } // end onExecutionFinish
 
     /**
-     * Opens the Masterthought report and log file html after execution has finished.
+     * Opens the Masterthought report and html log file after execution has finished
      */
     private void openResults() {
         WebDriverManager.chromedriver().setup();

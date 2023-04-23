@@ -1,9 +1,11 @@
-package io.github.dylanrusselldev.utilities.core;
-
 /*
  * Filename: Constants.java
+ * Author: Dylan Russell
  * Purpose: Constant variables to call without the need of redeclaring them each time.
  */
+
+package io.github.dylanrusselldev.utilities.core;
+
 public class Constants {
 
     private static final ReadConfigFile readFile = new ReadConfigFile();

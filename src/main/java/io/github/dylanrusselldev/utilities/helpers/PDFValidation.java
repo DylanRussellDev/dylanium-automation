@@ -1,3 +1,9 @@
+/*
+ * Filename: PDFValidation.java
+ * Author: Dylan Russell
+ * Purpose: Provides different methods that can be used to validate PDFs during test executions.
+ */
+
 package io.github.dylanrusselldev.utilities.helpers;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
@@ -21,21 +27,14 @@ import java.util.Base64;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
-/*
- * Filename: PDFValidation.java
- * Purpose: Provides different methods that can be used to validate PDFs during test executions.
- */
 public class PDFValidation {
 
     /**
      * Method to validate a PDF's text that is open in a browser tab/window
      *
-     * @param driver
-     *          WebDriver object
-     * @param textToVerify
-     *          The text to check for
-     * @param pdfName
-     *          The PDF name for exception message
+     * @param driver       WebDriver object
+     * @param textToVerify The text to check for
+     * @param pdfName      The PDF name for exception message
      * @throws IOException
      */
     public static void verifyTextInBrowserPDF(WebDriver driver, String textToVerify, String pdfName) throws IOException {
@@ -54,7 +53,7 @@ public class PDFValidation {
             InputStream is = pdfURL.openStream();
             BufferedInputStream bf = new BufferedInputStream(is);
             PDDocument docu = PDDocument.load(bf);
-            content  = p.getText(docu);
+            content = p.getText(docu);
             docu.close();
         } // end if else
 
@@ -65,10 +64,8 @@ public class PDFValidation {
     /**
      * Method to validate a PDF's text that is locally downloaded
      *
-     * @param txtVerify
-     *          The text to check
-     * @param pdfName
-     *          The PDF name for exception message
+     * @param txtVerify The text to check
+     * @param pdfName   The PDF name for exception message
      * @throws IOException
      */
     public static void verifyDownloadedPDFText(String txtVerify, String pdfName) throws IOException {
@@ -91,7 +88,7 @@ public class PDFValidation {
             fail("File could not be located");
         } // end try-catch
 
-        assertTrue(txt.contains(txtVerify), "Validation failed. The text: '" + txtVerify+ " ' "
+        assertTrue(txt.contains(txtVerify), "Validation failed. The text: '" + txtVerify + " ' "
                 + " was not present in the " + pdfName + " PDF\n");
 
     } // end verifyDownloadedPDFText()
@@ -99,8 +96,8 @@ public class PDFValidation {
     /**
      * Saves a local copy of a PDF that is accessed via a blob url
      *
-     * @param driver    WebDriver object
-     * @param pdfName   name of the PDF for exception handling
+     * @param driver  WebDriver object
+     * @param pdfName name of the PDF for exception handling
      */
     public static void saveBlobPDF(WebDriver driver, String pdfName) {
         String url = driver.getCurrentUrl();
@@ -122,8 +119,8 @@ public class PDFValidation {
      * Executes a script that saves the page contents into a Base64 String
      * to use for converting into a PDF
      *
-     * @param driver    WebDriver object
-     * @param url       The URL
+     * @param driver WebDriver object
+     * @param url    The URL
      * @return String   The result as a Base64 string to convert
      */
     private static String getBytesBase64FromBlob(WebDriver driver, String url) {
@@ -142,7 +139,7 @@ public class PDFValidation {
                 + "xhr.responseType = 'arraybuffer';"
                 + "xhr.onload = function(){ callback(toBase64(xhr.response)) };"
                 + "xhr.onerror = function(){ callback(xhr.status) };"
-                + "xhr.open('GET','"+ url +"');"
+                + "xhr.open('GET','" + url + "');"
                 + "xhr.send();";
 
         return (String) ((RemoteWebDriver) driver).executeAsyncScript(script, url);

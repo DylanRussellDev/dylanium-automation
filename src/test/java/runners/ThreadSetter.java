@@ -1,8 +1,8 @@
 /*
  * Filename: ThreadSetter.java
- * Purpose: Enables the number provided for the -DThreads maven goal
- * 			to control how many browser instances will be launched while
- * 			executing in parallel.
+ * Author: Dylan Russell
+ * Purpose: Enables the number provided for the -DThreads maven goal to control
+ *          how many browser instances will be launched while executing in parallel.
  */
 
 package runners;

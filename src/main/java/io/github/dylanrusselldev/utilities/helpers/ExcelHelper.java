@@ -1,3 +1,9 @@
+/*
+ * Filename: ExcelHelper.java
+ * Author: Dylan Russell
+ * Purpose: Class that enables the use of reading data from an Excel file
+ */
+
 package io.github.dylanrusselldev.utilities.helpers;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -10,10 +16,6 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 import java.io.FileInputStream;
 import java.util.Iterator;
 
-/*
- * Filename: ExcelHelper.java
- * Purpose: Class that enables the use of reading data from an Excel file
- */
 public class ExcelHelper {
 
     private final Sheet sheet;
@@ -30,6 +32,12 @@ public class ExcelHelper {
         file.close();
     } // end constructor
 
+    /**
+     * Get the value from a cell based off the row number and column anme
+     *
+     * @param rowIndex   The row number
+     * @param columnName The name of the column
+     */
     public String readCellData(int rowIndex, String columnName) {
 
         // Get column index from column name
@@ -42,6 +50,12 @@ public class ExcelHelper {
         return getDataByColumnIndex(row, colIndex);
     } // end readCellData()
 
+    /**
+     * Get the value based off a column number
+     *
+     * @param row      The Row
+     * @param colIndex The column number
+     */
     private String getDataByColumnIndex(Row row, int colIndex) {
 
         Iterator<Cell> cellIterator = row.cellIterator();
@@ -58,12 +72,22 @@ public class ExcelHelper {
         return null;
     } // end getDataByColumnIndex()
 
+    /**
+     * Get the data from the cell
+     *
+     * @param cell  The cell object
+     */
     private String getCellData(Cell cell) {
         DataFormatter df = new DataFormatter();
         return df.formatCellValue(cell);
     } // end getCellData()
 
-    private int getColumnIndexByName(String headerName) {
+    /**
+     * Gets the column number based off the given column name
+     *
+     * @param colName the column name
+     */
+    private int getColumnIndexByName(String colName) {
 
         rowIterator = sheet.iterator();
 
@@ -79,7 +103,7 @@ public class ExcelHelper {
                 Cell cell = cellIterator.next();
                 String cellData = getCellData(cell);
 
-                if (cellData != null && cellData.equalsIgnoreCase(headerName)) {
+                if (cellData != null && cellData.equalsIgnoreCase(colName)) {
                     startRow = row.getRowNum() + 1;
                     return currentColumn;
                 } // end if

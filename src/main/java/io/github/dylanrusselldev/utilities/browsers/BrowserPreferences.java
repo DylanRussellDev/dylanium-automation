@@ -1,3 +1,9 @@
+/*
+ * Filename: BrowserPreferences.java
+ * Author: Dylan Russell
+ * Purpose: Sets browser preferences for the webdrivers
+ */
+
 package io.github.dylanrusselldev.utilities.browsers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,12 +25,14 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/*
- * Filename: BrowserPreferences.java
- * Purpose: Sets browser preferences for the webdrivers
- */
 public class BrowserPreferences {
 
+    /**
+     * Set the preferred options to the ChromeDriver
+     *
+     * @param chromeOpt       Chrome Options object
+     * @throws IOException
+     */
     public static ChromeOptions chromePrefs(ChromeOptions chromeOpt) throws IOException {
 
         // Disables the PDF viewer in Chrome to enable file downloads
@@ -54,6 +62,12 @@ public class BrowserPreferences {
 
     } // end chromePrefs()
 
+    /**
+     * Set the preferred options to the EdgeDriver
+     *
+     * @param edgeOpt       Edge Options object
+     * @throws IOException
+     */
     public static EdgeOptions edgePrefs(EdgeOptions edgeOpt) {
 
         // Set the default download directory
@@ -82,8 +96,13 @@ public class BrowserPreferences {
 
     } // end edgePrefs()
 
-    // By default, chrome does not support the downloading of files in headless mode.
-    // This enables that feature by sending a http post request to the browser
+    /**
+     * By default, Chrome does not support downloads in headless mode.
+     * This method enables the functionality by sending a command to the browser
+     *
+     * @param cOptions      Chrome Options object
+     * @throws IOException
+     */
     public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {
 
         ChromeDriverService ds = ChromeDriverService.createDefaultService();

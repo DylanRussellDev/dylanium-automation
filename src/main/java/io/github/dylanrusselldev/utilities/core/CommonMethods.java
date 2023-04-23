@@ -1,3 +1,9 @@
+/*
+ * Filename: CommonMethods.java
+ * Author: Dylan Russell
+ * Purpose: Commonly used methods during test execution.
+ */
+
 package io.github.dylanrusselldev.utilities.core;
 
 import com.assertthat.selenium_shutterbug.core.Capture;
@@ -30,10 +36,6 @@ import java.io.FileFilter;
 import java.time.Duration;
 import java.util.Arrays;
 
-/*
- * Filename: CommonMethods.java
- * Purpose: Commonly used methods during test execution.
- */
 public class CommonMethods {
 
     private static final ReadConfigFile propFile = new ReadConfigFile();
@@ -62,7 +64,7 @@ public class CommonMethods {
 
         } // end try-catch
 
-    }
+    } // end blurElement()
 
     /**
      * Returns the browser information for the reports
@@ -211,8 +213,6 @@ public class CommonMethods {
         return newestFile;
     } // end getNewestFile()
 
-    private static String ogStyle;
-
     /**
      * Highlights an element in yellow with a red outline around it.
      * This makes monitoring and debugging multiple validations much easier.
@@ -227,7 +227,6 @@ public class CommonMethods {
 
         JavascriptExecutor js = (JavascriptExecutor) driver;
         WebElement ele = driver.findElement(element);
-        ogStyle = ele.getAttribute("style");
 
         try {
 
@@ -311,7 +310,7 @@ public class CommonMethods {
 
         } // end try-catch
 
-    } // end input()
+    } // end enterText()
 
     /**
      * Checks to see if an element is able to be clicked
@@ -540,32 +539,5 @@ public class CommonMethods {
         pauseForSeconds(1);
 
     } // end switchiFrame()
-
-    /**
-     * Returns a previously highlighted element using the highlightElement()
-     * method back to its original css style
-     *
-     * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
-     */
-    public static void unhighlightElement(WebDriver driver, By element, String str) {
-
-        isElementPresent(driver, element, str);
-
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        WebElement ele = driver.findElement(element);
-
-        try {
-
-            js.executeScript("arguments[0].setAttribute(arguments[1], arguments[2]", ele, "style", ogStyle);
-
-        } catch (Exception e) {
-
-            LOGGER.errorAndFail("Unable to remove highlight from element: " + str, e);
-
-        } // end try-catch
-
-    } // end unhighlightElement()
 
 } // end CommonMethods.java

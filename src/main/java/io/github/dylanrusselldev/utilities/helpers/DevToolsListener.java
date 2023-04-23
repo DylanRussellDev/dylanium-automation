@@ -1,3 +1,9 @@
+/*
+ * Filename: DevToolsListener.java
+ * Author: Dylan Russell
+ * Purpose: Creates a DevTools listener that will output network errors that do not return with a status code of 200.
+ */
+
 package io.github.dylanrusselldev.utilities.helpers;
 
 import com.google.common.collect.ImmutableMap;
@@ -14,10 +20,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-/*
- * Filename: DevToolsListener.java
- * Purpose: Creates a DevTools listener that will output network errors that do not return with a status code of 200.
- */
 public class DevToolsListener {
 
     private static final ArrayList<String> devtoolErrors = new ArrayList<>();
@@ -41,8 +43,12 @@ public class DevToolsListener {
         } catch (Exception e) {
             LOGGER.error("Could not create a DevTools session", e);
         } // end try-catch
-    }
 
+    } // end constructor
+
+    /**
+     * Start the DevTools listener
+     */
     public void startDevToolsListener() {
 
         try {
@@ -65,11 +71,13 @@ public class DevToolsListener {
             }); // end addListener
         } catch (Exception e) {
             LOGGER.error("Unable to start the DevTools listener");
-        }
+        } // end try-catch
 
     } // end startDevToolsListener()
 
-    // Print DevTools errors
+    /**
+     * Print the captured DevTools errors using the scenario object
+     */
     public static void logDevToolErrors() {
         if (!devtoolErrors.isEmpty()) {
 

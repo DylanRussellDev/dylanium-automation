@@ -1,3 +1,10 @@
+/*
+ * Filename: LoggerClass.java
+ * Author: Dylan Russell
+ * Purpose: Provides methods that, once called, will log information to
+ *          the console, a log file, an html file and the Masterthought report
+ */
+
 package io.github.dylanrusselldev.utilities.core;
 
 import org.slf4j.Logger;
@@ -5,16 +12,11 @@ import org.slf4j.LoggerFactory;
 
 import static org.testng.Assert.fail;
 
-/*
- * Filename: LoggerClass.java
- * Purpose: Provides methods that, once called, will log information to
- *          the console, the log file, and the Masterthought and Extent Reports
- */
 public class LoggerClass {
 
     private Logger logger;
 
-    public LoggerClass(Class<?> className){
+    public LoggerClass(Class<?> className) {
         this.logger = LoggerFactory.getLogger(className);
     } // end constructor
 
