@@ -4,7 +4,7 @@
  * Purpose: Class that enables the use of reading data from an Excel file
  */
 
-package io.github.dylanrusselldev.utilities.helpers;
+package io.github.dylanrusselldev.utilities.filereaders;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;

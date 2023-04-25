@@ -6,7 +6,7 @@
 
 package io.github.dylanrusselldev.utilities.applets;
 
-import io.github.dylanrusselldev.utilities.core.ReadConfigFile;
+import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
 

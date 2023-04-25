@@ -4,11 +4,12 @@
  * Purpose: Sets browser preferences for the webdrivers
  */
 
-package io.github.dylanrusselldev.utilities.browsers;
+package io.github.dylanrusselldev.utilities.browser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
 import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
@@ -52,7 +53,7 @@ public class BrowserPreferences {
                 "enable-automation", "disable-gpu", "dns-prefetch-disable", "disable-extensions");
 
         // Enable Headless execution if -DHeadless is set to true
-        if (Hooks.headless.equalsIgnoreCase("true")) {
+        if (RuntimeInfo.isHeadless()) {
             chromeOpt.addArguments("headless", "window-size=1920,1080", "hide-scrollbars");
             chromeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
             enableHeadlessDownloads(chromeOpt);
@@ -87,7 +88,7 @@ public class BrowserPreferences {
                 "disable-gpu", "dns-prefetch-disable", "disable-extensions");
 
         // Enable Headless execution if -DHeadless is set to true
-        if (Hooks.headless.equalsIgnoreCase("true")) {
+        if (RuntimeInfo.isHeadless()) {
             edgeOpt.addArguments("headless", "window-size=1920,1080", "hide-scrollbars");
             edgeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
         } // end if

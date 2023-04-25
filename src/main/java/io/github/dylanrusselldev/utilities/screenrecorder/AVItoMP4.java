@@ -5,11 +5,12 @@
  *          The MP4 files can be attached to the test execution reports.
  */
 
-package io.github.dylanrusselldev.utilities.helpers;
+package io.github.dylanrusselldev.utilities.screenrecorder;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import org.slf4j.event.Level;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.encode.AudioAttributes;
@@ -30,7 +31,7 @@ public class AVItoMP4 {
      */
     public static void convertAVIToMP4() {
 
-        LOGGER.info("Attempting to convert the AVI file to MP4");
+        LOGGER.sendLog(Level.INFO, "Attempting to convert the AVI file to MP4");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
@@ -68,7 +69,7 @@ public class AVItoMP4 {
             Encoder encoder = new Encoder();
             encoder.encode(src, target, attrs);
         } catch (Exception e) {
-            LOGGER.error("Could not convert the file: " + aviFile + " to an MP4 file.", e);
+            LOGGER.sendLog(Level.ERROR, "Could not convert the file: " + aviFile + " to an MP4 file.", e);
         } // end try catch
 
     } // end convertAVIToMP4()

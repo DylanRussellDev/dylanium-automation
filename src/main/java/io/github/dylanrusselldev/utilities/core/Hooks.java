@@ -11,8 +11,9 @@ import com.assertthat.selenium_shutterbug.core.Capture;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import io.github.dylanrusselldev.utilities.browsers.WebDriverSetter;
-import io.github.dylanrusselldev.utilities.helpers.DevToolsListener;
+import io.github.dylanrusselldev.utilities.browser.WebDriverSetter;
+import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
+import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -22,9 +23,6 @@ import java.time.Duration;
 public class Hooks {
 
     public static Capabilities cap;
-
-    public static final String browser = System.getProperty("Browser").toLowerCase();
-    public static final String headless = System.getProperty("Headless").toLowerCase();
 
     public static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     public static final ThreadLocal<Scenario> scenario = new ThreadLocal<>();
@@ -57,7 +55,7 @@ public class Hooks {
 
         // Get the browser name and version to include in the reports
         cap = ((RemoteWebDriver) getDriver()).getCapabilities();
-        scenario.get().log("Executing on: " + CommonMethods.browserInfo(cap));
+        scenario.get().log("Executing on: " + RuntimeInfo.getBrowserVersion(cap));
 
     } // end start()
 

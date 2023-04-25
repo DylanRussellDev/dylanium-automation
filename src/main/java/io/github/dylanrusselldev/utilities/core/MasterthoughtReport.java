@@ -7,9 +7,11 @@
 
 package io.github.dylanrusselldev.utilities.core;
 
+import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
 import net.masterthought.cucumber.presentation.PresentationMode;
+import org.slf4j.event.Level;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -37,8 +39,8 @@ public class MasterthoughtReport {
             Configuration config = new Configuration(outDirectory, "Tests");
 
             // Add OS and Browser info
-            config.addClassifications("OS", CommonMethods.osInfo());
-            config.addClassifications("Browser", CommonMethods.browserInfo(Hooks.cap));
+            config.addClassifications("OS", RuntimeInfo.getOSInfo());
+            config.addClassifications("Browser", RuntimeInfo.getBrowserVersion(Hooks.cap));
 
             // Automatically expand all steps in the report
             config.addPresentationModes(PresentationMode.EXPAND_ALL_STEPS);
@@ -49,7 +51,7 @@ public class MasterthoughtReport {
 
         } catch (Exception e) {
 
-            LOGGER.error("Error encountered when generating the Masterthought report.", e);
+            LOGGER.logAndFail(Level.ERROR, "Error encountered when generating the Masterthought report.", e);
 
         } // end try-catch
 

@@ -9,6 +9,7 @@ package io.github.dylanrusselldev.utilities.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 import static org.testng.Assert.fail;
 
@@ -20,38 +21,75 @@ public class LoggerClass {
         this.logger = LoggerFactory.getLogger(className);
     } // end constructor
 
-    public void info(String msg) {
-        logger.info(msg);
+    public void sendLog(Level level, String msg) {
+
+        switch (level) {
+
+            case INFO:
+                logger.info(msg);
+                break;
+
+            case WARN:
+                logger.warn(msg);
+                break;
+
+            case ERROR:
+                logger.error(msg);
+                break;
+
+            case DEBUG:
+                logger.debug(msg);
+                break;
+
+            case TRACE:
+                logger.trace(msg);
+                break;
+
+        } // end switch
+
     }
 
-    public void info(String msg, Throwable t) {
-        logger.info(msg, t);
+    public void sendLog(Level level, String msg, Throwable t) {
+
+        switch (level) {
+
+            case INFO:
+                logger.info(msg, t);
+                break;
+
+            case WARN:
+                logger.warn(msg, t);
+                break;
+
+            case ERROR:
+                logger.error(msg, t);
+                break;
+
+            case DEBUG:
+                logger.debug(msg, t);
+                break;
+
+            case TRACE:
+                logger.trace(msg, t);
+                break;
+
+        } // end switch
+
     }
 
-    public void warn(String msg) {
-        logger.warn(msg);
-    }
-
-    public void warn(String msg, Throwable t) {
-        logger.warn(msg, t);
-    }
-
-    public void error(String msg) {
-        logger.error(msg);
-    }
-
-    public void error(String msg, Throwable t) {
-        logger.error(msg, t);
-    }
-
-    public void errorAndFail(String msg) {
-        logger.error(msg);
+    public void logAndFail(Level level, String msg) {
+        sendLog(level, msg);
         fail(msg + "\n");
     }
 
-    public void errorAndFail(String msg, Throwable t) {
-        logger.error(msg, t);
+    public void logAndFail(Level level, String msg, Throwable t) {
+        sendLog(level, msg, t);
         fail(msg + "\n");
+    }
+
+    public void logCucumberReport(Level level, String msg) {
+        sendLog(level, msg);
+        Hooks.scenario.get().log(msg);
     }
 
 } // end LoggerClass

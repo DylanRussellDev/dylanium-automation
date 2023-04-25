@@ -7,18 +7,20 @@
  *          Please note that screen recording will not capture browser actions while executing in Headless mode.
  */
 
-package io.github.dylanrusselldev.utilities.helpers;
+package io.github.dylanrusselldev.utilities.screenrecorder;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.apache.commons.io.IOUtils;
 import org.monte.media.Format;
 import org.monte.media.FormatKeys.MediaType;
 import org.monte.media.Registry;
 import org.monte.media.math.Rational;
 import org.monte.screenrecorder.ScreenRecorder;
+import org.slf4j.event.Level;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
@@ -86,7 +88,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
      */
     public static void startRecord(String methodName) throws Exception {
 
-        if (Hooks.headless.equalsIgnoreCase("false")) {
+        if (!RuntimeInfo.isHeadless()) {
             File file = new File(Constants.VIDEO_FOLDER_PATH);
 
             // Get the size of the screen
@@ -111,9 +113,9 @@ public class ScreenRecorderUtil extends ScreenRecorder {
 
             // Start the recording
             screenRecorder.start();
-            LOGGER.info("Started the screen recorder");
-        } else if (Hooks.headless.equalsIgnoreCase("true")) {
-            LOGGER.warn("Unable to record screen while executing in headless mode. Continuing execution...");
+            LOGGER.sendLog(Level.INFO, "Started the screen recorder");
+        } else if (RuntimeInfo.isHeadless()) {
+            LOGGER.sendLog(Level.WARN, "Unable to record screen while executing in headless mode. Continuing execution...");
         } // end if else
     } // end startRecord()
 
@@ -124,14 +126,14 @@ public class ScreenRecorderUtil extends ScreenRecorder {
      */
     public static void stopRecord() throws Exception {
         // Print warning message that
-        if (Hooks.headless.equalsIgnoreCase("false")) {
+        if (!RuntimeInfo.isHeadless()) {
             screenRecorder.stop();
-            LOGGER.info("Stopped the screen recorder");
+            LOGGER.sendLog(Level.INFO, "Stopped the screen recorder");
             CommonMethods.pauseForSeconds(1);
             AVItoMP4.convertAVIToMP4();
             attachVideo();
         } else {
-            LOGGER.warn("Screen recorder was never started due to -DHeadless=true. Continuing execution...");
+            LOGGER.sendLog(Level.WARN, "Screen recorder was never started due to -DHeadless=true. Continuing execution...");
         } // end if else
     } // end stopRecord()
 

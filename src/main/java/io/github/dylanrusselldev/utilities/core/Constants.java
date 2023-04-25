@@ -6,6 +6,8 @@
 
 package io.github.dylanrusselldev.utilities.core;
 
+import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
+
 public class Constants {
 
     private static final ReadConfigFile readFile = new ReadConfigFile();

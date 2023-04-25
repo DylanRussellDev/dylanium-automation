@@ -4,7 +4,7 @@
  * Purpose: Provides different methods that can be used to validate PDFs during test executions.
  */
 
-package io.github.dylanrusselldev.utilities.helpers;
+package io.github.dylanrusselldev.utilities.filereaders;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;

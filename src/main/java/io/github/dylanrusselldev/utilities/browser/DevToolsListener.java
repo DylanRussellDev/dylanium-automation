@@ -4,17 +4,19 @@
  * Purpose: Creates a DevTools listener that will output network errors that do not return with a status code of 200.
  */
 
-package io.github.dylanrusselldev.utilities.helpers;
+package io.github.dylanrusselldev.utilities.browser;
 
 import com.google.common.collect.ImmutableMap;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.Command;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v109.network.Network;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.slf4j.event.Level;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -28,9 +30,9 @@ public class DevToolsListener {
 
     public DevToolsListener(WebDriver driver) {
 
-        if (Hooks.browser.contains("chrome")) {
+        if (RuntimeInfo.getBrowserName().contains("chrome")) {
             devTools = ((ChromeDriver) driver).getDevTools();
-        } else if (Hooks.browser.contains("edge")) {
+        } else if (RuntimeInfo.getBrowserName().contains("edge")) {
             devTools = ((EdgeDriver) driver).getDevTools();
         } else {
             devTools = null;
@@ -39,9 +41,9 @@ public class DevToolsListener {
         try {
             devTools.createSessionIfThereIsNotOne();
             devTools.send(new Command<>("Network.enable", ImmutableMap.of()));
-            LOGGER.info("Started the DevTools Listener");
+            LOGGER.sendLog(Level.INFO, "Started the DevTools Listener");
         } catch (Exception e) {
-            LOGGER.error("Could not create a DevTools session", e);
+            LOGGER.sendLog(Level.WARN, "Could not create a DevTools session", e);
         } // end try-catch
 
     } // end constructor
@@ -53,7 +55,7 @@ public class DevToolsListener {
 
         try {
 
-            LOGGER.info("Started the DevTools Listener");
+            LOGGER.sendLog(Level.INFO, "Started the DevTools Listener");
 
             devTools.addListener(Network.responseReceived(), receive -> {
                 Integer statusCode = receive.getResponse().getStatus();
@@ -70,7 +72,7 @@ public class DevToolsListener {
 
             }); // end addListener
         } catch (Exception e) {
-            LOGGER.error("Unable to start the DevTools listener");
+            LOGGER.sendLog(Level.WARN, "Could not create a DevTools session", e);
         } // end try-catch
 
     } // end startDevToolsListener()
@@ -87,6 +89,7 @@ public class DevToolsListener {
                 Hooks.scenario.get().log(s);
             } // end for
 
+            devtoolErrors.clear();
         } // end if
 
     } // end logDevToolErrors()

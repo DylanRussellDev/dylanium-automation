@@ -4,10 +4,11 @@
  * Purpose: Enables the use of connecting to a database in order to perform validations through it
  */
 
-package io.github.dylanrusselldev.utilities.helpers;
+package io.github.dylanrusselldev.utilities.database;
 
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
-import io.github.dylanrusselldev.utilities.core.ReadConfigFile;
+import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
+import org.slf4j.event.Level;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -39,7 +40,7 @@ public class DatabaseDriver {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Could not establish connection to the Database.", e);
+            LOGGER.logAndFail(Level.ERROR, "Could not establish connection to the Database", e);
 
         } // end try-catch
 
@@ -55,13 +56,13 @@ public class DatabaseDriver {
 
                 connection.close();
                 connection = null;
-                LOGGER.info("Connection to the Database is closed.\n");
+                LOGGER.sendLog(Level.INFO, "Connection to the Database is closed");
 
             } // end if
 
         } catch (SQLException e) {
 
-            LOGGER.errorAndFail("Unable to close the connection to the Database.", e);
+            LOGGER.logAndFail(Level.ERROR, "Unable to close the connection to the Database", e);
 
         } // end try-catch
 
@@ -83,7 +84,7 @@ public class DatabaseDriver {
 
         } // end while
 
-        LOGGER.info("Query Result: " + strData);
+        LOGGER.sendLog(Level.INFO, "Query Result: " + strData);
 
         return strData;
     } // end queryData()
@@ -97,7 +98,7 @@ public class DatabaseDriver {
     private ResultSet getResult(String query) throws SQLException {
 
         if (connection == null || connection.isClosed()) {
-            LOGGER.errorAndFail("There is not active connection to the database.");
+            LOGGER.logAndFail(Level.ERROR, "There is not active connection to the database.");
         } // end if
 
         try {
@@ -108,7 +109,7 @@ public class DatabaseDriver {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Error encountered when executing query: " + query, e);
+            LOGGER.logAndFail(Level.ERROR, "Error encountered when executing query: " + query, e);
             return null;
 
         } // end try-catch

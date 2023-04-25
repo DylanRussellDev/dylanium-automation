@@ -4,10 +4,11 @@
  * Purpose: Sets the WebDriver type based on the argument in the -DBrowser maven goal
  */
 
-package io.github.dylanrusselldev.utilities.browsers;
+package io.github.dylanrusselldev.utilities.browser;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -29,7 +30,7 @@ public class WebDriverSetter {
      */
     public static void setDriver() throws IOException {
 
-        switch (Hooks.browser.toLowerCase()) {
+        switch (RuntimeInfo.getBrowserName()) {
 
             case "chrome":
                 WebDriverManager.chromedriver().setup();

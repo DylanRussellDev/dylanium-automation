@@ -8,6 +8,7 @@ package io.github.dylanrusselldev.utilities.core;
 
 import com.assertthat.selenium_shutterbug.core.Capture;
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
+import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -27,6 +28,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.slf4j.event.Level;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -60,33 +62,13 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Could not blur out " + str, e);
+            LOGGER.logAndFail(Level.ERROR, "Could not blur out " + str, e);
 
         } // end try-catch
 
     } // end blurElement()
 
-    /**
-     * Returns the browser information for the reports
-     *
-     * @param threadCap The Capabilities information passed in from Hooks
-     */
-    public static String browserInfo(Capabilities threadCap) {
 
-        try {
-
-            String str = threadCap.getBrowserName().equalsIgnoreCase("Msedge") ? "MS Edge" : threadCap.getBrowserName();
-            String info = str + " " + threadCap.getBrowserVersion();
-            return info.substring(0, 1).toUpperCase() + info.substring(1);
-
-        } catch (Exception e) {
-
-            LOGGER.warn("Could not find browser name and version the tests were executed on", e);
-            return null;
-
-        } // end try catch
-
-    } // end browserInfo()
 
     /**
      * Find an element and perform a click function on it
@@ -111,15 +93,15 @@ public class CommonMethods {
 
             } catch (ElementClickInterceptedException e) {
 
-                LOGGER.errorAndFail("Could not click on element: " + str + " because it became detached from the DOM structure", e);
+                LOGGER.logAndFail(Level.ERROR, "Could not click on element: " + str + " because it became detached from the DOM structure", e);
 
             } catch (StaleElementReferenceException s) {
 
-                LOGGER.errorAndFail("Could not click on element: " + str + " because another element was concealing it", s);
+                LOGGER.logAndFail(Level.ERROR, "Could not click on element: " + str + " because another element was concealing it", s);
 
             } catch (TimeoutException t) {
 
-                LOGGER.errorAndFail("After clicking on: " + str + ", the page took too long to load", t);
+                LOGGER.logAndFail(Level.ERROR, "After clicking on: " + str + ", the page took too long to load", t);
 
             } // end try-catch
 
@@ -147,7 +129,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Error encountered when trying to decrypt the information", e);
+            LOGGER.logAndFail(Level.ERROR, "Error encountered when trying to decrypt the information", e);
             return null;
 
         } // end try-catch
@@ -178,7 +160,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Could not get text from: " + str + "\n");
+            LOGGER.logAndFail(Level.ERROR, "Could not get text from: " + str + "\n");
             return null;
 
         } // end try-catch
@@ -206,7 +188,7 @@ public class CommonMethods {
 
         } else {
 
-            LOGGER.errorAndFail("There were no files found in the folder path: " + folderPath);
+            LOGGER.logAndFail(Level.ERROR, "There were no files found in the folder path: " + folderPath);
 
         } // end if-else
 
@@ -234,7 +216,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Unable to highlight element: " + str, e);
+            LOGGER.logAndFail(Level.ERROR, "Unable to highlight element: " + str, e);
 
         } // end try-catch
 
@@ -258,7 +240,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail(str + " could not be hovered over", e);
+            LOGGER.logAndFail(Level.ERROR, str + " could not be hovered over", e);
 
         } // end try-catch
 
@@ -281,7 +263,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail(str + " could not be hovered over", e);
+            LOGGER.logAndFail(Level.ERROR, str + " could not be hovered over", e);
 
         } // end try-catch
 
@@ -306,7 +288,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Could not input text '" + input + "' into " + str, e);
+            LOGGER.logAndFail(Level.ERROR, "Could not input text '" + input + "' into " + str, e);
 
         } // end try-catch
 
@@ -328,7 +310,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail(str + " was not in a clickable state", e);
+            LOGGER.logAndFail(Level.ERROR, str + " was not in a clickable state", e);
 
         } // end try-catch
 
@@ -352,7 +334,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail(str + " was not present on the page within " + Constants.TIMEOUT + " seconds", e);
+            LOGGER.logAndFail(Level.ERROR, str + " was not present on the page within " + Constants.TIMEOUT + " seconds", e);
 
         } // end try-catch
 
@@ -372,36 +354,11 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Could not navigate to " + propertyURL, e);
+            LOGGER.logAndFail(Level.ERROR, "Could not navigate to " + propertyURL, e);
 
         } // end try-catch
 
     } // end navigate()
-
-    /**
-     * Returns the OS the tests are executing on to include in the report
-     *
-     * @return string OS as a string
-     */
-    public static String osInfo() {
-
-        String os = System.getProperty("os.name").toLowerCase();
-        String strOS;
-
-        if (os.contains("win")) {
-            strOS = "Windows";
-        } else if (os.contains("nux") || os.contains("nix")) {
-            strOS = "Linux";
-        } else if (os.contains("mac")) {
-            strOS = "Mac";
-        } else if (os.contains("sunos")) {
-            strOS = "Solaris";
-        } else {
-            strOS = "Other";
-        } // end if-else statement
-
-        return strOS;
-    } // end osInfo()
 
     /**
      * Captures a screenshot of the page content that is within focus
@@ -418,7 +375,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Could not capture a partial screenshot", e);
+            LOGGER.logAndFail(Level.ERROR, "Could not capture a partial screenshot", e);
 
         } // end try catch
 
@@ -441,7 +398,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Unable to pause execution for " + seconds + " seconds", e);
+            LOGGER.logAndFail(Level.ERROR, "Unable to pause execution for " + seconds + " seconds", e);
 
         } // end try-catch
 
@@ -466,7 +423,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.warn("Could not capture a screenshot of the page using Shutterbug. " +
+            LOGGER.sendLog(Level.WARN, "Could not capture a screenshot of the page using Shutterbug. " +
                     "Attempting to capture an in-view screenshot with Selenium...", e);
             partialScreenshot(driver);
 
@@ -497,15 +454,15 @@ public class CommonMethods {
 
             } catch (ElementClickInterceptedException e) {
 
-                LOGGER.errorAndFail(str + " could not be clicked because another element was concealing it", e);
+                LOGGER.logAndFail(Level.ERROR, str + " could not be clicked because another element was concealing it", e);
 
             } catch (NoSuchElementException n) {
 
-                LOGGER.errorAndFail("There is no option listed in the " + str + " at position " + index, n);
+                LOGGER.logAndFail(Level.ERROR, "There is no option listed in the " + str + " at position " + index, n);
 
             } catch (StaleElementReferenceException s) {
 
-                LOGGER.errorAndFail(str + " became detached from the DOM when trying to interact with it", s);
+                LOGGER.logAndFail(Level.ERROR, str + " became detached from the DOM when trying to interact with it", s);
 
             } // end try catch
 
@@ -532,7 +489,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.errorAndFail("Could not switch to iFrame: " + str, e);
+            LOGGER.logAndFail(Level.ERROR, "Could not switch to iFrame: " + str, e);
 
         } // end try-catch
 
