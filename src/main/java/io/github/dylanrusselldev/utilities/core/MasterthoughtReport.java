@@ -24,7 +24,9 @@ public class MasterthoughtReport {
     /**
      * Generate the Masterthought report
      */
-    public static void GenerateTestReport() {
+    public static void generateTestReport() {
+
+        LOGGER.log(Level.INFO, "*** Now generating the Masterthought report ***");
 
         try {
 
@@ -51,7 +53,7 @@ public class MasterthoughtReport {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Error encountered when generating the Masterthought report.", e);
+            LOGGER.logAndFail("Error encountered when generating the Masterthought report.", e);
 
         } // end try-catch
 

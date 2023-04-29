@@ -4,11 +4,11 @@ import com.assertthat.selenium_shutterbug.core.Capture;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
-import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.screenrecorder.ScreenRecorderUtil;
 import io.github.dylanrusselldev.webelements.CalculatorObjects;
 import io.github.dylanrusselldev.webelements.DemoSiteObjects;
@@ -44,7 +44,7 @@ public class TestStepDefs {
     @Then("verify the output is {string}")
     public void verify_the_output_is(String answer) {
         String result = CommonMethods.getElementText(driver, CalculatorObjects.txtOutput, "Result").replaceAll("\\s", "");
-        LOGGER.sendLog(Level.INFO, "Calculated Result: " + answer);
+        LOGGER.log(Level.INFO, "Calculated Result: " + answer);
         assertEquals(answer, result, "Output: " + answer + " is not correct");
         CommonMethods.screenshot(driver, Capture.FULL);
     }
@@ -131,9 +131,9 @@ public class TestStepDefs {
     public void log_the_user_actions_when_they_click_different_buttons() {
         CommonMethods.click(driver, DemoSiteObjects.hdAddRemoveElements, "Add/Remove Elements heading");
         CommonMethods.click(driver, DemoSiteObjects.btnAddElement, "Add Element button");
-        LOGGER.sendLog(Level.INFO, "User clicked on the Add Element button");
+        LOGGER.logCucumberReport("User clicked on the Add Element button");
         CommonMethods.click(driver, DemoSiteObjects.btnDelete, "Delete button");
-        LOGGER.sendLog(Level.INFO, "User clicked on the Delete button");
+        LOGGER.logCucumberReport("User clicked on the Delete button");
     }
 
     @Then("take a screenshot of the page with the username and password fields blurred out")

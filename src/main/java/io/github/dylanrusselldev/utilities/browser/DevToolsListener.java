@@ -7,7 +7,6 @@
 package io.github.dylanrusselldev.utilities.browser;
 
 import com.google.common.collect.ImmutableMap;
-import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.WebDriver;
@@ -41,9 +40,9 @@ public class DevToolsListener {
         try {
             devTools.createSessionIfThereIsNotOne();
             devTools.send(new Command<>("Network.enable", ImmutableMap.of()));
-            LOGGER.sendLog(Level.INFO, "Started the DevTools Listener");
+            LOGGER.log(Level.INFO, "Started the DevTools Listener");
         } catch (Exception e) {
-            LOGGER.sendLog(Level.WARN, "Could not create a DevTools session", e);
+            LOGGER.log(Level.WARN, "Could not create a DevTools session", e);
         } // end try-catch
 
     } // end constructor
@@ -55,7 +54,7 @@ public class DevToolsListener {
 
         try {
 
-            LOGGER.sendLog(Level.INFO, "Started the DevTools Listener");
+            LOGGER.log(Level.INFO, "Started the DevTools Listener");
 
             devTools.addListener(Network.responseReceived(), receive -> {
                 Integer statusCode = receive.getResponse().getStatus();
@@ -72,7 +71,7 @@ public class DevToolsListener {
 
             }); // end addListener
         } catch (Exception e) {
-            LOGGER.sendLog(Level.WARN, "Could not create a DevTools session", e);
+            LOGGER.log(Level.WARN, "Could not create a DevTools session", e);
         } // end try-catch
 
     } // end startDevToolsListener()
@@ -86,7 +85,7 @@ public class DevToolsListener {
             Set<String> set = new HashSet<>(devtoolErrors);
 
             for (String s : set) {
-                Hooks.scenario.get().log(s);
+                LOGGER.logCucumberReport(s);
             } // end for
 
             devtoolErrors.clear();

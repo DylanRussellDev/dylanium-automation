@@ -31,7 +31,7 @@ public class AVItoMP4 {
      */
     public static void convertAVIToMP4() {
 
-        LOGGER.sendLog(Level.INFO, "Attempting to convert the AVI file to MP4");
+        LOGGER.log(Level.INFO, "Attempting to convert the AVI file to MP4");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
@@ -69,7 +69,7 @@ public class AVItoMP4 {
             Encoder encoder = new Encoder();
             encoder.encode(src, target, attrs);
         } catch (Exception e) {
-            LOGGER.sendLog(Level.ERROR, "Could not convert the file: " + aviFile + " to an MP4 file.", e);
+            LOGGER.log(Level.ERROR, "Could not convert the file: " + aviFile + " to an MP4 file.", e);
         } // end try catch
 
     } // end convertAVIToMP4()

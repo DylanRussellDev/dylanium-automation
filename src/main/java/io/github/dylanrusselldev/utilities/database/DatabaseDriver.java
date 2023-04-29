@@ -19,11 +19,10 @@ import java.sql.SQLException;
 public class DatabaseDriver {
 
     // Database connection object
-    private static Connection connection;
+    private Connection connection;
 
-    // ReadConfigFile object to read from properties files
-    private static ReadConfigFile propReader = new ReadConfigFile();
-
+    // Class Objects
+    private static final ReadConfigFile propReader = new ReadConfigFile();
     private static final LoggerClass LOGGER = new LoggerClass(DatabaseDriver.class);
 
     public DatabaseDriver() {
@@ -40,11 +39,27 @@ public class DatabaseDriver {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Could not establish connection to the Database", e);
+            LOGGER.logAndFail("Could not establish connection to the Database", e);
 
         } // end try-catch
 
     } // end constructor
+
+    /**
+     * Creates a new connection to the database with the specified URL,
+     * username, and password.
+     *
+     * @param  url          the URL of the database to connect to
+     * @param  username     the username to use for authentication
+     * @param  password     the password to use for authentication
+     */
+    private void createConnection(String url, String username, String password) {
+        try {
+            connection = DriverManager.getConnection(url, username, password);
+        } catch (Exception e) {
+            LOGGER.logAndFail("Failed to connect to database using URL [" + url + "]", e);
+        } // end try-catch
+    } // end createConnection()
 
     /**
      * Close the connection to the database
@@ -56,13 +71,13 @@ public class DatabaseDriver {
 
                 connection.close();
                 connection = null;
-                LOGGER.sendLog(Level.INFO, "Connection to the Database is closed");
+                LOGGER.log(Level.INFO, "Connection to the Database is closed");
 
             } // end if
 
         } catch (SQLException e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Unable to close the connection to the Database", e);
+            LOGGER.logAndFail("Unable to close the connection to the Database", e);
 
         } // end try-catch
 
@@ -84,7 +99,7 @@ public class DatabaseDriver {
 
         } // end while
 
-        LOGGER.sendLog(Level.INFO, "Query Result: " + strData);
+        LOGGER.log(Level.INFO, "Query Result: " + strData);
 
         return strData;
     } // end queryData()
@@ -98,7 +113,7 @@ public class DatabaseDriver {
     private ResultSet getResult(String query) throws SQLException {
 
         if (connection == null || connection.isClosed()) {
-            LOGGER.logAndFail(Level.ERROR, "There is not active connection to the database.");
+            LOGGER.logAndFail("There is not active connection to the database.");
         } // end if
 
         try {
@@ -109,7 +124,7 @@ public class DatabaseDriver {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Error encountered when executing query: " + query, e);
+            LOGGER.logAndFail("Error encountered when executing query: " + query, e);
             return null;
 
         } // end try-catch

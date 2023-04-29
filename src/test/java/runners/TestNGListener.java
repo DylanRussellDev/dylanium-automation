@@ -11,14 +11,12 @@ import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import io.github.dylanrusselldev.utilities.core.MasterthoughtReport;
-import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
+import io.github.dylanrusselldev.utilities.runtime.CommandRunner;
 import org.openqa.selenium.WindowType;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.event.Level;
 import org.testng.IExecutionListener;
-
-import java.io.IOException;
 
 public class TestNGListener implements IExecutionListener {
 
@@ -28,51 +26,21 @@ public class TestNGListener implements IExecutionListener {
      * Code that executes before all tests have started
      */
     public void onExecutionStart() {
-        LOGGER.sendLog(Level.INFO, "*** TEST EXECUTION STARTED ***");
+        LOGGER.log(Level.INFO, "*** TEST EXECUTION STARTED ***");
     } // end onExecutionStart
 
     /**
      * Code that executes after all tests have finished
      */
     public void onExecutionFinish() {
-        LOGGER.sendLog(Level.INFO, "*** All scenarios have been run. Now generating the report ***");
 
-        MasterthoughtReport.GenerateTestReport();
+        MasterthoughtReport.generateTestReport();
 
-        String cmd = "taskkill /F /IM WEBDRIVEREXE";
+        CommandRunner.endDriverExe();
 
-        switch (RuntimeInfo.getBrowserName()) {
-            case "chrome":
-                cmd = cmd.replace("WEBDRIVEREXE", "chromedriver.exe");
-                break;
-
-            case "edge":
-                cmd = cmd.replace("WEBDRIVEREXE", "edgedriver.exe");
-                break;
-
-            case "firefox":
-                cmd = cmd.replace("WEBDRIVEREXE", "geckodriver.exe");
-                break;
-
-            case "ie":
-                cmd = cmd.replace("WEBDRIVEREXE", "iedriverserver.exe");
-                break;
-        } // end switch statement
-
-        LOGGER.sendLog(Level.INFO, "Attempting to end WebDriver exe...");
-
-        try {
-            Runtime.getRuntime().exec(cmd);
-            CommonMethods.pauseForSeconds(2);
-        } catch (IOException e) {
-            LOGGER.sendLog(Level.WARN, "Could not end WebDriver instance with command: " + cmd, e);
-        } // end try-catch
-
-        CommonMethods.pauseForSeconds(1);
-
-        LOGGER.sendLog(Level.INFO, "*** TEST EXECUTION FINISHED ***");
-        LOGGER.sendLog(Level.INFO, "View Report here: " + Constants.MASTERTHOUGHT_REPORT_PATH);
-        LOGGER.sendLog(Level.INFO, "View Logs files here: " + Constants.LOG_FOLDER_PATH);
+        LOGGER.log(Level.INFO, "*** TEST EXECUTION FINISHED ***");
+        LOGGER.log(Level.INFO, "View Report here: " + Constants.MASTERTHOUGHT_REPORT_PATH);
+        LOGGER.log(Level.INFO, "View Logs files here: " + Constants.LOG_FOLDER_PATH);
 
         openResults();
 

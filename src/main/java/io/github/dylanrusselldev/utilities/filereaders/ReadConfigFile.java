@@ -8,7 +8,6 @@ package io.github.dylanrusselldev.utilities.filereaders;
 
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
-import org.slf4j.event.Level;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -36,11 +35,11 @@ public class ReadConfigFile {
                 properties.load(reader);
                 reader.close();
             } catch (IOException e) {
-                LOGGER.logAndFail(Level.ERROR, "Could not load the properties file", e);
+                LOGGER.logAndFail("Could not load the properties file", e);
             } // end inner try catch
 
         } catch (FileNotFoundException e) {
-            LOGGER.logAndFail(Level.ERROR, "The properties file could not be found at this location: "
+            LOGGER.logAndFail("The properties file could not be found at this location: "
                     + Constants.PROP_FILEPATH + "Automation.properties", e);
         } // end outer try catch
 

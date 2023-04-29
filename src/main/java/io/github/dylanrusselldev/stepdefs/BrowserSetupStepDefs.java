@@ -2,11 +2,11 @@ package io.github.dylanrusselldev.stepdefs;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.github.dylanrusselldev.webelements.EdgeBrowser;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.webelements.EdgeBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
@@ -52,7 +52,7 @@ public class BrowserSetupStepDefs {
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = getChromeUpdateText();
-	    		LOGGER.sendLog(Level.INFO, "Chrome Update Status: " + txt);
+	    		LOGGER.log(Level.INFO, "Chrome Update Status: " + txt);
 	    		
 	    		if (txt.contains(Constants.CHROME_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
 	    			break;
@@ -64,7 +64,7 @@ public class BrowserSetupStepDefs {
 	    	
 	    } else {
 
-			LOGGER.sendLog(Level.INFO, "Chrome is up to date");
+			LOGGER.log(Level.INFO, "Chrome is up to date");
 
 	    } // end outer if-else
 	}
@@ -108,7 +108,7 @@ public class BrowserSetupStepDefs {
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
-				LOGGER.sendLog(Level.INFO, "Edge Update Status: " + txt);
+				LOGGER.log(Level.INFO, "Edge Update Status: " + txt);
 	    		
 	    		if (txt.contains(Constants.EDGE_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
 	    			break;
@@ -119,7 +119,7 @@ public class BrowserSetupStepDefs {
 	    	} // end for
 	    	
 	    } else {
-			LOGGER.sendLog(Level.INFO, "Edge is up to date");
+			LOGGER.log(Level.INFO, "Edge is up to date");
 	    } // end outer if-else
 
 	}

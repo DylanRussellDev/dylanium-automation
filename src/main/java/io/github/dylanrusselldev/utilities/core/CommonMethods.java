@@ -14,7 +14,6 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.ElementClickInterceptedException;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
@@ -62,7 +61,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Could not blur out " + str, e);
+            LOGGER.logAndFail("Could not blur out " + str, e);
 
         } // end try-catch
 
@@ -93,15 +92,15 @@ public class CommonMethods {
 
             } catch (ElementClickInterceptedException e) {
 
-                LOGGER.logAndFail(Level.ERROR, "Could not click on element: " + str + " because it became detached from the DOM structure", e);
+                LOGGER.logAndFail("Could not click on element: " + str + " because it became detached from the DOM structure", e);
 
             } catch (StaleElementReferenceException s) {
 
-                LOGGER.logAndFail(Level.ERROR, "Could not click on element: " + str + " because another element was concealing it", s);
+                LOGGER.logAndFail("Could not click on element: " + str + " because another element was concealing it", s);
 
             } catch (TimeoutException t) {
 
-                LOGGER.logAndFail(Level.ERROR, "After clicking on: " + str + ", the page took too long to load", t);
+                LOGGER.logAndFail("After clicking on: " + str + ", the page took too long to load", t);
 
             } // end try-catch
 
@@ -129,7 +128,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Error encountered when trying to decrypt the information", e);
+            LOGGER.logAndFail("Error encountered when trying to decrypt the information", e);
             return null;
 
         } // end try-catch
@@ -160,7 +159,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Could not get text from: " + str + "\n");
+            LOGGER.logAndFail("Could not get text from: " + str + "\n");
             return null;
 
         } // end try-catch
@@ -188,7 +187,7 @@ public class CommonMethods {
 
         } else {
 
-            LOGGER.logAndFail(Level.ERROR, "There were no files found in the folder path: " + folderPath);
+            LOGGER.logAndFail("There were no files found in the folder path: " + folderPath);
 
         } // end if-else
 
@@ -216,7 +215,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Unable to highlight element: " + str, e);
+            LOGGER.logAndFail("Unable to highlight element: " + str, e);
 
         } // end try-catch
 
@@ -240,7 +239,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, str + " could not be hovered over", e);
+            LOGGER.logAndFail(str + " could not be hovered over", e);
 
         } // end try-catch
 
@@ -263,7 +262,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, str + " could not be hovered over", e);
+            LOGGER.logAndFail(str + " could not be hovered over", e);
 
         } // end try-catch
 
@@ -288,7 +287,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Could not input text '" + input + "' into " + str, e);
+            LOGGER.logAndFail("Could not input text '" + input + "' into " + str, e);
 
         } // end try-catch
 
@@ -310,7 +309,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, str + " was not in a clickable state", e);
+            LOGGER.logAndFail(str + " was not in a clickable state", e);
 
         } // end try-catch
 
@@ -334,7 +333,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, str + " was not present on the page within " + Constants.TIMEOUT + " seconds", e);
+            LOGGER.logAndFail(str + " was not present on the page within " + Constants.TIMEOUT + " seconds", e);
 
         } // end try-catch
 
@@ -354,7 +353,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Could not navigate to " + propertyURL, e);
+            LOGGER.logAndFail("Could not navigate to " + propertyURL, e);
 
         } // end try-catch
 
@@ -371,11 +370,10 @@ public class CommonMethods {
         try {
 
             final byte[] partialCapture = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-            Hooks.scenario.get().attach(partialCapture, "image/png", "Click to view screenshot");
-
+            Hooks.getScenario().attach(partialCapture, "image/png", "Click to view screenshot");
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Could not capture a partial screenshot", e);
+            LOGGER.logAndFail("Could not capture a partial screenshot", e);
 
         } // end try catch
 
@@ -398,7 +396,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Unable to pause execution for " + seconds + " seconds", e);
+            LOGGER.logAndFail("Unable to pause execution for " + seconds + " seconds", e);
 
         } // end try-catch
 
@@ -419,11 +417,10 @@ public class CommonMethods {
             outStream.flush();
             byte[] imgInBytes = outStream.toByteArray();
             outStream.close();
-            Hooks.scenario.get().attach(imgInBytes, "image/png", "Screenshot");
-
+            Hooks.getScenario().attach(imgInBytes, "image/png", "Screenshot");
         } catch (Exception e) {
 
-            LOGGER.sendLog(Level.WARN, "Could not capture a screenshot of the page using Shutterbug. " +
+            LOGGER.log(Level.WARN, "Could not capture a screenshot of the page using Shutterbug. " +
                     "Attempting to capture an in-view screenshot with Selenium...", e);
             partialScreenshot(driver);
 
@@ -454,15 +451,15 @@ public class CommonMethods {
 
             } catch (ElementClickInterceptedException e) {
 
-                LOGGER.logAndFail(Level.ERROR, str + " could not be clicked because another element was concealing it", e);
+                LOGGER.logAndFail(str + " could not be clicked because another element was concealing it", e);
 
             } catch (NoSuchElementException n) {
 
-                LOGGER.logAndFail(Level.ERROR, "There is no option listed in the " + str + " at position " + index, n);
+                LOGGER.logAndFail("There is no option listed in the " + str + " at position " + index, n);
 
             } catch (StaleElementReferenceException s) {
 
-                LOGGER.logAndFail(Level.ERROR, str + " became detached from the DOM when trying to interact with it", s);
+                LOGGER.logAndFail(str + " became detached from the DOM when trying to interact with it", s);
 
             } // end try catch
 
@@ -489,7 +486,7 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, "Could not switch to iFrame: " + str, e);
+            LOGGER.logAndFail("Could not switch to iFrame: " + str, e);
 
         } // end try-catch
 

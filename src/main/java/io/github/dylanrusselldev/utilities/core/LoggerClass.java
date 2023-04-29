@@ -15,13 +15,13 @@ import static org.testng.Assert.fail;
 
 public class LoggerClass {
 
-    private Logger logger;
+    private final Logger logger;
 
     public LoggerClass(Class<?> className) {
         this.logger = LoggerFactory.getLogger(className);
     } // end constructor
 
-    public void sendLog(Level level, String msg) {
+    public void log(Level level, String msg) {
 
         switch (level) {
 
@@ -49,7 +49,7 @@ public class LoggerClass {
 
     }
 
-    public void sendLog(Level level, String msg, Throwable t) {
+    public void log(Level level, String msg, Throwable t) {
 
         switch (level) {
 
@@ -77,19 +77,18 @@ public class LoggerClass {
 
     }
 
-    public void logAndFail(Level level, String msg) {
-        sendLog(level, msg);
+    public void logAndFail(String msg) {
+        log(Level.ERROR, msg);
         fail(msg + "\n");
     }
 
-    public void logAndFail(Level level, String msg, Throwable t) {
-        sendLog(level, msg, t);
+    public void logAndFail(String msg, Throwable t) {
+        log(Level.ERROR, msg, t);
         fail(msg + "\n");
     }
 
-    public void logCucumberReport(Level level, String msg) {
-        sendLog(level, msg);
-        Hooks.scenario.get().log(msg);
+    public void logCucumberReport(String msg) {
+        Hooks.getScenario().log(msg);
     }
 
 } // end LoggerClass

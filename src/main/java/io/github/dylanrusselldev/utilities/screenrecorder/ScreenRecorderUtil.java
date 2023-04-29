@@ -113,9 +113,9 @@ public class ScreenRecorderUtil extends ScreenRecorder {
 
             // Start the recording
             screenRecorder.start();
-            LOGGER.sendLog(Level.INFO, "Started the screen recorder");
+            LOGGER.log(Level.INFO, "Started recording the screen");
         } else if (RuntimeInfo.isHeadless()) {
-            LOGGER.sendLog(Level.WARN, "Unable to record screen while executing in headless mode. Continuing execution...");
+            LOGGER.logAndFail("Unable to record screen while executing in headless mode.");
         } // end if else
     } // end startRecord()
 
@@ -128,12 +128,12 @@ public class ScreenRecorderUtil extends ScreenRecorder {
         // Print warning message that
         if (!RuntimeInfo.isHeadless()) {
             screenRecorder.stop();
-            LOGGER.sendLog(Level.INFO, "Stopped the screen recorder");
+            LOGGER.log(Level.INFO, "Stopped the screen recorder");
             CommonMethods.pauseForSeconds(1);
             AVItoMP4.convertAVIToMP4();
             attachVideo();
         } else {
-            LOGGER.sendLog(Level.WARN, "Screen recorder was never started due to -DHeadless=true. Continuing execution...");
+            LOGGER.logAndFail("Screen recorder was never started because -DHeadless=true");
         } // end if else
     } // end stopRecord()
 
@@ -145,7 +145,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     private static void attachVideo() throws IOException {
         FileInputStream is = new FileInputStream(CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "mp4"));
         byte[] byteArr = IOUtils.toByteArray(is);
-        Hooks.scenario.get().attach(byteArr, "video/mp4", "Click to view video");
+        Hooks.getScenario().attach(byteArr, "video/mp4", "Click to view video");
     } // end attachVideo()
 
 } // end ScreenRecorderUtil

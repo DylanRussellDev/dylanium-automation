@@ -23,11 +23,11 @@ public class RuntimeInfo {
             if (browser.equals("chrome") || browser.equals("edge") || browser.equals("firefox") || browser.equals("ie")) {
                 return browser;
             } else {
-                LOGGER.logAndFail(Level.ERROR, " Error. The -DBrowser property only accepts 'chrome', 'edge', 'firefox', or 'ie' as an argument");
+                LOGGER.logAndFail(" Error. The -DBrowser property only accepts 'chrome', 'edge', 'firefox', or 'ie' as an argument");
                 return null;
             } // end if else
         } catch (Exception e) {
-            LOGGER.logAndFail(Level.ERROR, " The -DBrowser property was not initialized correctly", e);
+            LOGGER.logAndFail(" The -DBrowser property was not initialized correctly", e);
             return null;
         } // end try catch
 
@@ -48,7 +48,7 @@ public class RuntimeInfo {
 
         } catch (Exception e) {
 
-            LOGGER.sendLog(Level.WARN, "Could not find browser name and version the tests were executed on", e);
+            LOGGER.log(Level.WARN, "Could not find browser name and version the tests were executed on", e);
             return null;
 
         } // end try catch
@@ -96,14 +96,14 @@ public class RuntimeInfo {
 
             } else {
 
-                LOGGER.logAndFail(Level.ERROR, " The -DThreads property argument must be greater than 0 and less than or equal to 4");
+                LOGGER.logAndFail(" The -DThreads property argument must be greater than 0 and less than or equal to 4");
                 return null;
 
             } // end if else
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, " The -DThreads property was not initialized correctly", e);
+            LOGGER.logAndFail(" The -DThreads property was not initialized correctly", e);
             return null;
 
         } // end try catch
@@ -122,14 +122,14 @@ public class RuntimeInfo {
 
             } else {
 
-                LOGGER.logAndFail(Level.ERROR, " Error. The -DHeadless property only accepts 'true' or 'false' as an argument");
+                LOGGER.logAndFail(" Error. The -DHeadless property only accepts 'true' or 'false' as an argument");
                 return false;
 
             } // end if else
 
         } catch (Exception e) {
 
-            LOGGER.logAndFail(Level.ERROR, " The -DHeadless property was not initialized correctly", e);
+            LOGGER.logAndFail(" The -DHeadless property was not initialized correctly", e);
             return false;
 
         } // end try catch

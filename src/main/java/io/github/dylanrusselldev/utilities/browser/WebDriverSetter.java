@@ -7,6 +7,7 @@
 package io.github.dylanrusselldev.utilities.browser;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -17,6 +18,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import java.io.IOException;
+import java.time.Duration;
 
 public class WebDriverSetter {
 
@@ -34,25 +36,28 @@ public class WebDriverSetter {
 
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-                Hooks.driver.set(new ChromeDriver(BrowserPreferences.chromePrefs(co)));
+                Hooks.setDriver(new ChromeDriver(BrowserPreferences.chromePrefs(co)));
                 break;
 
             case "edge":
                 WebDriverManager.edgedriver().setup();
-                Hooks.driver.set(new EdgeDriver(BrowserPreferences.edgePrefs(eo)));
+                Hooks.setDriver(new EdgeDriver(BrowserPreferences.edgePrefs(eo)));
                 break;
 
             case "firefox":
                 WebDriverManager.firefoxdriver().setup();
-                Hooks.driver.set(new FirefoxDriver());
+                Hooks.setDriver(new FirefoxDriver());
                 break;
 
             case "ie":
                 WebDriverManager.iedriver().setup();
-                Hooks.driver.set(new InternetExplorerDriver());
+                Hooks.setDriver(new InternetExplorerDriver());
                 break;
 
         } // end switch
+
+        // Set the page timeout
+        Hooks.getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
 
     } // end setDriver()
 

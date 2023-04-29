@@ -107,7 +107,7 @@ public class BrowserPreferences {
     public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {
 
         ChromeDriverService ds = ChromeDriverService.createDefaultService();
-        Hooks.driver.set(new ChromeDriver(ds, cOptions));
+        Hooks.setDriver(new ChromeDriver(ds, cOptions));
 
         Map<String, Object> commandParams = new HashMap<>();
         Map<String, Object> params = new HashMap<>();
@@ -120,7 +120,8 @@ public class BrowserPreferences {
         ObjectMapper objMapper = new ObjectMapper();
 
         String cmd = objMapper.writeValueAsString(commandParams);
-        String sendCmd = ds.getUrl().toString() + "/session/" + ((RemoteWebDriver) Hooks.driver.get()).getSessionId() + "/chromium/send_command";
+        String sendCmd = ds.getUrl().toString() + "/session/" + ((RemoteWebDriver) Hooks.getDriver()).getSessionId() + "/chromium/send_command";
+
         HttpPost request = new HttpPost(sendCmd);
         request.addHeader("content-type", "application/json");
         request.setEntity(new StringEntity(cmd));
