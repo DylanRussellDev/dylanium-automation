@@ -33,7 +33,7 @@ public class ExcelHelper {
     } // end constructor
 
     /**
-     * Get the value from a cell based off the row number and column anme
+     * Get the value from a cell based off the row number and column name.
      *
      * @param rowIndex   The row number
      * @param columnName The name of the column
@@ -51,7 +51,7 @@ public class ExcelHelper {
     } // end readCellData()
 
     /**
-     * Get the value based off a column number
+     * Get the value based off a column number.
      *
      * @param row      The Row
      * @param colIndex The column number
@@ -73,7 +73,7 @@ public class ExcelHelper {
     } // end getDataByColumnIndex()
 
     /**
-     * Get the data from the cell
+     * Get the data from the cell.
      *
      * @param cell  The cell object
      */
@@ -83,7 +83,7 @@ public class ExcelHelper {
     } // end getCellData()
 
     /**
-     * Gets the column number based off the given column name
+     * Gets the column number based off the given column name.
      *
      * @param colName the column name
      */

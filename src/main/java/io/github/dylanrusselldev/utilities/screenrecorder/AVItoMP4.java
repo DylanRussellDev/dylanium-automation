@@ -27,7 +27,7 @@ public class AVItoMP4 {
     private static final LoggerClass LOGGER = new LoggerClass(AVItoMP4.class);
 
     /**
-     * Convert an AVI file to an MP4 to attach to the reports
+     * Convert an AVI file to an MP4 to attach to the reports.
      */
     public static void convertAVIToMP4() {
 

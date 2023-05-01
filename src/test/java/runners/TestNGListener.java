@@ -23,14 +23,14 @@ public class TestNGListener implements IExecutionListener {
     private static final LoggerClass LOGGER = new LoggerClass(TestNGListener.class);
 
     /**
-     * Code that executes before all tests have started
+     * Code that executes before all tests have started.
      */
     public void onExecutionStart() {
         LOGGER.log(Level.INFO, "*** TEST EXECUTION STARTED ***");
     } // end onExecutionStart
 
     /**
-     * Code that executes after all tests have finished
+     * Code that executes after all tests have finished.
      */
     public void onExecutionFinish() {
 
@@ -47,7 +47,7 @@ public class TestNGListener implements IExecutionListener {
     } // end onExecutionFinish
 
     /**
-     * Opens the Masterthought report and html log file after execution has finished
+     * Opens the Masterthought report and html log file after execution has finished.
      */
     private void openResults() {
         WebDriverManager.chromedriver().setup();

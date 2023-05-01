@@ -15,6 +15,10 @@ public class RuntimeInfo {
 
     private static final LoggerClass LOGGER = new LoggerClass(RuntimeInfo.class);
 
+    /**
+     * Returns the Browser argument from the -DBrowser property.
+     * This also checks to see if the -DBrowser property was initialized correctly.
+     */
     public static String getBrowserName() {
 
         try {
@@ -34,7 +38,7 @@ public class RuntimeInfo {
     } // end getBrowserName()
 
     /**
-     * Returns the browser information for the reports
+     * Returns the browser name and version to include in the reports.
      *
      * @param threadCap The Capabilities information passed in from Hooks
      */
@@ -56,7 +60,7 @@ public class RuntimeInfo {
     } // end getBrowserVersion()
 
     /**
-     * Returns the OS the tests are executing on to include in the report
+     * Returns the OS the tests are executing on to include in the reports.
      *
      * @return string OS as a string
      */
@@ -81,6 +85,10 @@ public class RuntimeInfo {
 
     } // end getOSInfo()
 
+    /**
+     * Returns the number of threads given in the -DThreads property.
+     * This also checks to see if the -DThreads property was initialized correctly.
+     */
     public static Integer getThreads() {
         int threads;
         final int MIN_THREADS = 1;
@@ -110,6 +118,10 @@ public class RuntimeInfo {
 
     } // end getThreads()
 
+    /**
+     * Returns the value given from the -DHeadless property.
+     * This also checks to see if the -DHeadless property was initialized correctly.
+     */
     public static boolean isHeadless() {
 
         try {
@@ -135,6 +147,5 @@ public class RuntimeInfo {
         } // end try catch
 
     } // end isHeadless()
-
 
 } // end RuntimeInfo.java

@@ -39,12 +39,11 @@ import java.util.Arrays;
 
 public class CommonMethods {
 
+    private static final LoggerClass LOGGER = new LoggerClass(CommonMethods.class);
     private static final ReadConfigFile propFile = new ReadConfigFile();
 
-    private static final LoggerClass LOGGER = new LoggerClass(CommonMethods.class);
-
     /**
-     * Blurs an element via it's CSS property
+     * Blurs an element via it's CSS property.
      *
      * @param driver  WebDriver
      * @param element The WebElement identifier
@@ -67,10 +66,8 @@ public class CommonMethods {
 
     } // end blurElement()
 
-
-
     /**
-     * Find an element and perform a click function on it
+     * Find an element and perform a click function on it.
      *
      * @param driver  WebDriver
      * @param element The WebElement identifier
@@ -110,7 +107,7 @@ public class CommonMethods {
     } // end click()
 
     /**
-     * Decrypts an encrypted string. Pass the property name of the string to decrypt
+     * Decrypts an encrypted string. Pass the property name of the string to decrypt.
      *
      * @param property The property name of the string to decrypt
      */
@@ -137,7 +134,7 @@ public class CommonMethods {
 
     /**
      * Find an element and return the text in it. If the .getText() attempt fails,
-     * the script will attempt to find the "value" attribute
+     * the script will attempt to find the "value" attribute.
      *
      * @param driver  WebDriver
      * @param element The WebElement identifier
@@ -167,8 +164,7 @@ public class CommonMethods {
     } // end getElementText()
 
     /**
-     * Returns the most recent file in a folder location with a
-     * given file extension
+     * Returns the most recent file in a folder location with a given file extension.
      *
      * @param folderPath Folder location
      * @param ext        The filename extension to look for
@@ -176,20 +172,46 @@ public class CommonMethods {
     public static File getNewestFile(String folderPath, String ext) {
 
         File newestFile = null;
-        File dir = new File(folderPath);
         FileFilter fileFilter = new WildcardFileFilter("*." + ext);
-        File[] files = dir.listFiles(fileFilter);
 
-        if (files.length > 0) {
+        try {
 
-            Arrays.sort(files, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
-            newestFile = files[0];
+            for (int i = 0; i < 5; i++) {
 
-        } else {
+                File dir = new File(folderPath);
+                File[] files = dir.listFiles(fileFilter);
 
-            LOGGER.logAndFail("There were no files found in the folder path: " + folderPath);
+                if (files.length > 0) {
 
-        } // end if-else
+                    Arrays.sort(files, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
+
+                    // If the file is still downloading, wait 5 seconds and check again
+                    if (files[0].getName().contains(".crdownload")) {
+
+                        LOGGER.log(Level.INFO, "The file is still currently downloading");
+                        CommonMethods.pauseForSeconds(5);
+
+                    } else {
+
+                        newestFile = files[0];
+                        LOGGER.log(Level.INFO, "The newest file in the folder is: " + newestFile.getName());
+                        break;
+
+                    } // end inner if-else
+
+
+                } else {
+
+                    LOGGER.log(Level.WARN, "No files found in the folder path: " + folderPath + ". Checking again in a moment.");
+                    CommonMethods.pauseForSeconds(5);
+
+                } // end outer if-else
+
+            } // end for
+
+        } catch (Exception e) {
+            LOGGER.logAndFail("Timeout Error. Unable to locate any files in the folder path: " + folderPath, e);
+        } // end try-catch
 
         return newestFile;
     } // end getNewestFile()
@@ -269,7 +291,7 @@ public class CommonMethods {
     } // end hoverSelenium()
 
     /**
-     * Find an element and input text into it
+     * Find an element and input text into it.
      *
      * @param driver  WebDriver
      * @param element The WebElement identifier
@@ -294,7 +316,7 @@ public class CommonMethods {
     } // end enterText()
 
     /**
-     * Checks to see if an element is able to be clicked
+     * Checks to see if an element is able to be clicked.
      *
      * @param driver  WebDriver
      * @param element The WebElement identifier
@@ -340,7 +362,7 @@ public class CommonMethods {
     } // end isElementPresent()
 
     /**
-     * Navigates to a given URL
+     * Navigates to a given URL.
      *
      * @param driver      WebDriver
      * @param propertyURL Property name of the URL as a String
@@ -403,7 +425,7 @@ public class CommonMethods {
     } // end pauseForSeconds()
 
     /**
-     * Takes a screenshot and embed its in the report
+     * Takes a screenshot and embed its in the report.
      *
      * @param driver WebDriver
      * @param captureType   How much of the page to capture
@@ -429,7 +451,7 @@ public class CommonMethods {
     } // end screenshot()
 
     /**
-     * Select an option from a dropdown list based off the order it appears
+     * Select an option from a dropdown list based off the order it appears.
      *
      * @param driver  WebDriver
      * @param element The WebElement identifier
@@ -470,7 +492,7 @@ public class CommonMethods {
     } // end selectDropdownOptionByIndex()
 
     /**
-     * Switches to a visible iFrame based on a given locator
+     * Switches to a visible iFrame based on a given locator.
      *
      * @param driver  WebDriver
      * @param element The WebElement identifier

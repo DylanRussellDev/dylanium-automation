@@ -22,6 +22,6 @@ public class ThreadSetter implements IAlterSuiteListener {
         suite.setDataProviderThreadCount(RuntimeInfo.getThreads());
         suite.setThreadCount(RuntimeInfo.getThreads());
 
-    }
+    } // end alter
 
-}
+} // end ThreadSetter

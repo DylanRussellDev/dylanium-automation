@@ -47,7 +47,7 @@ public class LoggerClass {
 
         } // end switch
 
-    }
+    } // end method
 
     public void log(Level level, String msg, Throwable t) {
 
@@ -75,18 +75,23 @@ public class LoggerClass {
 
         } // end switch
 
-    }
+    } // end method
 
+    // Logs a user friendly error message on the cucumber reports using the Assert.fail method.
+    // Also includes a custom log message in the log text and html file.
     public void logAndFail(String msg) {
         log(Level.ERROR, msg);
         fail(msg + "\n");
     }
 
+    // Logs a user friendly error message on the reports using the Assert.fail method.
+    // Also includes a custom log message, along with the error trace in the log text and html file.
     public void logAndFail(String msg, Throwable t) {
         log(Level.ERROR, msg, t);
         fail(msg + "\n");
     }
 
+    // Log a message only in the reports
     public void logCucumberReport(String msg) {
         Hooks.getScenario().log(msg);
     }

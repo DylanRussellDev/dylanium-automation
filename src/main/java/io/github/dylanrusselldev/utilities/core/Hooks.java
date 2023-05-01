@@ -11,8 +11,8 @@ import com.assertthat.selenium_shutterbug.core.Capture;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
-import io.github.dylanrusselldev.utilities.browser.WebDriverSetter;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
+import io.github.dylanrusselldev.utilities.browser.WebDriverSetter;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
@@ -29,30 +29,30 @@ public class Hooks {
     private static final LoggerClass LOGGER = new LoggerClass(Hooks.class);
 
     /**
-     * Return the WebDriver object for the current thread
+     * Return the WebDriver object for the current thread.
      */
     public static WebDriver getDriver() {
         return driver.get();
     } // end getDriver()
 
     /**
-     * Method to set the WebDriver was also keeping it thread safe
+     * Set the WebDriver while keeping it thread safe.
      */
     public static void setDriver(WebDriver d) {
         driver.set(d);
     } // end setDriver()
 
     /**
-     * Return the Scenario object for the current thread
+     * Return the Scenario object for the current thread.
      */
     public static Scenario getScenario() {
         return scenario.get();
     } // end getScenario()
 
     /**
-     * Code that executes before every test
+     * Code that executes before every test.
      *
-     * @param scenObj Scenario object
+     * @param  scenObj      Scenario object
      * @throws Exception
      */
     @Before
@@ -75,9 +75,9 @@ public class Hooks {
     }
 
     /**
-     * Code that executes after every test
+     * Code that executes after every test.
      *
-     * @param scenario Scenario object
+     * @param  scenario      Scenario object
      */
     @After
     public void afterScenario(Scenario scenario) {

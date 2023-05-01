@@ -26,7 +26,7 @@ public class WebDriverSetter {
     private static final EdgeOptions eo = new EdgeOptions();
 
     /**
-     * Set the preferred Browser for execution based of the -DBrowser Maven argument
+     * Set the preferred browser for execution based of the -DBrowser Maven argument.
      *
      * @throws IOException
      */
@@ -57,7 +57,10 @@ public class WebDriverSetter {
         } // end switch
 
         // Set the page timeout
-        Hooks.getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
+        Hooks.getDriver()
+                .manage()
+                .timeouts()
+                .pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
 
     } // end setDriver()
 

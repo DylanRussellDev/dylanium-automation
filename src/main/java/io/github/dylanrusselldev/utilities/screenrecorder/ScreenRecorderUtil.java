@@ -59,7 +59,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     } // end constructor
 
     /**
-     * Create the file for the screen recorder
+     * Create the file for the screen recorder.
      *
      * @param fileFormat       The format of the file
      * @throws IOException
@@ -81,7 +81,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     } // end createMovieFile()
 
     /**
-     * Start the screen recorder
+     * Start the screen recorder.
      *
      * @param methodName    The name of the method where the screen recorder is being started
      * @throws Exception
@@ -120,7 +120,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     } // end startRecord()
 
     /**
-     * Stop the screen recorder
+     * Stop the screen recorder.
      *
      * @throws Exception
      */
@@ -138,7 +138,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     } // end stopRecord()
 
     /**
-     * Attach the screen recorder file to the execution report
+     * Attach the screen recorder file to the execution report.
      *
      * @throws IOException
      */

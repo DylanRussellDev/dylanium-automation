@@ -29,9 +29,9 @@ import java.util.Map;
 public class BrowserPreferences {
 
     /**
-     * Set the preferred options to the ChromeDriver
+     * Set the preferred options to the ChromeDriver.
      *
-     * @param chromeOpt       Chrome Options object
+     * @param  chromeOpt       Chrome Options object
      * @throws IOException
      */
     public static ChromeOptions chromePrefs(ChromeOptions chromeOpt) throws IOException {
@@ -64,9 +64,9 @@ public class BrowserPreferences {
     } // end chromePrefs()
 
     /**
-     * Set the preferred options to the EdgeDriver
+     * Set the preferred options to the EdgeDriver.
      *
-     * @param edgeOpt       Edge Options object
+     * @param  edgeOpt       Edge Options object
      * @throws IOException
      */
     public static EdgeOptions edgePrefs(EdgeOptions edgeOpt) {
@@ -98,10 +98,9 @@ public class BrowserPreferences {
     } // end edgePrefs()
 
     /**
-     * By default, Chrome does not support downloads in headless mode.
-     * This method enables the functionality by sending a command to the browser
+     * Enables the functionality of downloading files in headless mode by sending a command to the browser.
      *
-     * @param cOptions      Chrome Options object
+     * @param  cOptions      Chrome Options object
      * @throws IOException
      */
     public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {

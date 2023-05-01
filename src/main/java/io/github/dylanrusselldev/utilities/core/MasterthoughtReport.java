@@ -22,7 +22,7 @@ public class MasterthoughtReport {
     private static final LoggerClass LOGGER = new LoggerClass(MasterthoughtReport.class);
 
     /**
-     * Generate the Masterthought report
+     * Generate the Masterthought report after execution has finished.
      */
     public static void generateTestReport() {
 
@@ -57,6 +57,6 @@ public class MasterthoughtReport {
 
         } // end try-catch
 
-    } // end GenerateTestReport()
+    } // end generateTestReport()
 
 } // end class MasterthoughtReport.java

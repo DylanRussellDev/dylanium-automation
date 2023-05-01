@@ -30,7 +30,7 @@ import static org.testng.Assert.fail;
 public class PDFValidation {
 
     /**
-     * Method to validate a PDF's text that is open in a browser tab/window
+     * Method to validate a PDF's text that is open in a browser tab/window.
      *
      * @param driver       WebDriver object
      * @param textToVerify The text to check for
@@ -62,7 +62,7 @@ public class PDFValidation {
     } // end verifyPDFContent()
 
     /**
-     * Method to validate a PDF's text that is locally downloaded
+     * Method to validate a PDF's text that is locally downloaded.
      *
      * @param txtVerify The text to check
      * @param pdfName   The PDF name for exception message
@@ -94,7 +94,7 @@ public class PDFValidation {
     } // end verifyDownloadedPDFText()
 
     /**
-     * Saves a local copy of a PDF that is accessed via a blob url
+     * Saves a local copy of a PDF that is accessed via a blob url.
      *
      * @param driver  WebDriver object
      * @param pdfName name of the PDF for exception handling
@@ -117,7 +117,7 @@ public class PDFValidation {
 
     /**
      * Executes a script that saves the page contents into a Base64 String
-     * to use for converting into a PDF
+     * to use for converting into a PDF.
      *
      * @param driver WebDriver object
      * @param url    The URL

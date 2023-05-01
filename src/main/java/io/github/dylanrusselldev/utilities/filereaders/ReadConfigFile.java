@@ -21,7 +21,7 @@ public class ReadConfigFile {
     private static final LoggerClass LOGGER = new LoggerClass(ReadConfigFile.class);
 
     /**
-     * Load the properties file
+     * Load the properties file.
      */
     public ReadConfigFile() {
         BufferedReader reader;

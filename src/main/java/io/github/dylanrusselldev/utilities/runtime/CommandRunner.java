@@ -15,7 +15,7 @@ public class CommandRunner {
     private static final LoggerClass LOGGER = new LoggerClass(CommandRunner.class);
 
     /**
-     * Execute a command on the Windows Command Prompt
+     * Execute a command on the Windows Command Prompt.
      */
     public static void executeCommand(String cmd) {
 
@@ -29,7 +29,7 @@ public class CommandRunner {
     } // end executeCommand()
 
     /**
-     * End the WebDriver .exe via the command line
+     * End the WebDriver .exe via the command line.
      */
     public static void endDriverExe() {
 

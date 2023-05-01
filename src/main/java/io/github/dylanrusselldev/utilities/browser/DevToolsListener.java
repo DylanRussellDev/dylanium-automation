@@ -48,7 +48,7 @@ public class DevToolsListener {
     } // end constructor
 
     /**
-     * Start the DevTools listener
+     * Start a DevTools listener.
      */
     public void startDevToolsListener() {
 
@@ -77,7 +77,7 @@ public class DevToolsListener {
     } // end startDevToolsListener()
 
     /**
-     * Print the captured DevTools errors using the scenario object
+     * Print the captured DevTools errors using the scenario object.
      */
     public static void logDevToolErrors() {
         if (!devtoolErrors.isEmpty()) {

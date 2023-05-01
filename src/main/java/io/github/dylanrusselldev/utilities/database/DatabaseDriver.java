@@ -62,7 +62,7 @@ public class DatabaseDriver {
     } // end createConnection()
 
     /**
-     * Close the connection to the database
+     * Close the connection to the database.
      */
     public void closeConnection() {
         try {
@@ -84,9 +84,9 @@ public class DatabaseDriver {
     } // end closeConnection()
 
     /**
-     * Get the result returned from an executed query statement
+     * Get the result returned from an executed query statement.
      *
-     * @param query The query to execute
+     * @param  query        The query to execute
      * @throws Exception
      */
     public String queryData(String query) throws Exception {
@@ -105,9 +105,9 @@ public class DatabaseDriver {
     } // end queryData()
 
     /**
-     * Executes a given query
+     * Executes a given query.
      *
-     * @param query The query to execute
+     * @param  query        The query to execute
      * @throws SQLException
      */
     private ResultSet getResult(String query) throws SQLException {
