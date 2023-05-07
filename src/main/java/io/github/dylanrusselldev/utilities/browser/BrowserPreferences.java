@@ -49,14 +49,28 @@ public class BrowserPreferences {
 
         // Add Chrome Options
         chromeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-        chromeOpt.addArguments("--remote-allow-origins=*","no-sandbox", "start-maximized", "disable-dev-shm-usage",
-                "enable-automation", "disable-gpu", "dns-prefetch-disable", "disable-extensions");
+
+        chromeOpt.addArguments(
+                "--remote-allow-origins=*",
+                "no-sandbox",
+                "start-maximized",
+                "disable-dev-shm-usage",
+                "enable-automation",
+                "disable-gpu",
+                "dns-prefetch-disable",
+                "disable-extensions");
 
         // Enable Headless execution if -DHeadless is set to true
         if (RuntimeInfo.isHeadless()) {
-            chromeOpt.addArguments("headless", "window-size=1920,1080", "hide-scrollbars");
+
+            chromeOpt.addArguments(
+                    "--headless=new",
+                    "window-size=1920,1080",
+                    "hide-scrollbars");
+
             chromeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
             enableHeadlessDownloads(chromeOpt);
+
         } // end if
 
         return chromeOpt;
@@ -84,13 +98,25 @@ public class BrowserPreferences {
 
         // Add Edge Options
         edgeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-        edgeOpt.addArguments("no-sandbox", "start-maximized", "disable-dev-shm-usage", "enable-automation",
-                "disable-gpu", "dns-prefetch-disable", "disable-extensions");
+
+        edgeOpt.addArguments(
+                "no-sandbox",
+                "start-maximized",
+                "disable-dev-shm-usage",
+                "enable-automation",
+                "disable-gpu",
+                "dns-prefetch-disable",
+                "disable-extensions");
 
         // Enable Headless execution if -DHeadless is set to true
         if (RuntimeInfo.isHeadless()) {
-            edgeOpt.addArguments("headless", "window-size=1920,1080", "hide-scrollbars");
+
+            edgeOpt.addArguments(
+                    "--headless=new",
+                    "window-size=1920,1080",
+                    "hide-scrollbars");
             edgeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+
         } // end if
 
         return edgeOpt;
@@ -113,7 +139,7 @@ public class BrowserPreferences {
 
         commandParams.put("cmd", "Page.setDownloadBehavior");
         params.put("behavior", "allow");
-        params.put("downloadPath", Constants.DOWNLOAD_DIRECTORY);
+        params.put("downloadPath", Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName());
         commandParams.put("params", params);
 
         ObjectMapper objMapper = new ObjectMapper();

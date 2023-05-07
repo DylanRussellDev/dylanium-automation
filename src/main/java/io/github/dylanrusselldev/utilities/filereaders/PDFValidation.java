@@ -69,7 +69,7 @@ public class PDFValidation {
      * @throws IOException
      */
     public static void verifyDownloadedPDFText(String txtVerify, String pdfName) throws IOException {
-        URL pdfLoc = new URL("file:///" + CommonMethods.getNewestFile(Constants.PDF_FOLDER_PATH, "pdf"));
+        URL pdfLoc = new URL("file:///" + CommonMethods.getNewestFile(Constants.TARGET_FILE_DOWNLOADS, "pdf"));
         InputStream is = pdfLoc.openStream();
         BufferedInputStream bis = new BufferedInputStream(is);
         PDDocument doc = PDDocument.load(bis);
@@ -79,7 +79,7 @@ public class PDFValidation {
         bis.close();
         is.close();
 
-        String p = String.valueOf(CommonMethods.getNewestFile(Constants.PDF_FOLDER_PATH, "pdf"));
+        String p = String.valueOf(CommonMethods.getNewestFile(Constants.TARGET_FILE_DOWNLOADS, "pdf"));
         Path path = Paths.get(p);
 
         try {

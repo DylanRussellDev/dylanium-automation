@@ -22,7 +22,6 @@
         <masterthought.version>5.7.5</masterthought.version>
         <extentreport.version>5.0.9</extentreport.version>
         <jasypt.version>1.9.3</jasypt.version>
-        <lombok.version>1.18.24</lombok.version>
         <ooxml.version>5.2.3</ooxml.version>
         <mysql.version>8.0.32</mysql.version>
         <pdfbox.version>2.0.27</pdfbox.version>
@@ -93,14 +92,6 @@
             <groupId>org.jasypt</groupId>
             <artifactId>jasypt</artifactId>
             <version>${jasypt.version}</version>
-        </dependency>
-
-        <!-- Lombok  -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
-            <scope>provided</scope>
         </dependency>
 
         <!-- Allows reading of Microsoft files -->

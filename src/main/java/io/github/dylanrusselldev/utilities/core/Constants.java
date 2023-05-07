@@ -35,12 +35,12 @@ public class Constants {
     public static final String LOG_FOLDER_PATH = System.getProperty("user.dir") + "\\target\\Execution-Resources\\log-files\\";
 
     // PDF Download constants
-    public static final String PDF_FOLDER_PATH = System.getProperty("user.dir") + "\\target\\Execution-Resources\\pdf-downloads\\";
+    public static final String TARGET_FILE_DOWNLOADS = System.getProperty("user.dir") + "\\target\\Execution-Resources\\file-downloads\\";
 
     // System download directory
     public static final String DOWNLOAD_DIRECTORY = System.getProperty("user.home") + "\\Downloads\\";
 
     // Properties file path
-    public static final String PROP_FILEPATH = ".//src//test//java//properties//";
+    public static final String PROP_FILEPATH = ".//src//test//resources//properties//";
 
 } // end Constants.java

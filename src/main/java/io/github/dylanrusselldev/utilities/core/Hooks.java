@@ -29,30 +29,9 @@ public class Hooks {
     private static final LoggerClass LOGGER = new LoggerClass(Hooks.class);
 
     /**
-     * Return the WebDriver object for the current thread.
-     */
-    public static WebDriver getDriver() {
-        return driver.get();
-    } // end getDriver()
-
-    /**
-     * Set the WebDriver while keeping it thread safe.
-     */
-    public static void setDriver(WebDriver d) {
-        driver.set(d);
-    } // end setDriver()
-
-    /**
-     * Return the Scenario object for the current thread.
-     */
-    public static Scenario getScenario() {
-        return scenario.get();
-    } // end getScenario()
-
-    /**
      * Code that executes before every test.
      *
-     * @param  scenObj      Scenario object
+     * @param scenObj Scenario object
      * @throws Exception
      */
     @Before
@@ -72,12 +51,12 @@ public class Hooks {
         cap = ((RemoteWebDriver) getDriver()).getCapabilities();
         LOGGER.logCucumberReport("Executing on: " + RuntimeInfo.getBrowserVersion(cap));
 
-    }
+    } // end start
 
     /**
      * Code that executes after every test.
      *
-     * @param  scenario      Scenario object
+     * @param scenario Scenario object
      */
     @After
     public void afterScenario(Scenario scenario) {
@@ -93,6 +72,27 @@ public class Hooks {
         // Remove the driver from ThreadLocal
         driver.remove();
 
-    }
+    } // end afterScenario
+
+    /**
+     * Return the WebDriver object for the current thread.
+     */
+    public static WebDriver getDriver() {
+        return driver.get();
+    } // end getDriver
+
+    /**
+     * Return the Scenario object for the current thread.
+     */
+    public static Scenario getScenario() {
+        return scenario.get();
+    } // end getScenario
+
+    /**
+     * Set the WebDriver while keeping it thread safe.
+     */
+    public static void setDriver(WebDriver d) {
+        driver.set(d);
+    } // end setDriver
 
 } // end Hooks.java

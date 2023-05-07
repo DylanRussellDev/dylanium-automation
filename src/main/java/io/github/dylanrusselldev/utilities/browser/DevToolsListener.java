@@ -18,12 +18,14 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.slf4j.event.Level;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class DevToolsListener {
 
-    private static final ArrayList<String> devtoolErrors = new ArrayList<>();
+    protected static List<String> devtoolErrors = Collections.synchronizedList(new ArrayList<>());
     private static final LoggerClass LOGGER = new LoggerClass(DevToolsListener.class);
     private final DevTools devTools;
 
