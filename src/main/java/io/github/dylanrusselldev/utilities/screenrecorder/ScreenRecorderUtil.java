@@ -88,6 +88,11 @@ public class ScreenRecorderUtil extends ScreenRecorder {
      */
     public static void startRecord(String methodName) throws Exception {
 
+        if (RuntimeInfo.getThreads() > 1) {
+            LOGGER.logAndFail("Using the screen recorder during parallel execution has the " +
+                    "chance of another browser window opening over the current test. Please run with -DThreads=1");
+        } // end if
+
         if (!RuntimeInfo.isHeadless()) {
             File file = new File(Constants.VIDEO_FOLDER_PATH);
 
@@ -133,7 +138,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
             AVItoMP4.convertAVIToMP4();
             attachVideo();
         } else {
-            LOGGER.logAndFail("Screen recorder was never started because -DHeadless=true");
+            LOGGER.logAndFail("Screen recorder was never started because -DHeadless=true or -DThreads is greater than 1");
         } // end if else
     } // end stopRecord()
 

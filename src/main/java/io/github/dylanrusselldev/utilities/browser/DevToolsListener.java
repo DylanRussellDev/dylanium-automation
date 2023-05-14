@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class DevToolsListener {
 
@@ -84,13 +83,13 @@ public class DevToolsListener {
     public static void logDevToolErrors() {
         if (!devtoolErrors.isEmpty()) {
 
-            Set<String> set = new HashSet<>(devtoolErrors);
+            HashSet<String> set = new HashSet<>(devtoolErrors);
+            devtoolErrors.clear();
 
             for (String s : set) {
                 LOGGER.logCucumberReport(s);
             } // end for
 
-            devtoolErrors.clear();
         } // end if
 
     } // end logDevToolErrors()

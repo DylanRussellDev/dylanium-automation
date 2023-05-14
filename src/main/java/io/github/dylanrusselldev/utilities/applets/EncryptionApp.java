@@ -24,6 +24,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
+
 public class EncryptionApp extends JPanel implements ActionListener {
 
     private static final ReadConfigFile propFile = new ReadConfigFile();
@@ -99,7 +101,7 @@ public class EncryptionApp extends JPanel implements ActionListener {
     // Build the application UI and display
     private static void createAndShowUI() {
         JFrame frame = new JFrame("Encrypt a Password");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         final EncryptionApp newContentPane = new EncryptionApp(frame);
 
@@ -107,6 +109,7 @@ public class EncryptionApp extends JPanel implements ActionListener {
         newContentPane.setOpaque(true);
         frame.setContentPane(newContentPane);
         frame.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowActivated(WindowEvent e) {
                 newContentPane.resetFocus();
             } // end windowActivated

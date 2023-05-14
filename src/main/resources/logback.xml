@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <configuration scan="true">
 
-    <!--Console Appender: Cucumber comes with a default logger. Comment/uncomment if console becomes too unreadable -->
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 
-        <!-- Only print Warnings and Errors to the console to keep it readable -->
         <target>System.err</target>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level>
+            <level>WARN</level> <!-- Change value to WARN to only print WARN level messages or above to console -->
         </filter>
 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 
-            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %highlight(%-5level) | %cyan(%-25.-25logger{15}) | %thread -
-                %msg %ex%nopex%n
-            </pattern>
+            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %highlight(%-5level) | %cyan(%-25.-25logger{15}) | %-20.20thread | %msg %ex{10}%nopex%n</pattern>
 
         </encoder>
 
@@ -25,12 +21,12 @@
 
         <file>${user.dir}/target/Execution-Resources/log-files/execution-log.log</file>
 
+        <append>true</append>
         <immediateFlush>true</immediateFlush>
 
         <encoder>
 
-            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %-5level | %-25.-25logger{15} | %thread - %msg %ex%nopex%n
-            </pattern>
+            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %-5level | %-25.-25logger{15} | %-20.20thread | %msg %ex%nopex%n</pattern>
 
         </encoder>
 

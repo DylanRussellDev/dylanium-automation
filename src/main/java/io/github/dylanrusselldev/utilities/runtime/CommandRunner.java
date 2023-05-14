@@ -51,6 +51,11 @@ public class CommandRunner {
             case "ie":
                 cmd = cmd.replace("WEBDRIVEREXE", "iedriverserver.exe");
                 break;
+
+            default:
+                LOGGER.logAndFail("Browser was not defined properly");
+                break;
+
         } // end switch statement
 
         LOGGER.log(Level.INFO, "Attempting to end WebDriver exe...");

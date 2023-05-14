@@ -89,15 +89,15 @@ public class CommonMethods {
 
             } catch (ElementClickInterceptedException e) {
 
-                LOGGER.logAndFail("Could not click on element: " + str + " because it became detached from the DOM structure", e);
+                LOGGER.logAndFail("Unable to click on the '" + str + "' because it became detached from the DOM structure", e);
 
             } catch (StaleElementReferenceException s) {
 
-                LOGGER.logAndFail("Could not click on element: " + str + " because another element was concealing it", s);
+                LOGGER.logAndFail("Unable to click on the '" + str + "' because the DOM changed", s);
 
             } catch (TimeoutException t) {
 
-                LOGGER.logAndFail("After clicking on: " + str + ", the page took too long to load", t);
+                LOGGER.logAndFail("After clicking on the '" + str + "', the page took too long to load", t);
 
             } // end try-catch
 
@@ -188,7 +188,7 @@ public class CommonMethods {
                     // If the file is still downloading, wait 5 seconds and check again
                     if (files[0].getName().contains(".crdownload")) {
 
-                        LOGGER.log(Level.INFO, "The file is still currently downloading");
+                        LOGGER.log(Level.INFO, "The file is currently downloading...");
                         CommonMethods.pauseForSeconds(5);
 
                     } else {
@@ -316,7 +316,7 @@ public class CommonMethods {
     } // end enterText()
 
     /**
-     * Checks to see if an element is able to be clicked.
+     * Checks if an element can be clicked on.
      *
      * @param driver  WebDriver
      * @param element The WebElement identifier
@@ -327,7 +327,7 @@ public class CommonMethods {
         try {
 
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constants.TIMEOUT));
-            wait.until(ExpectedConditions.elementToBeClickable(element));
+            wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(element)));
 
         } catch (Exception e) {
 

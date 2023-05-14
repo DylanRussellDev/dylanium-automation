@@ -38,8 +38,8 @@ public class Hooks {
     public void start(Scenario scenObj) throws Exception {
         scenario.set(scenObj);
 
-        // Set the name of the thread to be the scenario name
-        Thread.currentThread().setName(getScenario().getName());
+        // Set the name of the thread to be the cucumber tag
+        Thread.currentThread().setName(RuntimeInfo.getUniqueScenarioTag());
 
         // Setup the WebDriver
         WebDriverSetter.setDriver();

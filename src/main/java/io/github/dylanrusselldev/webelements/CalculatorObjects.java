@@ -6,13 +6,13 @@ public class CalculatorObjects {
 
     // Google
 
-    public static By imgGoogleLogo = By.xpath("//img[@alt='Google']");
+    public static final By imgGoogleLogo = By.xpath("//img[@alt='Google']");
 
     // Calculator.com
 
-	public static By btn2 = By.xpath("//span[@onclick='r(2)']");
-	public static By btnPlus = By.xpath("//span[text()=\"+\"]");
-	public static By btnEquals = By.xpath("//span[text()=\"=\"]");
-	public static By txtOutput = By.id("sciOutPut");
+	public static final By btn2 = By.xpath("//span[@onclick='r(2)']");
+	public static final By btnPlus = By.xpath("//span[text()=\"+\"]");
+	public static final By btnEquals = By.xpath("//span[text()=\"=\"]");
+	public static final By txtOutput = By.id("sciOutPut");
 
 } // end TestObjects.java

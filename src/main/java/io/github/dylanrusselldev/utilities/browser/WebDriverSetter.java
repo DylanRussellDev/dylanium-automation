@@ -9,6 +9,7 @@ package io.github.dylanrusselldev.utilities.browser;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -24,6 +25,7 @@ public class WebDriverSetter {
 
     private static final ChromeOptions co = new ChromeOptions();
     private static final EdgeOptions eo = new EdgeOptions();
+    private static final LoggerClass LOGGER = new LoggerClass(WebDriverSetter.class);
 
     /**
      * Set the preferred browser for execution based of the -DBrowser Maven argument.
@@ -52,6 +54,10 @@ public class WebDriverSetter {
             case "ie":
                 WebDriverManager.iedriver().setup();
                 Hooks.setDriver(new InternetExplorerDriver());
+                break;
+
+            default:
+                LOGGER.logAndFail("Browser was not defined properly");
                 break;
 
         } // end switch

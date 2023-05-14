@@ -7,9 +7,13 @@
 
 package io.github.dylanrusselldev.utilities.runtime;
 
+import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import org.openqa.selenium.Capabilities;
 import org.slf4j.event.Level;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class RuntimeInfo {
 
@@ -117,6 +121,14 @@ public class RuntimeInfo {
         } // end try catch
 
     } // end getThreads()
+
+    /**
+     * Returns a string of the most unique Cucumber tag associated with the current scenario
+     */
+    public static String getUniqueScenarioTag() {
+        List<String> allTags = new ArrayList<>(Hooks.getScenario().getSourceTagNames());
+        return allTags.get(allTags.size() - 1);
+    }
 
     /**
      * Returns the value given from the -DHeadless property.

@@ -9,25 +9,25 @@ public class DemoSiteObjects {
     public static String lnkStatusCodes = "//a[text()=STATUS_CODE]";
 
     // TinyMCE WYSIWYG Editor
-    public static By iframeWYSIWYG = By.id("mce_0_ifr");
-    public static By txtTinyMCE = By.id("tinymce");
+    public static final By iframeWYSIWYG = By.id("mce_0_ifr");
+    public static final By txtTinyMCE = By.id("tinymce");
 
     // Form Authentication
-    public static By txtUsername = By.id("username");
-    public static By txtPassword = By.id("password");
-    public static By btnLogin = By.xpath("//button[@type='submit']");
-    public static By msgSuccessLogin = By.xpath("//div[@class='flash success']");
+    public static final By txtUsername = By.id("username");
+    public static final By txtPassword = By.id("password");
+    public static final By btnLogin = By.xpath("//button[@type='submit']");
+    public static final By msgSuccessLogin = By.xpath("//div[@class='flash success']");
 
     // Status Codes
-    public static By lbl500Text = By.xpath("//p[contains(text(), '500 status code')]");
+    public static final By lbl500Text = By.xpath("//p[contains(text(), '500 status code')]");
 
     // Inputs
-    public static By hdInputs = By.xpath("//h3[text()='Inputs']");
-    public static By txtNumbers = By.id("invalidID");
+    public static final By hdInputs = By.xpath("//h3[text()='Inputs']");
+    public static final By txtNumbers = By.id("invalidID");
 
     // Add/Remove Elements
-    public static By hdAddRemoveElements = By.xpath("//h3[text()='Add/Remove Elements']");
-    public static By btnAddElement = By.xpath("//button[text()='Add Element']");
-    public static By btnDelete = By.xpath("//button[text()='Delete']");
+    public static final By hdAddRemoveElements = By.xpath("//h3[text()='Add/Remove Elements']");
+    public static final By btnAddElement = By.xpath("//button[text()='Add Element']");
+    public static final By btnDelete = By.xpath("//button[text()='Delete']");
 
 }
