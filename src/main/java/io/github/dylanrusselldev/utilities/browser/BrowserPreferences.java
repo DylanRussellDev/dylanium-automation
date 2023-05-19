@@ -65,8 +65,7 @@ public class BrowserPreferences {
 
             chromeOpt.addArguments(
                     "--headless=new",
-                    "window-size=1920,1080",
-                    "hide-scrollbars");
+                    "window-size=1920,1080");
 
             chromeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
             enableHeadlessDownloads(chromeOpt);
@@ -113,8 +112,8 @@ public class BrowserPreferences {
 
             edgeOpt.addArguments(
                     "--headless=new",
-                    "window-size=1920,1080",
-                    "hide-scrollbars");
+                    "window-size=1920,1080");
+
             edgeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 
         } // end if

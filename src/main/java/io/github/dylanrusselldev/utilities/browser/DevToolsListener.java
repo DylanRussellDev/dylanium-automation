@@ -13,7 +13,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.Command;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v109.network.Network;
+import org.openqa.selenium.devtools.v113.network.Network;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.slf4j.event.Level;
 
