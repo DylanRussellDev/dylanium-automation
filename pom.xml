@@ -26,10 +26,11 @@
         <pdfbox.version>2.0.28</pdfbox.version>
         <recorder.version>0.7.7.0</recorder.version>
         <ws.schild.version>3.3.1</ws.schild.version>
-        <slf4j.version>2.0.6</slf4j.version>
+        <slf4j.version>2.0.5</slf4j.version>
         <logback.version>1.4.6</logback.version>
         <shutterbug.version>1.6</shutterbug.version>
         <surefire.version>3.0.0</surefire.version>
+        <mvnclean.version>3.2.0</mvnclean.version>
 
     </properties>
 
@@ -179,6 +180,22 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>test.xml</suiteXmlFile>
                     </suiteXmlFiles>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>${mvnclean.version}</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>test-results</directory>
+                            <includes>
+                                <include>**/*</include>
+                            </includes>
+                            <followSymlinks>false</followSymlinks>
+                        </fileset>
+                    </filesets>
                 </configuration>
             </plugin>
 

@@ -52,7 +52,6 @@ public class TestStepDefs {
     @Given("the screen recorder is started")
     public void the_screen_recorder_is_started() throws Exception {
         ScreenRecorderUtil.startRecord("navigate");
-
     }
 
     // SELENIUM DEMO SITE STEPS

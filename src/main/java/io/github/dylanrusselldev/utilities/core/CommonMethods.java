@@ -46,8 +46,8 @@ public class CommonMethods {
      * Blurs an element via it's CSS property.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param str     the WebElement type for the log message
      */
     public static void blurElement(WebDriver driver, By element, String str) {
         isElementPresent(driver, element, str);
@@ -70,8 +70,8 @@ public class CommonMethods {
      * Find an element and perform a click function on it.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param str     the WebElement type for the log message
      */
     public static void click(WebDriver driver, By element, String str) {
 
@@ -109,7 +109,7 @@ public class CommonMethods {
     /**
      * Decrypts an encrypted string. Pass the property name of the string to decrypt.
      *
-     * @param property The property name of the string to decrypt
+     * @param property the property name of the string to decrypt
      */
     public static String decrypt(String property) {
         StandardPBEStringEncryptor decryptor = new StandardPBEStringEncryptor();
@@ -133,12 +133,37 @@ public class CommonMethods {
     } // end decrypt()
 
     /**
+     * Find an element and input text into it.
+     *
+     * @param driver  WebDriver
+     * @param element the WebElement identifier
+     * @param input   the string to input into the WebElement
+     * @param str     the WebElement type for the log message
+     */
+    public static void enterText(WebDriver driver, By element, String input, String str) {
+
+        isElementPresent(driver, element, str);
+
+        try {
+
+            driver.findElement(element).clear();
+            driver.findElement(element).sendKeys(input);
+
+        } catch (Exception e) {
+
+            LOGGER.logAndFail("Could not input text '" + input + "' into " + str, e);
+
+        } // end try-catch
+
+    } // end enterText()
+
+    /**
      * Find an element and return the text in it. If the .getText() attempt fails,
      * the script will attempt to find the "value" attribute.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param str     the WebElement type for the log message
      */
     public static String getElementText(WebDriver driver, By element, String str) {
 
@@ -166,8 +191,8 @@ public class CommonMethods {
     /**
      * Returns the most recent file in a folder location with a given file extension.
      *
-     * @param folderPath Folder location
-     * @param ext        The filename extension to look for
+     * @param folderPath the folder location
+     * @param ext        the filename extension to look for
      */
     public static File getNewestFile(String folderPath, String ext) {
 
@@ -221,8 +246,8 @@ public class CommonMethods {
      * This makes monitoring and debugging multiple validations much easier.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param str     the WebElement type for the log message
      */
     public static void highlightElement(WebDriver driver, By element, String str) {
 
@@ -247,8 +272,8 @@ public class CommonMethods {
      * Find an element and hover on the element using the JavaScript function.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param str     the WebElement type for the log message
      */
     public static void hoverJavascript(WebDriver driver, By element, String str) {
 
@@ -271,8 +296,8 @@ public class CommonMethods {
      * Find an element and hover on the element using the Selenium function.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param str     the WebElement type for the log message
      */
     public static void hoverSelenium(WebDriver driver, By element, String str) {
 
@@ -291,36 +316,11 @@ public class CommonMethods {
     } // end hoverSelenium()
 
     /**
-     * Find an element and input text into it.
-     *
-     * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param input   The string to input into the WebElement
-     * @param str     String of WebElement for assert message
-     */
-    public static void enterText(WebDriver driver, By element, String input, String str) {
-
-        isElementPresent(driver, element, str);
-
-        try {
-
-            driver.findElement(element).clear();
-            driver.findElement(element).sendKeys(input);
-
-        } catch (Exception e) {
-
-            LOGGER.logAndFail("Could not input text '" + input + "' into " + str, e);
-
-        } // end try-catch
-
-    } // end enterText()
-
-    /**
      * Checks if an element can be clicked on.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param str     the WebElement type for the log message
      */
     private static void isElementClickable(WebDriver driver, By element, String str) {
 
@@ -341,17 +341,17 @@ public class CommonMethods {
      * Checks to see if an element is present on a web page within 60 seconds.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param str     the WebElement type for the log message
      */
     public static void isElementPresent(WebDriver driver, By element, String str) {
 
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, Duration.ofSeconds(Constants.TIMEOUT))
+                .ignoring(StaleElementReferenceException.class);
         try {
 
-            WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, Duration.ofSeconds(Constants.TIMEOUT))
-                    .ignoring(StaleElementReferenceException.class);
-            wait.until(ExpectedConditions.visibilityOfElementLocated(element));
-            wait.until(ExpectedConditions.presenceOfElementLocated(element));
+            wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(element)));
+            wait.until(ExpectedConditions.refreshed(ExpectedConditions.presenceOfElementLocated(element)));
 
         } catch (Exception e) {
 
@@ -362,10 +362,10 @@ public class CommonMethods {
     } // end isElementPresent()
 
     /**
-     * Navigates to a given URL.
+     * Navigate to a website using the URL defined in the properties file.
      *
      * @param driver      WebDriver
-     * @param propertyURL Property name of the URL as a String
+     * @param propertyURL the property name of the URL as a String
      */
     public static void navigate(WebDriver driver, String propertyURL) {
 
@@ -405,7 +405,7 @@ public class CommonMethods {
      * Pauses script execution for a desired amount of seconds.
      * This method should only be used if Explicit waits are not working.
      *
-     * @param seconds The amount of seconds to wait for. This accepts fractions of seconds as well.
+     * @param seconds the amount of seconds to wait for. This accepts fractions of seconds as well.
      */
     public static void pauseForSeconds(double seconds) {
 
@@ -416,7 +416,7 @@ public class CommonMethods {
 
             Thread.sleep(intMilli);
 
-        } catch (Exception e) {
+        } catch (InterruptedException e) {
 
             LOGGER.logAndFail("Unable to pause execution for " + seconds + " seconds", e);
 
@@ -425,10 +425,10 @@ public class CommonMethods {
     } // end pauseForSeconds()
 
     /**
-     * Takes a screenshot and embed its in the report.
+     * Takes a screenshot and embed it in the report.
      *
-     * @param driver WebDriver
-     * @param captureType   How much of the page to capture
+     * @param driver      WebDriver
+     * @param captureType how much of the page to capture
      */
     public static void screenshot(WebDriver driver, Capture captureType) {
         try {
@@ -440,6 +440,7 @@ public class CommonMethods {
             byte[] imgInBytes = outStream.toByteArray();
             outStream.close();
             Hooks.getScenario().attach(imgInBytes, "image/png", "Screenshot");
+
         } catch (Exception e) {
 
             LOGGER.log(Level.WARN, "Could not capture a screenshot of the page using Shutterbug. " +
@@ -454,9 +455,9 @@ public class CommonMethods {
      * Select an option from a dropdown list based off the order it appears.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param index   The number in the list where the desired option is
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param index   the number in the list where the desired option is
+     * @param str     the WebElement type for the log message
      */
     public static void selectDropdownOptionByIndex(WebDriver driver, By element, int index, String str) {
 
@@ -495,8 +496,8 @@ public class CommonMethods {
      * Switches to a visible iFrame based on a given locator.
      *
      * @param driver  WebDriver
-     * @param element The WebElement identifier
-     * @param str     String of WebElement for assert message
+     * @param element the WebElement identifier
+     * @param str     the WebElement type for the log message
      */
     public static void switchiFrame(WebDriver driver, By element, String str) {
 

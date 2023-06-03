@@ -14,34 +14,39 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Iterator;
 
 public class ExcelHelper {
 
     private final Sheet sheet;
+    private final String path;
+    private final Workbook wb;
     private int startRow = 0;
     private Iterator<Row> rowIterator;
 
-    public ExcelHelper(String filePath, String sheetName) throws Exception {
-        FileInputStream file = new FileInputStream(filePath);
+    public ExcelHelper(String filePath, String sheetName) throws IOException {
+        FileInputStream fis = new FileInputStream(filePath);
 
-        Workbook wb = WorkbookFactory.create(file);
+        wb = WorkbookFactory.create(fis);
         sheet = wb.getSheet(sheetName);
         rowIterator = sheet.iterator();
-
-        file.close();
+        path = filePath;
+        fis.close();
     } // end constructor
 
     /**
      * Get the value from a cell based off the row number and column name.
      *
-     * @param rowIndex   The row number
-     * @param columnName The name of the column
+     * @param rowIndex the row number
+     * @param colName  the name of the column
+     * @return the value found in the cell
      */
-    public String readCellData(int rowIndex, String columnName) {
+    public String readCellData(int rowIndex, String colName) {
 
         // Get column index from column name
-        int colIndex = getColumnIndexByName(columnName);
+        int colIndex = getColumnIndexByName(colName);
         int rowNum;
 
         rowNum = startRow + (rowIndex - 1);
@@ -51,31 +56,37 @@ public class ExcelHelper {
     } // end readCellData()
 
     /**
-     * Get the value based off a column number.
+     * Write a string value to a cell based off the row number and column name
      *
-     * @param row      The Row
-     * @param colIndex The column number
+     * @param rowIndex the row number
+     * @param colName  the name of the column
+     * @param value    the value to write to the cell
      */
-    private String getDataByColumnIndex(Row row, int colIndex) {
+    public void setCellData(int rowIndex, String colName, String value) throws IOException {
 
-        Iterator<Cell> cellIterator = row.cellIterator();
+        // Get the column number based off the header name
+        int colIndex = getColumnIndexByName(colName);
 
-        while (cellIterator.hasNext()) {
-            Cell cell = cellIterator.next();
+        // Get the row number while accounting for column headers/names
+        int rowNum = startRow + (rowIndex - 1);
+        Row row = sheet.getRow(rowNum);
 
-            if (colIndex == cell.getColumnIndex()) {
-                return getCellData(cell);
-            } // end if
+        // Create the cell and set the value
+        Cell cell = row.createCell(colIndex);
+        cell.setCellValue(value);
 
-        } // end while
+        // Write to the file
+        FileOutputStream fos = new FileOutputStream(path);
+        wb.write(fos);
+        fos.close();
 
-        return null;
-    } // end getDataByColumnIndex()
+    }
 
     /**
      * Get the data from the cell.
      *
-     * @param cell  The cell object
+     * @param cell the cell object
+     * @return a string of the data found in the cell
      */
     private String getCellData(Cell cell) {
         DataFormatter df = new DataFormatter();
@@ -86,6 +97,7 @@ public class ExcelHelper {
      * Gets the column number based off the given column name.
      *
      * @param colName the column name
+     * @return the column number
      */
     private int getColumnIndexByName(String colName) {
 
@@ -114,5 +126,28 @@ public class ExcelHelper {
 
         return -1;
     } // end getColumnIndexByName()
+
+    /**
+     * Get the value based off a column number.
+     *
+     * @param row      the Row object
+     * @param colIndex the column number
+     * @return the value from the cell based off the column number
+     */
+    private String getDataByColumnIndex(Row row, int colIndex) {
+
+        Iterator<Cell> cellIterator = row.cellIterator();
+
+        while (cellIterator.hasNext()) {
+            Cell cell = cellIterator.next();
+
+            if (colIndex == cell.getColumnIndex()) {
+                return getCellData(cell);
+            } // end if
+
+        } // end while
+
+        return null;
+    } // end getDataByColumnIndex()
 
 } // end ExcelHelper.java

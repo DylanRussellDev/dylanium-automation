@@ -16,6 +16,8 @@ public class CommandRunner {
 
     /**
      * Execute a command on the Windows Command Prompt.
+     *
+     * @param cmd the command to execute
      */
     public static void executeCommand(String cmd) {
 

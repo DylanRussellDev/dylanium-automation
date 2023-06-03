@@ -31,8 +31,8 @@ public class BrowserPreferences {
     /**
      * Set the preferred options to the ChromeDriver.
      *
-     * @param  chromeOpt       Chrome Options object
-     * @throws IOException
+     * @param chromeOpt the Chrome Options object
+     * @return the complete Chrome Options
      */
     public static ChromeOptions chromePrefs(ChromeOptions chromeOpt) throws IOException {
 
@@ -79,8 +79,8 @@ public class BrowserPreferences {
     /**
      * Set the preferred options to the EdgeDriver.
      *
-     * @param  edgeOpt       Edge Options object
-     * @throws IOException
+     * @param edgeOpt the Edge Options object
+     * @return the complete Edge Options
      */
     public static EdgeOptions edgePrefs(EdgeOptions edgeOpt) {
 
@@ -125,8 +125,7 @@ public class BrowserPreferences {
     /**
      * Enables the functionality of downloading files in headless mode by sending a command to the browser.
      *
-     * @param  cOptions      Chrome Options object
-     * @throws IOException
+     * @param cOptions the Chrome Options object
      */
     public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {
 

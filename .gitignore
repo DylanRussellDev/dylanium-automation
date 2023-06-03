@@ -1,9 +1,6 @@
-# Build directories and OS Files
+# Framework directories
 target/
-.DS_Store*
-ehthumbs.db
-Icon?
-Thumbs.db
+test-results/
 
 # IDE files
 *.iml

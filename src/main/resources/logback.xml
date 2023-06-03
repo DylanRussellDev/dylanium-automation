@@ -19,7 +19,7 @@
     <!--Generates a log file-->
     <appender name="LOG_FILE" class="ch.qos.logback.core.FileAppender">
 
-        <file>${user.dir}/target/Execution-Resources/log-files/execution-log.log</file>
+        <file>${user.dir}/test-results/log-files/execution-log.log</file>
 
         <append>true</append>
         <immediateFlush>true</immediateFlush>
@@ -35,7 +35,7 @@
     <!--Generates a html file of the logs-->
     <appender name="LOG_HTML" class="ch.qos.logback.core.FileAppender">
 
-        <file>${user.dir}/target/Execution-Resources/log-files/execution-log.html</file>
+        <file>${user.dir}/test-results/log-files/execution-log.html</file>
 
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
 

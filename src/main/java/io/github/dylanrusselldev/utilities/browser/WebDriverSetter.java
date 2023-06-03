@@ -29,8 +29,6 @@ public class WebDriverSetter {
 
     /**
      * Set the preferred browser for execution based of the -DBrowser Maven argument.
-     *
-     * @throws IOException
      */
     public static void setDriver() throws IOException {
 

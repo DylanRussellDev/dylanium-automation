@@ -61,8 +61,8 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     /**
      * Create the file for the screen recorder.
      *
-     * @param fileFormat       The format of the file
-     * @throws IOException
+     * @param fileFormat the format of the file
+     * @return the file object
      */
     @Override
     protected File createMovieFile(Format fileFormat) throws IOException {
@@ -83,8 +83,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     /**
      * Start the screen recorder.
      *
-     * @param methodName    The name of the method where the screen recorder is being started
-     * @throws Exception
+     * @param methodName the name of the method where the screen recorder is being started
      */
     public static void startRecord(String methodName) throws Exception {
 
@@ -126,26 +125,22 @@ public class ScreenRecorderUtil extends ScreenRecorder {
 
     /**
      * Stop the screen recorder.
-     *
-     * @throws Exception
      */
-    public static void stopRecord() throws Exception {
-        // Print warning message that
-        if (!RuntimeInfo.isHeadless()) {
+    public static void stopRecord() throws IOException {
+
+        if (screenRecorder != null) {
             screenRecorder.stop();
             LOGGER.log(Level.INFO, "Stopped the screen recorder");
             CommonMethods.pauseForSeconds(1);
             AVItoMP4.convertAVIToMP4();
             attachVideo();
-        } else {
-            LOGGER.logAndFail("Screen recorder was never started because -DHeadless=true or -DThreads is greater than 1");
-        } // end if else
+            screenRecorder = null;
+        }
+
     } // end stopRecord()
 
     /**
      * Attach the screen recorder file to the execution report.
-     *
-     * @throws IOException
      */
     private static void attachVideo() throws IOException {
         FileInputStream is = new FileInputStream(CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "mp4"));

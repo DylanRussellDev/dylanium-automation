@@ -6,14 +6,12 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import io.github.dylanrusselldev.webelements.eCommerceObjects;
 import org.openqa.selenium.WebDriver;
 
 public class EcommerceStepDefs {
 
     private final WebDriver driver;
-    private static final ReadConfigFile propFile = new ReadConfigFile();
 
     public EcommerceStepDefs() {
         this.driver = Hooks.getDriver();

@@ -20,8 +20,10 @@ public class RuntimeInfo {
     private static final LoggerClass LOGGER = new LoggerClass(RuntimeInfo.class);
 
     /**
-     * Returns the Browser argument from the -DBrowser property.
+     * Retrieve the Browser argument from the -DBrowser property.
      * This also checks to see if the -DBrowser property was initialized correctly.
+     *
+     * @return the browser name given in the -DBrowser property
      */
     public static String getBrowserName() {
 
@@ -42,9 +44,10 @@ public class RuntimeInfo {
     } // end getBrowserName()
 
     /**
-     * Returns the browser name and version to include in the reports.
+     * Retrieves the browser name and version that the scripts are executing on.
      *
-     * @param threadCap The Capabilities information passed in from Hooks
+     * @param threadCap the Capabilities information passed in from Hooks
+     * @return the browser name and version
      */
     public static String getBrowserVersion(Capabilities threadCap) {
 
@@ -64,7 +67,7 @@ public class RuntimeInfo {
     } // end getBrowserVersion()
 
     /**
-     * Returns the OS the tests are executing on to include in the reports.
+     * Identify the Operating System that the scripts are executing on.
      *
      * @return string OS as a string
      */
@@ -90,8 +93,10 @@ public class RuntimeInfo {
     } // end getOSInfo()
 
     /**
-     * Returns the number of threads given in the -DThreads property.
+     * Retrieve the number of threads given in the -DThreads property.
      * This also checks to see if the -DThreads property was initialized correctly.
+     *
+     * @return the number of threads
      */
     public static Integer getThreads() {
         int threads;
@@ -133,6 +138,8 @@ public class RuntimeInfo {
     /**
      * Returns the value given from the -DHeadless property.
      * This also checks to see if the -DHeadless property was initialized correctly.
+     *
+     * @return is headless set to true or false
      */
     public static boolean isHeadless() {
 

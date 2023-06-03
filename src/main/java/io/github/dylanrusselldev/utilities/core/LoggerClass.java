@@ -21,6 +21,12 @@ public class LoggerClass {
         this.logger = LoggerFactory.getLogger(className);
     } // end constructor
 
+    /**
+     * Logs a message to the html and log text files.
+     *
+     * @param level the severity of the log message
+     * @param msg   the message to include in the log files
+     */
     public void log(Level level, String msg) {
 
         switch (level) {
@@ -49,6 +55,13 @@ public class LoggerClass {
 
     } // end method
 
+    /**
+     * Logs a message to the html and log text files that includes the Exception information.
+     *
+     * @param level the severity of the log message
+     * @param msg   the message to include in the log files
+     * @param t     the Exception
+     */
     public void log(Level level, String msg, Throwable t) {
 
         switch (level) {
@@ -77,21 +90,34 @@ public class LoggerClass {
 
     } // end method
 
-    // Logs a user friendly error message on the cucumber reports using the Assert.fail method.
-    // Also includes a custom log message in the log text and html file.
+    /**
+     * Logs a user friendly error message on the cucumber reports using the Assert.fail method.
+     * Also includes a custom log message in the log text and html file.
+     *
+     * @param msg the message to include in the log files
+     */
     public void logAndFail(String msg) {
         log(Level.ERROR, msg);
         fail(msg + "\n");
     }
 
-    // Logs a user friendly error message on the reports using the Assert.fail method.
-    // Also includes a custom log message, along with the error trace in the log text and html file.
+    /**
+     * Logs a user friendly error message on the cucumber reports using the Assert.fail method.
+     * Also includes a custom log message in the log text and html file along with the stack trace.
+     *
+     * @param msg the message to include in the log files
+     * @param t   the Exception
+     */
     public void logAndFail(String msg, Throwable t) {
         log(Level.ERROR, msg, t);
         fail(msg + "\n");
     }
 
-    // Log a message only in the reports
+    /**
+     * Logs a message only in the cucumber reports
+     *
+     * @param msg the message to include in the log files
+     */
     public void logCucumberReport(String msg) {
         Hooks.getScenario().log(msg);
     }

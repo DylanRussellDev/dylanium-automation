@@ -33,9 +33,8 @@ public class PDFValidation {
      * Method to validate a PDF's text that is open in a browser tab/window.
      *
      * @param driver       WebDriver object
-     * @param textToVerify The text to check for
-     * @param pdfName      The PDF name for exception message
-     * @throws IOException
+     * @param textToVerify the text to check for
+     * @param pdfName      the PDF name for exception message
      */
     public static void verifyTextInBrowserPDF(WebDriver driver, String textToVerify, String pdfName) throws IOException {
         String content;
@@ -64,9 +63,8 @@ public class PDFValidation {
     /**
      * Method to validate a PDF's text that is locally downloaded.
      *
-     * @param txtVerify The text to check
-     * @param pdfName   The PDF name for exception message
-     * @throws IOException
+     * @param txtVerify the text to check
+     * @param pdfName   the PDF name for exception message
      */
     public static void verifyDownloadedPDFText(String txtVerify, String pdfName) throws IOException {
         URL pdfLoc = new URL("file:///" + CommonMethods.getNewestFile(Constants.TARGET_FILE_DOWNLOADS, "pdf"));
@@ -120,8 +118,8 @@ public class PDFValidation {
      * to use for converting into a PDF.
      *
      * @param driver WebDriver object
-     * @param url    The URL
-     * @return String   The result as a Base64 string to convert
+     * @param url    the URL
+     * @return the result as a Base64 string to convert
      */
     private static String getBytesBase64FromBlob(WebDriver driver, String url) {
         final String script = " "

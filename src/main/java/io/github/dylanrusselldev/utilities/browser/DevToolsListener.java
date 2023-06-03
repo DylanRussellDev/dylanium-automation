@@ -24,9 +24,10 @@ import java.util.List;
 
 public class DevToolsListener {
 
-    protected static List<String> devtoolErrors = Collections.synchronizedList(new ArrayList<>());
-    private static final LoggerClass LOGGER = new LoggerClass(DevToolsListener.class);
     private final DevTools devTools;
+    protected static List<String> devtoolErrors = Collections.synchronizedList(new ArrayList<>());
+
+    private static final LoggerClass LOGGER = new LoggerClass(DevToolsListener.class);
 
     public DevToolsListener(WebDriver driver) {
 

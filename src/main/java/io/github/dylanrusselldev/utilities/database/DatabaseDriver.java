@@ -18,12 +18,9 @@ import java.sql.SQLException;
 
 public class DatabaseDriver {
 
-    // Database connection object
     private Connection connection;
-
-    // Class Objects
-    private static final ReadConfigFile propReader = new ReadConfigFile();
     private static final LoggerClass LOGGER = new LoggerClass(DatabaseDriver.class);
+    private static final ReadConfigFile propReader = new ReadConfigFile();
 
     public DatabaseDriver() {
 
@@ -49,9 +46,9 @@ public class DatabaseDriver {
      * Creates a new connection to the database with the specified URL,
      * username, and password.
      *
-     * @param  url          the URL of the database to connect to
-     * @param  username     the username to use for authentication
-     * @param  password     the password to use for authentication
+     * @param url      the URL of the database to connect to
+     * @param username the username to use for authentication
+     * @param password the password to use for authentication
      */
     private void createConnection(String url, String username, String password) {
         try {
@@ -86,10 +83,10 @@ public class DatabaseDriver {
     /**
      * Get the result returned from an executed query statement.
      *
-     * @param  query        The query to execute
-     * @throws Exception
+     * @param query the query to execute
+     * @return the string result from the query
      */
-    public String queryData(String query) throws Exception {
+    public String queryData(String query) throws SQLException {
         String strData = null;
         ResultSet rs = getResult(query);
 
@@ -107,8 +104,8 @@ public class DatabaseDriver {
     /**
      * Executes a given query.
      *
-     * @param  query        The query to execute
-     * @throws SQLException
+     * @param query the query to execute
+     * @return the query result as a ResultSet
      */
     private ResultSet getResult(String query) throws SQLException {
 

@@ -14,10 +14,12 @@ import io.cucumber.java.Scenario;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.browser.WebDriverSetter;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
+import io.github.dylanrusselldev.utilities.screenrecorder.ScreenRecorderUtil;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
+import java.io.IOException;
 import java.time.Duration;
 
 public class Hooks {
@@ -31,8 +33,7 @@ public class Hooks {
     /**
      * Code that executes before every test.
      *
-     * @param scenObj Scenario object
-     * @throws Exception
+     * @param scenObj the Scenario object
      */
     @Before
     public void start(Scenario scenObj) throws Exception {
@@ -55,12 +56,14 @@ public class Hooks {
 
     /**
      * Code that executes after every test.
-     *
-     * @param scenario Scenario object
      */
     @After
-    public void afterScenario(Scenario scenario) {
+    public void afterScenario(Scenario scenario) throws IOException {
 
+        // Stop the screen recording if it was started
+        ScreenRecorderUtil.stopRecord();
+
+        // If the test failed, take a screenshot and print the DevTools errors
         if (scenario.isFailed()) {
             CommonMethods.screenshot(getDriver(), Capture.FULL);
             DevToolsListener.logDevToolErrors();
@@ -69,13 +72,15 @@ public class Hooks {
         // Quit the driver
         getDriver().quit();
 
-        // Remove the driver from ThreadLocal
+        // Remove the driver from the thread
         driver.remove();
 
     } // end afterScenario
 
     /**
      * Return the WebDriver object for the current thread.
+     *
+     * @return the WebDriver object
      */
     public static WebDriver getDriver() {
         return driver.get();
