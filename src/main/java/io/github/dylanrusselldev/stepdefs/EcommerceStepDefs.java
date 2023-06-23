@@ -1,6 +1,5 @@
 package io.github.dylanrusselldev.stepdefs;
 
-import com.assertthat.selenium_shutterbug.core.Capture;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -34,13 +33,13 @@ public class EcommerceStepDefs {
             case "MacBook Air":
                 CommonMethods.click(driver, eCommerceObjects.btnCompareMacBookAir, "MacBook Air Compare button");
                 CommonMethods.isElementPresent(driver, eCommerceObjects.msgSuccessProductComparison, "Success Message");
-                CommonMethods.screenshot(driver, Capture.FULL);
+                CommonMethods.screenshot(driver);
                 break;
 
             case "MacBook Pro":
                 CommonMethods.click(driver, eCommerceObjects.btnCompareMacBookPro, "MacBook Pro Compare button");
                 CommonMethods.isElementPresent(driver, eCommerceObjects.msgSuccessProductComparison, "Success Message");
-                CommonMethods.screenshot(driver, Capture.FULL);
+                CommonMethods.screenshot(driver);
                 break;
         } // end case statement
     }
@@ -54,7 +53,7 @@ public class EcommerceStepDefs {
     public void the_two_macbooks_will_be_compared_side_by_side() {
         CommonMethods.isElementPresent(driver, eCommerceObjects.lblMacBookAir, "MacBook Air link text");
         CommonMethods.isElementPresent(driver, eCommerceObjects.lblMacBookPro, "MacBook Pro link text");
-        CommonMethods.screenshot(driver, Capture.FULL);
+        CommonMethods.screenshot(driver);
     }
 
 }

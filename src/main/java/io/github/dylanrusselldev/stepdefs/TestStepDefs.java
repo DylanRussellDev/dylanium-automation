@@ -1,6 +1,5 @@
 package io.github.dylanrusselldev.stepdefs;
 
-import com.assertthat.selenium_shutterbug.core.Capture;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -14,14 +13,13 @@ import io.github.dylanrusselldev.webelements.CalculatorObjects;
 import io.github.dylanrusselldev.webelements.DemoSiteObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.slf4j.event.Level;
 
 import static org.testng.Assert.assertEquals;
 
 public class TestStepDefs {
 
     private final WebDriver driver;
-    private static final ReadConfigFile propFile = new ReadConfigFile();
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile();
     private static final LoggerClass LOGGER = new LoggerClass(TestStepDefs.class);
 
     public TestStepDefs() {
@@ -44,9 +42,9 @@ public class TestStepDefs {
     @Then("verify the output is {string}")
     public void verify_the_output_is(String answer) {
         String result = CommonMethods.getElementText(driver, CalculatorObjects.txtOutput, "Result").replaceAll("\\s", "");
-        LOGGER.log(Level.INFO, "Calculated Result: " + answer);
+        LOGGER.info("Calculated Result: " + answer);
         assertEquals(answer, result, "Output: " + answer + " is not correct");
-        CommonMethods.screenshot(driver, Capture.FULL);
+        CommonMethods.screenshot(driver);
     }
 
     @Given("the screen recorder is started")
@@ -80,7 +78,7 @@ public class TestStepDefs {
 
     @When("the user enters the username")
     public void the_user_enters_the_username() {
-        CommonMethods.enterText(driver, DemoSiteObjects.txtUsername, propFile.properties.getProperty("demoUser"), "Username text box");
+        CommonMethods.enterText(driver, DemoSiteObjects.txtUsername, readConfigFile.properties.getProperty("demoUser"), "Username text box");
     }
 
     @When("the user enters the decrypted password")
@@ -102,8 +100,8 @@ public class TestStepDefs {
     @When("the user clicks the {string} code")
     public void the_user_clicks_the_code(String code) {
         // Start DevTools listener
-        DevToolsListener dt = new DevToolsListener(driver);
-        dt.startDevToolsListener();
+        DevToolsListener devToolsListener = new DevToolsListener(driver);
+        devToolsListener.startDevToolsListener();
 
         CommonMethods.click(driver, By.xpath(DemoSiteObjects.lnkStatusCodes.replace("STATUS_CODE", code)),
                 "Status Code " + code + " option");
@@ -137,14 +135,14 @@ public class TestStepDefs {
 
     @Then("take a screenshot of the page with the username and password fields blurred out")
     public void take_a_screenshot_of_the_page_with_the_username_and_password_fields_blurred_out() {
-        CommonMethods.enterText(driver, DemoSiteObjects.txtUsername, propFile.properties.getProperty("demoUser"), "Username text box");
+        CommonMethods.enterText(driver, DemoSiteObjects.txtUsername, readConfigFile.properties.getProperty("demoUser"), "Username text box");
         CommonMethods.blurElement(driver, DemoSiteObjects.txtUsername, "Username text box");
 
         CommonMethods.enterText(driver, DemoSiteObjects.txtPassword, CommonMethods.decrypt("demoPass"), "Password text box");
         CommonMethods.blurElement(driver, DemoSiteObjects.txtPassword, "Username text box");
 
         CommonMethods.pauseForSeconds(3);
-        CommonMethods.screenshot(driver, Capture.FULL);
+        CommonMethods.screenshot(driver);
     }
 
 } // end TestStepDefs.java

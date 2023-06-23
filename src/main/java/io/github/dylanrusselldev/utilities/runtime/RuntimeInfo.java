@@ -10,7 +10,6 @@ package io.github.dylanrusselldev.utilities.runtime;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import org.openqa.selenium.Capabilities;
-import org.slf4j.event.Level;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,8 @@ import java.util.List;
 public class RuntimeInfo {
 
     private static final LoggerClass LOGGER = new LoggerClass(RuntimeInfo.class);
+
+    public static Capabilities capabilities;
 
     /**
      * Retrieve the Browser argument from the -DBrowser property.
@@ -43,23 +44,28 @@ public class RuntimeInfo {
 
     } // end getBrowserName()
 
+    private static void setCapabilities(Capabilities cap) {
+        capabilities = cap;
+    }
+
     /**
      * Retrieves the browser name and version that the scripts are executing on.
      *
-     * @param threadCap the Capabilities information passed in from Hooks
      * @return the browser name and version
      */
-    public static String getBrowserVersion(Capabilities threadCap) {
+    public static String getBrowserVersion(Capabilities cap) {
+
+        setCapabilities(cap);
 
         try {
 
-            String str = threadCap.getBrowserName().equalsIgnoreCase("Msedge") ? "MS Edge" : threadCap.getBrowserName();
-            String info = str + " " + threadCap.getBrowserVersion();
+            String str = cap.getBrowserName().equalsIgnoreCase("Msedge") ? "MS Edge" : cap.getBrowserName();
+            String info = str + " " + cap.getBrowserVersion();
             return info.substring(0, 1).toUpperCase() + info.substring(1);
 
         } catch (Exception e) {
 
-            LOGGER.log(Level.WARN, "Could not find browser name and version the tests were executed on", e);
+            LOGGER.warn("Could not find browser name and version the tests were executed on", e);
             return null;
 
         } // end try catch

@@ -11,7 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.slf4j.event.Level;
 
 import java.io.IOException;
 
@@ -52,7 +51,7 @@ public class BrowserSetupStepDefs {
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = getChromeUpdateText();
-	    		LOGGER.log(Level.INFO, "Chrome Update Status: " + txt);
+	    		LOGGER.info("Chrome Update Status: " + txt);
 	    		
 	    		if (txt.contains(Constants.CHROME_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
 	    			break;
@@ -64,7 +63,7 @@ public class BrowserSetupStepDefs {
 	    	
 	    } else {
 
-			LOGGER.log(Level.INFO, "Chrome is up to date");
+			LOGGER.info("Chrome is up to date");
 
 	    } // end outer if-else
 	}
@@ -108,7 +107,7 @@ public class BrowserSetupStepDefs {
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
-				LOGGER.log(Level.INFO, "Edge Update Status: " + txt);
+				LOGGER.info("Edge Update Status: " + txt);
 	    		
 	    		if (txt.contains(Constants.EDGE_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
 	    			break;
@@ -119,7 +118,7 @@ public class BrowserSetupStepDefs {
 	    	} // end for
 	    	
 	    } else {
-			LOGGER.log(Level.INFO, "Edge is up to date");
+			LOGGER.info("Edge is up to date");
 	    } // end outer if-else
 
 	}

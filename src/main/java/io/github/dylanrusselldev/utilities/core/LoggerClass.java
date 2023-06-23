@@ -9,7 +9,6 @@ package io.github.dylanrusselldev.utilities.core;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.slf4j.event.Level;
 
 import static org.testng.Assert.fail;
 
@@ -21,74 +20,45 @@ public class LoggerClass {
         this.logger = LoggerFactory.getLogger(className);
     } // end constructor
 
-    /**
-     * Logs a message to the html and log text files.
-     *
-     * @param level the severity of the log message
-     * @param msg   the message to include in the log files
-     */
-    public void log(Level level, String msg) {
+    public void info(String msg) {
+        logger.info(msg);
+    }
 
-        switch (level) {
+    public void info(String msg, Exception e) {
+        logger.info(msg, e);
+    }
 
-            case INFO:
-                logger.info(msg);
-                break;
+    public void warn(String msg) {
+        logger.warn(msg);
+    }
 
-            case WARN:
-                logger.warn(msg);
-                break;
+    public void warn(String msg, Exception e) {
+        logger.warn(msg, e);
+    }
 
-            case ERROR:
-                logger.error(msg);
-                break;
+    public void error(String msg) {
+        logger.error(msg);
+    }
 
-            case DEBUG:
-                logger.debug(msg);
-                break;
+    public void error(String msg, Exception e) {
+        logger.error(msg, e);
+    }
 
-            case TRACE:
-                logger.trace(msg);
-                break;
+    public void debug(String msg) {
+        logger.debug(msg);
+    }
 
-        } // end switch
+    public void debug(String msg, Exception e) {
+        logger.debug(msg, e);
+    }
 
-    } // end method
+    public void trace(String msg) {
+        logger.trace(msg);
+    }
 
-    /**
-     * Logs a message to the html and log text files that includes the Exception information.
-     *
-     * @param level the severity of the log message
-     * @param msg   the message to include in the log files
-     * @param t     the Exception
-     */
-    public void log(Level level, String msg, Throwable t) {
-
-        switch (level) {
-
-            case INFO:
-                logger.info(msg, t);
-                break;
-
-            case WARN:
-                logger.warn(msg, t);
-                break;
-
-            case ERROR:
-                logger.error(msg, t);
-                break;
-
-            case DEBUG:
-                logger.debug(msg, t);
-                break;
-
-            case TRACE:
-                logger.trace(msg, t);
-                break;
-
-        } // end switch
-
-    } // end method
+    public void trace(String msg, Exception e) {
+        logger.trace(msg, e);
+    }
 
     /**
      * Logs a user friendly error message on the cucumber reports using the Assert.fail method.
@@ -97,7 +67,7 @@ public class LoggerClass {
      * @param msg the message to include in the log files
      */
     public void logAndFail(String msg) {
-        log(Level.ERROR, msg);
+        error(msg);
         fail(msg + "\n");
     }
 
@@ -106,10 +76,10 @@ public class LoggerClass {
      * Also includes a custom log message in the log text and html file along with the stack trace.
      *
      * @param msg the message to include in the log files
-     * @param t   the Exception
+     * @param e   the Exception
      */
-    public void logAndFail(String msg, Throwable t) {
-        log(Level.ERROR, msg, t);
+    public void logAndFail(String msg, Exception e) {
+        error(msg, e);
         fail(msg + "\n");
     }
 
@@ -120,6 +90,7 @@ public class LoggerClass {
      */
     public void logCucumberReport(String msg) {
         Hooks.getScenario().log(msg);
+        info(msg);
     }
 
 } // end LoggerClass

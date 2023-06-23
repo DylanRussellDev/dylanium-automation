@@ -10,9 +10,9 @@ import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 
 public class Constants {
 
-    private static final ReadConfigFile readFile = new ReadConfigFile();
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile();
 
-    public static final Long TIMEOUT = Long.parseLong(readFile.properties.getProperty("timeout"));
+    public static final Long TIMEOUT = Long.parseLong(readConfigFile.properties.getProperty("timeout"));
 
     // Browser Updates
     public static final String CHECKING_FOR_UPDATES = "Checking for updates";
@@ -27,8 +27,8 @@ public class Constants {
 
     // Masterthought Report
     public static final String MASTERTHOUGHT_REPORT_PATH =  TEST_RESULTS + "\\masterthought-report\\";
-    public static final String CUCUMBER_HTML_REPORT_PATH = "target/test-results/cucumber-reports/cucumber-report.html";
-    public static final String CUCUMBER_JSON_REPORT_PATH = "target/test-results/cucumber-reports/cucumber.json";
+    public static final String CUCUMBER_HTML_REPORT_PATH = "test-results/cucumber-reports/cucumber-report.html";
+    public static final String CUCUMBER_JSON_REPORT_PATH = "test-results/cucumber-reports/cucumber.json";
 
     // Screen Recorder constants
     public static final String VIDEO_FOLDER_PATH = TEST_RESULTS + "\\video-recordings\\";

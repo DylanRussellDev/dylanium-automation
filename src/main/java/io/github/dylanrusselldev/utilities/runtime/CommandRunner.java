@@ -8,7 +8,6 @@ package io.github.dylanrusselldev.utilities.runtime;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
-import org.slf4j.event.Level;
 
 public class CommandRunner {
 
@@ -25,7 +24,7 @@ public class CommandRunner {
             Runtime.getRuntime().exec(cmd);
             CommonMethods.pauseForSeconds(2);
         } catch (Exception e) {
-            LOGGER.log(Level.ERROR, "Error. Could not run the following command: " + cmd, e);
+            LOGGER.error("Error. Could not run the following command: " + cmd, e);
         } // end try-catch
 
     } // end executeCommand()
@@ -55,12 +54,12 @@ public class CommandRunner {
                 break;
 
             default:
-                LOGGER.logAndFail("Browser was not defined properly");
+                LOGGER.logAndFail("-DBrowser was not defined properly");
                 break;
 
         } // end switch statement
 
-        LOGGER.log(Level.INFO, "Attempting to end WebDriver exe...");
+        LOGGER.info("Ending any remaining drivers");
 
         executeCommand(cmd);
 

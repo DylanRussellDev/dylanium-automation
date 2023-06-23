@@ -28,27 +28,27 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 public class EncryptionApp extends JPanel implements ActionListener {
 
-    private static final ReadConfigFile propFile = new ReadConfigFile();
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile();
 
     private static final String OK = "OK";
-    private final JFrame controlFrame;
-    private final JPasswordField passwordField;
+    private final JFrame jFrame;
+    private final JPasswordField jPasswordField;
 
     public EncryptionApp(JFrame f) {
-        controlFrame = f;
-        passwordField = new JPasswordField(10);
-        passwordField.setActionCommand(OK);
-        passwordField.addActionListener(this);
+        jFrame = f;
+        jPasswordField = new JPasswordField(10);
+        jPasswordField.setActionCommand(OK);
+        jPasswordField.addActionListener(this);
 
-        JLabel label = new JLabel("Type the password to encrypt: ");
-        label.setLabelFor(passwordField);
+        JLabel jLabel = new JLabel("Type the password to encrypt: ");
+        jLabel.setLabelFor(jPasswordField);
         JComponent btnPane = createButtonPanel();
 
-        JPanel textPane = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+        JPanel jPanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 
-        textPane.add(label);
-        textPane.add(passwordField);
-        add(textPane);
+        jPanel.add(jLabel);
+        jPanel.add(jPasswordField);
+        add(jPanel);
         add(btnPane);
     } // end constructor
 
@@ -59,12 +59,12 @@ public class EncryptionApp extends JPanel implements ActionListener {
 
     // Create the button panel
     protected JComponent createButtonPanel() {
-        JPanel p = new JPanel(new GridLayout(0, 1));
-        JButton encryptButton = new JButton("Encrypt");
-        encryptButton.setActionCommand(OK);
-        encryptButton.addActionListener(this);
-        p.add(encryptButton);
-        return p;
+        JPanel jPanel = new JPanel(new GridLayout(0, 1));
+        JButton jButton = new JButton("Encrypt");
+        jButton.setActionCommand(OK);
+        jButton.addActionListener(this);
+        jPanel.add(jButton);
+        return jPanel;
     } // end createButtonPanel()
 
     // Handle the actions
@@ -74,28 +74,28 @@ public class EncryptionApp extends JPanel implements ActionListener {
         if (OK.equals(cmd)) {
 
             StandardPBEStringEncryptor encryptor = new StandardPBEStringEncryptor();
-            encryptor.setAlgorithm(propFile.properties.getProperty("algorithm"));
-            encryptor.setPassword(propFile.properties.getProperty("secretPass"));
+            encryptor.setAlgorithm(readConfigFile.properties.getProperty("algorithm"));
+            encryptor.setPassword(readConfigFile.properties.getProperty("secretPass"));
             encryptor.setIvGenerator(new RandomIvGenerator());
-            encryptor.setKeyObtentionIterations(Integer.parseInt(propFile.properties.getProperty("keyIterations")));
+            encryptor.setKeyObtentionIterations(Integer.parseInt(readConfigFile.properties.getProperty("keyIterations")));
 
-            char[] input = passwordField.getPassword();
+            char[] input = jPasswordField.getPassword();
             String in = String.valueOf(input);
 
             String encryptedPassword = encryptor.encrypt(in);
 
-            JOptionPane.showInputDialog(controlFrame, "Encrypted Password", encryptedPassword);
-            passwordField.selectAll();
+            JOptionPane.showInputDialog(jFrame, "Encrypted Password", encryptedPassword);
+            jPasswordField.selectAll();
             resetFocus();
 
         } else {
-            JOptionPane.showMessageDialog(controlFrame, "Error Occured");
+            JOptionPane.showMessageDialog(jFrame, "Error Occured");
         } // end if-else
     } // end actionPerformed()
 
     // Reset focus to text box
     protected void resetFocus() {
-        passwordField.requestFocusInWindow();
+        jPasswordField.requestFocusInWindow();
     } // end resetFocus()
 
     // Build the application UI and display
@@ -103,15 +103,15 @@ public class EncryptionApp extends JPanel implements ActionListener {
         JFrame frame = new JFrame("Encrypt a Password");
         frame.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        final EncryptionApp newContentPane = new EncryptionApp(frame);
+        final EncryptionApp encryptionApp = new EncryptionApp(frame);
 
         // Set content pane
-        newContentPane.setOpaque(true);
-        frame.setContentPane(newContentPane);
+        encryptionApp.setOpaque(true);
+        frame.setContentPane(encryptionApp);
         frame.addWindowListener(new WindowAdapter() {
             @Override
             public void windowActivated(WindowEvent e) {
-                newContentPane.resetFocus();
+                encryptionApp.resetFocus();
             } // end windowActivated
         });
 

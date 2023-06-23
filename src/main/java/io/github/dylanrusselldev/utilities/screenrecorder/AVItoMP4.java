@@ -10,7 +10,6 @@ package io.github.dylanrusselldev.utilities.screenrecorder;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
-import org.slf4j.event.Level;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.encode.AudioAttributes;
@@ -31,7 +30,7 @@ public class AVItoMP4 {
      */
     public static void convertAVIToMP4() {
 
-        LOGGER.log(Level.INFO, "Attempting to convert the AVI file to MP4");
+        LOGGER.info("Attempting to convert the AVI file to MP4");
 
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
@@ -43,33 +42,33 @@ public class AVItoMP4 {
         File target = new File(Constants.VIDEO_FOLDER_PATH + "\\result-video-" + dateFormat.format(new Date()) + ".mp4");
 
         // Set the Audio Attributes
-        AudioAttributes audio = new AudioAttributes();
-        audio.setCodec("libmp3lame");
-        audio.setBitRate(16000);    // Increase the value of the Bit Rate for higher quality audio
-        audio.setChannels(2);
+        AudioAttributes audioAttributes = new AudioAttributes();
+        audioAttributes.setCodec("libmp3lame");
+        audioAttributes.setBitRate(16000);    // Increase the value of the Bit Rate for higher quality audio
+        audioAttributes.setChannels(2);
 
         // Set the Video Attributes
-        VideoAttributes video = new VideoAttributes();
-        video.setCodec("libx264");
-        video.setBitRate(500000);   // Increase the value of the Bit Rate for higher quality video
-        video.setFrameRate(15);
-        video.setSize(new VideoSize(1280, 720));
+        VideoAttributes videoAttributes = new VideoAttributes();
+        videoAttributes.setCodec("libx264");
+        videoAttributes.setBitRate(500000);   // Increase the value of the Bit Rate for higher quality video
+        videoAttributes.setFrameRate(15);
+        videoAttributes.setSize(new VideoSize(1280, 720));
 
         // Assign the attributes to the Encoding object
-        EncodingAttributes attrs = new EncodingAttributes();
-        attrs.setOutputFormat("mp4");
-        attrs.setAudioAttributes(audio);
-        attrs.setVideoAttributes(video);
+        EncodingAttributes encodingAttributes = new EncodingAttributes();
+        encodingAttributes.setOutputFormat("mp4");
+        encodingAttributes.setAudioAttributes(audioAttributes);
+        encodingAttributes.setVideoAttributes(videoAttributes);
 
         // Create a new multimedia object from the AVI file.
-        MultimediaObject src = new MultimediaObject(aviFile);
+        MultimediaObject multimediaObject = new MultimediaObject(aviFile);
 
         // Attempt to convert the AVI video to an MP4
         try {
             Encoder encoder = new Encoder();
-            encoder.encode(src, target, attrs);
+            encoder.encode(multimediaObject, target, encodingAttributes);
         } catch (Exception e) {
-            LOGGER.log(Level.ERROR, "Could not convert the file: " + aviFile + " to an MP4 file.", e);
+            LOGGER.error("Could not convert the file: " + aviFile + " to an MP4 file.", e);
         } // end try catch
 
     } // end convertAVIToMP4()

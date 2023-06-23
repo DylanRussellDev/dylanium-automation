@@ -15,7 +15,6 @@ import org.openqa.selenium.devtools.Command;
 import org.openqa.selenium.devtools.DevTools;
 import org.openqa.selenium.devtools.v113.network.Network;
 import org.openqa.selenium.edge.EdgeDriver;
-import org.slf4j.event.Level;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -42,9 +41,9 @@ public class DevToolsListener {
         try {
             devTools.createSessionIfThereIsNotOne();
             devTools.send(new Command<>("Network.enable", ImmutableMap.of()));
-            LOGGER.log(Level.INFO, "Started the DevTools Listener");
+            LOGGER.info("Started the DevTools Listener");
         } catch (Exception e) {
-            LOGGER.log(Level.WARN, "Could not create a DevTools session", e);
+            LOGGER.warn("Could not create a DevTools session", e);
         } // end try-catch
 
     } // end constructor
@@ -56,7 +55,7 @@ public class DevToolsListener {
 
         try {
 
-            LOGGER.log(Level.INFO, "Started the DevTools Listener");
+            LOGGER.info("Started the DevTools Listener");
 
             devTools.addListener(Network.responseReceived(), receive -> {
                 Integer statusCode = receive.getResponse().getStatus();
@@ -73,7 +72,7 @@ public class DevToolsListener {
 
             }); // end addListener
         } catch (Exception e) {
-            LOGGER.log(Level.WARN, "Could not create a DevTools session", e);
+            LOGGER.warn("Could not create a DevTools session", e);
         } // end try-catch
 
     } // end startDevToolsListener()

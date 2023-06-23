@@ -31,27 +31,27 @@ public class BrowserPreferences {
     /**
      * Set the preferred options to the ChromeDriver.
      *
-     * @param chromeOpt the Chrome Options object
      * @return the complete Chrome Options
      */
-    public static ChromeOptions chromePrefs(ChromeOptions chromeOpt) throws IOException {
+    public static ChromeOptions chromePrefs() throws IOException {
+
+        // Disable unneccessary log messages from Selenium and Chrome
+        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.WARNING);
+        System.setProperty("webdriver.chrome.args", "disable-logging");
+        System.setProperty("webdriver.chrome.silentOutput", "true");
 
         // Disables the PDF viewer in Chrome to enable file downloads
         HashMap<String, Object> chromeMap = new HashMap<>();
         chromeMap.put("plugins.plugins_disabled", new String[]{"Chrome PDF Viewer"});
         chromeMap.put("plugins.always_open_pdf_externally", true);
         chromeMap.put("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
-        chromeOpt.setExperimentalOption("prefs", chromeMap);
-
-        // Disable unnecessary console logging from Chrome
-        System.setProperty("webdriver.chrome.args", "--disable-logging");
-        System.setProperty("webdriver.chrome.silentOutput", "true");
 
         // Add Chrome Options
-        chromeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-
-        chromeOpt.addArguments(
-                "--remote-allow-origins=*",
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.setExperimentalOption("prefs", chromeMap);
+        chromeOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+        chromeOptions.addArguments(
+                "remote-allow-origins=*",
                 "no-sandbox",
                 "start-maximized",
                 "disable-dev-shm-usage",
@@ -63,42 +63,42 @@ public class BrowserPreferences {
         // Enable Headless execution if -DHeadless is set to true
         if (RuntimeInfo.isHeadless()) {
 
-            chromeOpt.addArguments(
-                    "--headless=new",
+            chromeOptions.addArguments(
+                    "headless=new",
                     "window-size=1920,1080");
 
-            chromeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-            enableHeadlessDownloads(chromeOpt);
+            chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+            enableHeadlessDownloads(chromeOptions);
 
         } // end if
 
-        return chromeOpt;
+        return chromeOptions;
 
     } // end chromePrefs()
 
     /**
      * Set the preferred options to the EdgeDriver.
      *
-     * @param edgeOpt the Edge Options object
      * @return the complete Edge Options
      */
-    public static EdgeOptions edgePrefs(EdgeOptions edgeOpt) {
+    public static EdgeOptions edgePrefs() {
+
+        // Disable unnecessary console logging from Selenium and Edge
+        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.WARNING);
+        System.setProperty("webdriver.edge.args", "disable-logging");
+        System.setProperty("webdriver.edge.silentOutput", "true");
 
         // Set the default download directory
         HashMap<String, Object> edgeMap = new HashMap<>();
         edgeMap.put("plugins.plugins_disabled", new String[]{"Edge PDF Viewer"});
         edgeMap.put("plugins.always_open_pdf_externally", true);
         edgeMap.put("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
-        edgeOpt.setExperimentalOption("prefs", edgeMap);
-
-        // Disable unnecessary console logging from Browser
-        System.setProperty("webdriver.edge.args", "--disable-logging");
-        System.setProperty("webdriver.edge.silentOutput", "true");
 
         // Add Edge Options
-        edgeOpt.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
-
-        edgeOpt.addArguments(
+        EdgeOptions edgeOptions = new EdgeOptions();
+        edgeOptions.setExperimentalOption("prefs", edgeMap);
+        edgeOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
+        edgeOptions.addArguments(
                 "no-sandbox",
                 "start-maximized",
                 "disable-dev-shm-usage",
@@ -110,15 +110,15 @@ public class BrowserPreferences {
         // Enable Headless execution if -DHeadless is set to true
         if (RuntimeInfo.isHeadless()) {
 
-            edgeOpt.addArguments(
-                    "--headless=new",
+            edgeOptions.addArguments(
+                    "headless=new",
                     "window-size=1920,1080");
 
-            edgeOpt.setPageLoadStrategy(PageLoadStrategy.NORMAL);
+            edgeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
 
         } // end if
 
-        return edgeOpt;
+        return edgeOptions;
 
     } // end edgePrefs()
 
@@ -129,8 +129,8 @@ public class BrowserPreferences {
      */
     public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {
 
-        ChromeDriverService ds = ChromeDriverService.createDefaultService();
-        Hooks.setDriver(new ChromeDriver(ds, cOptions));
+        ChromeDriverService chromeDriverService = ChromeDriverService.createDefaultService();
+        Hooks.setDriver(new ChromeDriver(chromeDriverService, cOptions));
 
         Map<String, Object> commandParams = new HashMap<>();
         Map<String, Object> params = new HashMap<>();
@@ -140,17 +140,18 @@ public class BrowserPreferences {
         params.put("downloadPath", Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName());
         commandParams.put("params", params);
 
-        ObjectMapper objMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
-        String cmd = objMapper.writeValueAsString(commandParams);
-        String sendCmd = ds.getUrl().toString() + "/session/" + ((RemoteWebDriver) Hooks.getDriver()).getSessionId() + "/chromium/send_command";
+        String cmd = objectMapper.writeValueAsString(commandParams);
+        String sendCmd = chromeDriverService.getUrl().toString()
+                + "/session/" + ((RemoteWebDriver) Hooks.getDriver()).getSessionId() + "/chromium/send_command";
 
-        HttpPost request = new HttpPost(sendCmd);
-        request.addHeader("content-type", "application/json");
-        request.setEntity(new StringEntity(cmd));
+        HttpPost httpPost = new HttpPost(sendCmd);
+        httpPost.addHeader("content-type", "application/json");
+        httpPost.setEntity(new StringEntity(cmd));
 
         HttpClient httpClient = HttpClientBuilder.create().build();
-        httpClient.execute(request);
+        httpClient.execute(httpPost);
 
     } // end enableHeadlessDownloads()
 

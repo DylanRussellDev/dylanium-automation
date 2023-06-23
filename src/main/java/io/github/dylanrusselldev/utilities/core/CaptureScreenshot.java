@@ -1,0 +1,110 @@
+package io.github.dylanrusselldev.utilities.core;
+
+/*
+ * Filename: CaptureScreenshot.java
+ * Author: Dylan Russell
+ * Purpose: Captures a screenshot of the entire webpage.
+ */
+
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.remote.Augmenter;
+
+import javax.imageio.ImageIO;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+
+public class CaptureScreenshot {
+
+    private static final LoggerClass LOGGER = new LoggerClass(CaptureScreenshot.class);
+
+    private static int getFullPageHeight(WebDriver driver) {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        return Integer.parseInt(javascriptExecutor.executeScript("return document.body.scrollHeight").toString());
+    }
+
+    private static int getFullPageWidth(WebDriver driver) {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        return ((Long) javascriptExecutor.executeScript("return window.innerWidth", new Object[0])).intValue();
+    }
+
+    private static int getWindowHeight(WebDriver driver) {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+        return ((Long) javascriptExecutor.executeScript("return window.innerHeight", new Object[0])).intValue();
+    }
+
+    // Take a screenshot of what is currently in the browser window
+    private static BufferedImage screenshotCurrentView(WebDriver wd) {
+        ByteArrayInputStream bais = null;
+        TakesScreenshot takesScreenshot = (TakesScreenshot) new Augmenter().augment(wd);
+
+        try {
+
+            bais = new ByteArrayInputStream(takesScreenshot.getScreenshotAs(OutputType.BYTES));
+            return ImageIO.read(bais);
+
+        } catch (IOException e) {
+
+            LOGGER.logAndFail("Unable to parse screenshot", e);
+            return null;
+
+        } finally {
+
+            try {
+
+                if (bais != null) {
+
+                    bais.close();
+
+                } // end if
+
+            } catch (IOException i) {
+
+                LOGGER.logAndFail("Unable to close ByteArrayInputStream", i);
+
+            } // end inner try-catch
+
+        } // end outer try-catch
+
+    } // end screenshotCurrentView()
+
+    public static BufferedImage takeScreenshot(WebDriver driver) {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
+
+        int fullHeight = getFullPageHeight(driver);
+        int fullWidth = getFullPageWidth(driver);
+        int pageHeight = getWindowHeight(driver);
+        int scrollTimes = fullHeight / pageHeight;
+        int tail = fullHeight - pageHeight * scrollTimes;
+
+        BufferedImage finalScreenshot = new BufferedImage(fullWidth, fullHeight, BufferedImage.TYPE_4BYTE_ABGR);
+        Graphics2D graphics = finalScreenshot.createGraphics();
+
+        for (int i = 0; i < scrollTimes; i++) {
+
+            javascriptExecutor.executeScript("scrollTo(0, arguments[0])", pageHeight * i);
+            CommonMethods.pauseForSeconds(0.5);
+            BufferedImage partialImage = screenshotCurrentView(driver);
+            graphics.drawImage(partialImage, 0, i * pageHeight, null);
+
+        } // end for
+
+        if (tail > 0) {
+            javascriptExecutor.executeScript("scrollTo(0, document.body.scrollHeight)");
+            CommonMethods.pauseForSeconds(0.5);
+            BufferedImage last = screenshotCurrentView(driver);
+            BufferedImage tailImage = last.getSubimage(0, last.getHeight() - tail, last.getWidth(), tail);
+            graphics.drawImage(tailImage, 0, scrollTimes * pageHeight, null);
+        } // end if
+
+        graphics.dispose();
+        return finalScreenshot;
+
+    } // end takeScreenshot();
+
+} // end CaptureScreenshot.java
+

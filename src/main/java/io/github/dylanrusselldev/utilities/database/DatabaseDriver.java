@@ -8,7 +8,6 @@ package io.github.dylanrusselldev.utilities.database;
 
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
-import org.slf4j.event.Level;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -20,7 +19,7 @@ public class DatabaseDriver {
 
     private Connection connection;
     private static final LoggerClass LOGGER = new LoggerClass(DatabaseDriver.class);
-    private static final ReadConfigFile propReader = new ReadConfigFile();
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile();
 
     public DatabaseDriver() {
 
@@ -28,9 +27,9 @@ public class DatabaseDriver {
         try {
 
             Class.forName("com.mysql.cj.jdbc.Driver");
-            String url = propReader.properties.getProperty("dbURL");
-            String username = propReader.properties.getProperty("dbUser");
-            String password = propReader.properties.getProperty("dbPass");
+            String url = readConfigFile.properties.getProperty("dbURL");
+            String username = readConfigFile.properties.getProperty("dbUser");
+            String password = readConfigFile.properties.getProperty("dbPass");
             connection = DriverManager.getConnection(url, username, password);
             connection.setAutoCommit(false);
 
@@ -68,7 +67,7 @@ public class DatabaseDriver {
 
                 connection.close();
                 connection = null;
-                LOGGER.log(Level.INFO, "Connection to the Database is closed");
+                LOGGER.info("Connection to the Database is closed");
 
             } // end if
 
@@ -96,7 +95,7 @@ public class DatabaseDriver {
 
         } // end while
 
-        LOGGER.log(Level.INFO, "Query Result: " + strData);
+        LOGGER.info("Query Result: " + strData);
 
         return strData;
     } // end queryData()
@@ -116,7 +115,7 @@ public class DatabaseDriver {
         try {
 
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setQueryTimeout(Integer.parseInt(propReader.properties.getProperty("timeout")));
+            ps.setQueryTimeout(Integer.parseInt(readConfigFile.properties.getProperty("timeout")));
             return ps.executeQuery();
 
         } catch (Exception e) {

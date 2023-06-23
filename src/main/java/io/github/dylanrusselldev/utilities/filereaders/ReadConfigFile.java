@@ -24,16 +24,16 @@ public class ReadConfigFile {
      * Load the properties file.
      */
     public ReadConfigFile() {
-        BufferedReader reader;
+        BufferedReader bufferedReader;
         String path = Constants.PROP_FILEPATH + "Automation.properties";
 
         try {
-            reader = new BufferedReader(new FileReader(path));
+            bufferedReader = new BufferedReader(new FileReader(path));
             properties = new Properties();
 
             try {
-                properties.load(reader);
-                reader.close();
+                properties.load(bufferedReader);
+                bufferedReader.close();
             } catch (IOException e) {
                 LOGGER.logAndFail("Could not load the properties file", e);
             } // end inner try catch

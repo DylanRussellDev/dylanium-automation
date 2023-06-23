@@ -6,8 +6,6 @@
 
 package io.github.dylanrusselldev.utilities.core;
 
-import com.assertthat.selenium_shutterbug.core.Capture;
-import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
@@ -27,7 +25,6 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.event.Level;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -40,7 +37,7 @@ import java.util.Arrays;
 public class CommonMethods {
 
     private static final LoggerClass LOGGER = new LoggerClass(CommonMethods.class);
-    private static final ReadConfigFile propFile = new ReadConfigFile();
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile();
 
     /**
      * Blurs an element via it's CSS property.
@@ -116,12 +113,12 @@ public class CommonMethods {
 
         try {
 
-            decryptor.setAlgorithm(propFile.properties.getProperty("algorithm"));
-            decryptor.setPassword(propFile.properties.getProperty("secretPass"));
+            decryptor.setAlgorithm(readConfigFile.properties.getProperty("algorithm"));
+            decryptor.setPassword(readConfigFile.properties.getProperty("secretPass"));
             decryptor.setIvGenerator(new RandomIvGenerator());
-            decryptor.setKeyObtentionIterations(Integer.parseInt(propFile.properties.getProperty("keyIterations")));
+            decryptor.setKeyObtentionIterations(Integer.parseInt(readConfigFile.properties.getProperty("keyIterations")));
 
-            return decryptor.decrypt(propFile.properties.getProperty(property));
+            return decryptor.decrypt(readConfigFile.properties.getProperty(property));
 
         } catch (Exception e) {
 
@@ -203,23 +200,23 @@ public class CommonMethods {
 
             for (int i = 0; i < 5; i++) {
 
-                File dir = new File(folderPath);
-                File[] files = dir.listFiles(fileFilter);
+                File directory = new File(folderPath);
+                File[] filesArray = directory.listFiles(fileFilter);
 
-                if (files.length > 0) {
+                if (filesArray.length > 0) {
 
-                    Arrays.sort(files, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
+                    Arrays.sort(filesArray, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
 
                     // If the file is still downloading, wait 5 seconds and check again
-                    if (files[0].getName().contains(".crdownload")) {
+                    if (filesArray[0].getName().contains(".crdownload")) {
 
-                        LOGGER.log(Level.INFO, "The file is currently downloading...");
+                        LOGGER.info("The file is currently downloading...");
                         CommonMethods.pauseForSeconds(5);
 
                     } else {
 
-                        newestFile = files[0];
-                        LOGGER.log(Level.INFO, "The newest file in the folder is: " + newestFile.getName());
+                        newestFile = filesArray[0];
+                        LOGGER.info("The newest file in the folder is: " + newestFile.getName());
                         break;
 
                     } // end inner if-else
@@ -227,7 +224,7 @@ public class CommonMethods {
 
                 } else {
 
-                    LOGGER.log(Level.WARN, "No files found in the folder path: " + folderPath + ". Checking again in a moment.");
+                    LOGGER.warn("No files found in the folder path: " + folderPath + ". Checking again in a moment.");
                     CommonMethods.pauseForSeconds(5);
 
                 } // end outer if-else
@@ -371,7 +368,7 @@ public class CommonMethods {
 
         try {
 
-            driver.get(propFile.properties.getProperty(propertyURL));
+            driver.get(readConfigFile.properties.getProperty(propertyURL));
 
         } catch (Exception e) {
 
@@ -428,12 +425,12 @@ public class CommonMethods {
      * Takes a screenshot and embed it in the report.
      *
      * @param driver      WebDriver
-     * @param captureType how much of the page to capture
      */
-    public static void screenshot(WebDriver driver, Capture captureType) {
+    public static void screenshot(WebDriver driver) {
+
         try {
 
-            BufferedImage image = Shutterbug.shootPage(driver, captureType, true).getImage();
+            BufferedImage image = CaptureScreenshot.takeScreenshot(driver);
             ByteArrayOutputStream outStream = new ByteArrayOutputStream();
             ImageIO.write(image, "png", outStream);
             outStream.flush();
@@ -443,8 +440,8 @@ public class CommonMethods {
 
         } catch (Exception e) {
 
-            LOGGER.log(Level.WARN, "Could not capture a screenshot of the page using Shutterbug. " +
-                    "Attempting to capture an in-view screenshot with Selenium...", e);
+            LOGGER.warn("Could not capture a screenshot of the page. " +
+                    "Attempting to capture an in-view screenshot...", e);
             partialScreenshot(driver);
 
         } // end try-catch

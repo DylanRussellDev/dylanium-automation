@@ -38,22 +38,22 @@ public class PDFValidation {
      */
     public static void verifyTextInBrowserPDF(WebDriver driver, String textToVerify, String pdfName) throws IOException {
         String content;
-        PDFTextStripper p = new PDFTextStripper();
+        PDFTextStripper pdfTextStripper = new PDFTextStripper();
 
         if (driver.getCurrentUrl().contains("blob")) {
             saveBlobPDF(driver, pdfName);
             File file = new File("./downloadedPDF");
-            PDDocument doc = PDDocument.load(file);
-            content = p.getText(doc);
-            doc.close();
+            PDDocument pdDocument = PDDocument.load(file);
+            content = pdfTextStripper.getText(pdDocument);
+            pdDocument.close();
             file.delete();
         } else {
-            URL pdfURL = new URL(driver.getCurrentUrl());
-            InputStream is = pdfURL.openStream();
-            BufferedInputStream bf = new BufferedInputStream(is);
-            PDDocument docu = PDDocument.load(bf);
-            content = p.getText(docu);
-            docu.close();
+            URL url = new URL(driver.getCurrentUrl());
+            InputStream is = url.openStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            PDDocument pdDocument = PDDocument.load(bis);
+            content = pdfTextStripper.getText(pdDocument);
+            pdDocument.close();
         } // end if else
 
         assertTrue(content.contains(textToVerify), "The expected text: " + textToVerify + " was not present in the pdf: " + pdfName);
@@ -67,13 +67,13 @@ public class PDFValidation {
      * @param pdfName   the PDF name for exception message
      */
     public static void verifyDownloadedPDFText(String txtVerify, String pdfName) throws IOException {
-        URL pdfLoc = new URL("file:///" + CommonMethods.getNewestFile(Constants.TARGET_FILE_DOWNLOADS, "pdf"));
-        InputStream is = pdfLoc.openStream();
+        URL url = new URL("file:///" + CommonMethods.getNewestFile(Constants.TARGET_FILE_DOWNLOADS, "pdf"));
+        InputStream is = url.openStream();
         BufferedInputStream bis = new BufferedInputStream(is);
-        PDDocument doc = PDDocument.load(bis);
-        PDFTextStripper ts = new PDFTextStripper();
-        String txt = ts.getText(doc);
-        doc.close();
+        PDDocument pdDocument = PDDocument.load(bis);
+        PDFTextStripper pdfTextStripper = new PDFTextStripper();
+        String txt = pdfTextStripper.getText(pdDocument);
+        pdDocument.close();
         bis.close();
         is.close();
 

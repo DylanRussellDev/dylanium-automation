@@ -20,7 +20,6 @@ import org.monte.media.FormatKeys.MediaType;
 import org.monte.media.Registry;
 import org.monte.media.math.Rational;
 import org.monte.screenrecorder.ScreenRecorder;
-import org.slf4j.event.Level;
 
 import java.awt.AWTException;
 import java.awt.Dimension;
@@ -100,14 +99,14 @@ public class ScreenRecorderUtil extends ScreenRecorder {
             int width = screenSize.width;
             int height = screenSize.height;
 
-            Rectangle captureSize = new Rectangle(0, 0, width, height);
+            Rectangle rectangle = new Rectangle(0, 0, width, height);
 
             GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment()
                     .getDefaultScreenDevice()
                     .getDefaultConfiguration();
 
             // Build the screen recorder object
-            screenRecorder = new ScreenRecorderUtil(gc, captureSize,
+            screenRecorder = new ScreenRecorderUtil(gc, rectangle,
                     new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_AVI),
                     new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
                             CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, DepthKey, 24, FrameRateKey,
@@ -117,7 +116,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
 
             // Start the recording
             screenRecorder.start();
-            LOGGER.log(Level.INFO, "Started recording the screen");
+            LOGGER.info("Started recording the screen");
         } else if (RuntimeInfo.isHeadless()) {
             LOGGER.logAndFail("Unable to record screen while executing in headless mode.");
         } // end if else
@@ -128,14 +127,16 @@ public class ScreenRecorderUtil extends ScreenRecorder {
      */
     public static void stopRecord() throws IOException {
 
-        if (screenRecorder != null) {
+        if (RuntimeInfo.isHeadless() && screenRecorder != null) {
             screenRecorder.stop();
-            LOGGER.log(Level.INFO, "Stopped the screen recorder");
+            LOGGER.info("Stopped the screen recorder");
             CommonMethods.pauseForSeconds(1);
             AVItoMP4.convertAVIToMP4();
             attachVideo();
             screenRecorder = null;
-        }
+        } else {
+            LOGGER.info("Screen recorder was not used");
+        } // end if
 
     } // end stopRecord()
 
@@ -143,8 +144,8 @@ public class ScreenRecorderUtil extends ScreenRecorder {
      * Attach the screen recorder file to the execution report.
      */
     private static void attachVideo() throws IOException {
-        FileInputStream is = new FileInputStream(CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "mp4"));
-        byte[] byteArr = IOUtils.toByteArray(is);
+        FileInputStream fis = new FileInputStream(CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "mp4"));
+        byte[] byteArr = IOUtils.toByteArray(fis);
         Hooks.getScenario().attach(byteArr, "video/mp4", "Click to view video");
     } // end attachVideo()
 

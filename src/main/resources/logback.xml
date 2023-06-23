@@ -5,7 +5,7 @@
 
         <target>System.err</target>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>WARN</level> <!-- Change value to WARN to only print WARN level messages or above to console -->
+            <level>INFO</level>
         </filter>
 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">

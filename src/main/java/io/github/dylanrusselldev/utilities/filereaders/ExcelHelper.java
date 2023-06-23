@@ -89,8 +89,8 @@ public class ExcelHelper {
      * @return a string of the data found in the cell
      */
     private String getCellData(Cell cell) {
-        DataFormatter df = new DataFormatter();
-        return df.formatCellValue(cell);
+        DataFormatter dataFormatter = new DataFormatter();
+        return dataFormatter.formatCellValue(cell);
     } // end getCellData()
 
     /**

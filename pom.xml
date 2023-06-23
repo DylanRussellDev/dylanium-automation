@@ -14,9 +14,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <selenium.version>4.9.1</selenium.version>
-        <testng.version>7.7.1</testng.version>
-        <cucumber.version>7.12.0</cucumber.version>
+        <selenium.version>4.10.0</selenium.version>
+        <testng.version>7.8.0</testng.version>
+        <cucumber.version>7.12.1</cucumber.version>
         <cucumberjvm.version>1.0.6</cucumberjvm.version>
         <webdrivermanager.version>5.3.3</webdrivermanager.version>
         <masterthought.version>5.7.5</masterthought.version>
@@ -27,7 +27,7 @@
         <recorder.version>0.7.7.0</recorder.version>
         <ws.schild.version>3.3.1</ws.schild.version>
         <slf4j.version>2.0.5</slf4j.version>
-        <logback.version>1.4.6</logback.version>
+        <logback.version>1.4.7</logback.version>
         <shutterbug.version>1.6</shutterbug.version>
         <surefire.version>3.0.0</surefire.version>
         <mvnclean.version>3.2.0</mvnclean.version>
@@ -152,20 +152,6 @@
             <version>${logback.version}</version>
         </dependency>
 
-        <!-- Enhanced screenshots -->
-
-        <dependency>
-            <groupId>com.assertthat</groupId>
-            <artifactId>selenium-shutterbug</artifactId>
-            <version>${shutterbug.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-java</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -183,6 +169,7 @@
                 </configuration>
             </plugin>
 
+            <!-- Delete the test-results folder when the maven clean command is run-->
             <plugin>
                 <artifactId>maven-clean-plugin</artifactId>
                 <version>${mvnclean.version}</version>
@@ -199,7 +186,7 @@
                 </configuration>
             </plugin>
 
-            <!-- For generating masterthought reports -->
+            <!-- Masterthought report generation -->
             <plugin>
                 <groupId>net.masterthought</groupId>
                 <artifactId>maven-cucumber-reporting</artifactId>

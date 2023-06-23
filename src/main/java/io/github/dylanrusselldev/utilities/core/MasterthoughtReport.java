@@ -11,7 +11,6 @@ import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
 import net.masterthought.cucumber.presentation.PresentationMode;
-import org.slf4j.event.Level;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -26,7 +25,7 @@ public class MasterthoughtReport {
      */
     public static void generateTestReport() {
 
-        LOGGER.log(Level.INFO, "*** Now generating the Masterthought report ***");
+        LOGGER.info("*** Now generating the Masterthought report ***");
 
         try {
 
@@ -38,18 +37,18 @@ public class MasterthoughtReport {
             list.add(Constants.CUCUMBER_JSON_REPORT_PATH);
 
             // Configuration object for adding custom formatting
-            Configuration config = new Configuration(outDirectory, "Tests");
+            Configuration configuration = new Configuration(outDirectory, "Tests");
 
             // Add OS and Browser info
-            config.addClassifications("OS", RuntimeInfo.getOSInfo());
-            config.addClassifications("Browser", RuntimeInfo.getBrowserVersion(Hooks.cap));
+            configuration.addClassifications("OS", RuntimeInfo.getOSInfo());
+            configuration.addClassifications("Browser", RuntimeInfo.getBrowserVersion(RuntimeInfo.capabilities));
 
             // Automatically expand all steps in the report
-            config.addPresentationModes(PresentationMode.EXPAND_ALL_STEPS);
+            configuration.addPresentationModes(PresentationMode.EXPAND_ALL_STEPS);
 
             // Generate the report
-            ReportBuilder repBuild = new ReportBuilder(list, config);
-            repBuild.generateReports();
+            ReportBuilder reportBuilder = new ReportBuilder(list, configuration);
+            reportBuilder.generateReports();
 
         } catch (Exception e) {
 
