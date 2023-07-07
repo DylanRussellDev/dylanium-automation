@@ -26,7 +26,7 @@ public class WebDriverSetter {
     /**
      * Set the preferred browser for execution based of the -DBrowser Maven argument.
      */
-    public static void setDriver() throws IOException {
+    public static synchronized void setDriver() throws IOException {
 
         switch (RuntimeInfo.getBrowserName()) {
 
@@ -62,6 +62,6 @@ public class WebDriverSetter {
                 .timeouts()
                 .pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
 
-    } // end setDriver()
+    }
 
 }

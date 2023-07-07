@@ -29,8 +29,8 @@ import java.time.Duration;
 
 public class Hooks implements IExecutionListener {
 
-    protected static ThreadLocal<WebDriver> driver = new ThreadLocal<>();
-    protected static ThreadLocal<Scenario> scenario = new ThreadLocal<>();
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private static final ThreadLocal<Scenario> scenario = new ThreadLocal<>();
 
     private static Capabilities capabilities;
     private static final LoggerClass LOGGER = new LoggerClass(Hooks.class);
@@ -69,7 +69,7 @@ public class Hooks implements IExecutionListener {
 
         LOGGER.info("Beginning Scenario: " + Thread.currentThread().getName());
 
-    } // end start
+    }
 
     /**
      * Code that executes after every cucumber scenario.
@@ -92,12 +92,13 @@ public class Hooks implements IExecutionListener {
         // Remove the driver from the thread
         driver.remove();
 
-    } // end afterScenario
+    }
 
     /**
      * Code that executes after the entire test suite.
      */
     public void onExecutionFinish() {
+
         // Generate the Masterthought report
         MasterthoughtReport.generateTestReport();
 
@@ -115,6 +116,7 @@ public class Hooks implements IExecutionListener {
         driver.manage().window().maximize();
         driver.switchTo().newWindow(WindowType.TAB);
         driver.get(Constants.MASTERTHOUGHT_REPORT_PATH + "cucumber-html-reports\\overview-features.html");
+
     }
 
     /**
@@ -124,20 +126,22 @@ public class Hooks implements IExecutionListener {
      */
     public static WebDriver getDriver() {
         return driver.get();
-    } // end getDriver
+    }
 
     /**
      * Return the Scenario object for the current thread.
+     *
+     * @return the Scenario object
      */
     public static Scenario getScenario() {
         return scenario.get();
-    } // end getScenario
+    }
 
     /**
      * Set the WebDriver while keeping it thread safe.
      */
     public static void setDriver(WebDriver d) {
         driver.set(d);
-    } // end setDriver
+    }
 
-} // end Hooks.java
+}

@@ -15,4 +15,4 @@ public class CalculatorObjects {
 	public static final By btnEquals = By.xpath("//span[text()=\"=\"]");
 	public static final By txtOutput = By.id("sciOutPut");
 
-} // end TestObjects.java
+}

@@ -14,7 +14,7 @@ public class EcommerceStepDefs {
 
     public EcommerceStepDefs() {
         this.driver = Hooks.getDriver();
-    } // end constructor
+    }
 
     @Given("the user navigates to the ecommerce site")
     public void the_user_navigates_to_the_ecommerce_site() {

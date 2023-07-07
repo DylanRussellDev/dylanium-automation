@@ -74,7 +74,7 @@ public class BrowserPreferences {
 
         return chromeOptions;
 
-    } // end chromePrefs()
+    }
 
     /**
      * Set the preferred options to the EdgeDriver.
@@ -120,7 +120,7 @@ public class BrowserPreferences {
 
         return edgeOptions;
 
-    } // end edgePrefs()
+    }
 
     /**
      * Enables the functionality of downloading files in headless mode by sending a command to the browser.
@@ -153,6 +153,6 @@ public class BrowserPreferences {
         HttpClient httpClient = HttpClientBuilder.create().build();
         httpClient.execute(httpPost);
 
-    } // end enableHeadlessDownloads()
+    }
 
-} // end BrowserPreferences.java
+}

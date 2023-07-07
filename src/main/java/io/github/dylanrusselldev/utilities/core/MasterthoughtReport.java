@@ -56,6 +56,6 @@ public class MasterthoughtReport {
 
         } // end try-catch
 
-    } // end generateTestReport()
+    }
 
-} // end class MasterthoughtReport.java
+}

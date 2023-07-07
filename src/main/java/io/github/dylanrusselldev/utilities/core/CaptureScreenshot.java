@@ -70,7 +70,7 @@ public class CaptureScreenshot {
 
         } // end outer try-catch
 
-    } // end screenshotCurrentView()
+    }
 
     public static BufferedImage takeScreenshot(WebDriver driver) {
         JavascriptExecutor javascriptExecutor = (JavascriptExecutor) driver;
@@ -104,7 +104,6 @@ public class CaptureScreenshot {
         graphics.dispose();
         return finalScreenshot;
 
-    } // end takeScreenshot();
+    }
 
-} // end CaptureScreenshot.java
-
+}

@@ -50,12 +50,11 @@ public class EncryptionApp extends JPanel implements ActionListener {
         jPanel.add(jPasswordField);
         add(jPanel);
         add(btnPane);
-    } // end constructor
+    }
 
-    // Main method
     public static void main(String[] args) {
         createAndShowUI();
-    } // end main()
+    }
 
     // Create the button panel
     protected JComponent createButtonPanel() {
@@ -65,7 +64,7 @@ public class EncryptionApp extends JPanel implements ActionListener {
         jButton.addActionListener(this);
         jPanel.add(jButton);
         return jPanel;
-    } // end createButtonPanel()
+    }
 
     // Handle the actions
     public void actionPerformed(ActionEvent e) {
@@ -91,12 +90,13 @@ public class EncryptionApp extends JPanel implements ActionListener {
         } else {
             JOptionPane.showMessageDialog(jFrame, "Error Occured");
         } // end if-else
-    } // end actionPerformed()
+
+    }
 
     // Reset focus to text box
     protected void resetFocus() {
         jPasswordField.requestFocusInWindow();
-    } // end resetFocus()
+    }
 
     // Build the application UI and display
     private static void createAndShowUI() {
@@ -109,10 +109,12 @@ public class EncryptionApp extends JPanel implements ActionListener {
         encryptionApp.setOpaque(true);
         frame.setContentPane(encryptionApp);
         frame.addWindowListener(new WindowAdapter() {
+
             @Override
             public void windowActivated(WindowEvent e) {
                 encryptionApp.resetFocus();
-            } // end windowActivated
+            }
+
         });
 
         frame.pack();
@@ -120,6 +122,6 @@ public class EncryptionApp extends JPanel implements ActionListener {
 
         // Launch app in the center of screen
         frame.setLocationRelativeTo(null);
-    } // end createAndShowUI
+    }
     
 } // end Encryption.java

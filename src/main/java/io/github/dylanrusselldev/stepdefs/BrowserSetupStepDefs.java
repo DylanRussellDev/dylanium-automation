@@ -3,7 +3,6 @@ package io.github.dylanrusselldev.stepdefs;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
-import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import io.github.dylanrusselldev.webelements.EdgeBrowser;
@@ -18,10 +17,15 @@ public class BrowserSetupStepDefs {
 
 	private final WebDriver driver;
 	private static final LoggerClass LOGGER = new LoggerClass(BrowserSetupStepDefs.class);
+	private static final String CHECKING_FOR_UPDATES = "Checking for updates";
+	private static final String IS_UP_TO_DATE = "is up to date";
+	private static final String UPDATING = "Updating";
+	private static final String CHROME_RELAUNCH = "Nearly up to date";
+	private static final String EDGE_RELAUNCH = "restart Microsoft Edge";
 
 	public BrowserSetupStepDefs() {
 		this.driver = Hooks.getDriver();
-	} // end constructor
+	}
 	
 	private String getChromeUpdateText() {
 		WebElement root1 = driver.findElement(By.tagName("settings-ui"));
@@ -46,14 +50,14 @@ public class BrowserSetupStepDefs {
 	@Then("check if Google Chrome has an available update")
 	public void check_if_google_chrome_has_an_available_update() {
 
-	    if (getChromeUpdateText().contains(Constants.CHECKING_FOR_UPDATES) || getChromeUpdateText().contains(Constants.UPDATING)) {
+	    if (getChromeUpdateText().contains(CHECKING_FOR_UPDATES) || getChromeUpdateText().contains(UPDATING)) {
 	    	
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = getChromeUpdateText();
 	    		LOGGER.info("Chrome Update Status: " + txt);
 	    		
-	    		if (txt.contains(Constants.CHROME_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
+	    		if (txt.contains(CHROME_RELAUNCH) || txt.contains(IS_UP_TO_DATE)) {
 	    			break;
 	    		} else {
 	    			CommonMethods.pauseForSeconds(5);
@@ -62,16 +66,14 @@ public class BrowserSetupStepDefs {
 	    	} // end for
 	    	
 	    } else {
-
 			LOGGER.info("Chrome is up to date");
-
 	    } // end outer if-else
 	}
 	
 	@Then("close Chrome {string} if a new update needs applied")
 	public void relaunch_chrome_if_a_new_update_needs_applied(String version) throws IOException {
 
-		if (getChromeUpdateText().contains(Constants.CHROME_RELAUNCH)) {
+		if (getChromeUpdateText().contains(CHROME_RELAUNCH)) {
 
 	    	switch (version) {
 
@@ -102,14 +104,14 @@ public class BrowserSetupStepDefs {
 	public void check_if_edge_has_an_available_update() {
 		String upTxt = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
 
-	    if (upTxt.contains(Constants.CHECKING_FOR_UPDATES) || upTxt.contains(Constants.UPDATING)) {
+	    if (upTxt.contains(CHECKING_FOR_UPDATES) || upTxt.contains(UPDATING)) {
 	    	
 	    	for (int i = 0; i < 12; i++) {
 
 	    		String txt = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
 				LOGGER.info("Edge Update Status: " + txt);
 	    		
-	    		if (txt.contains(Constants.EDGE_RELAUNCH) || txt.contains(Constants.IS_UP_TO_DATE)) {
+	    		if (txt.contains(EDGE_RELAUNCH) || txt.contains(IS_UP_TO_DATE)) {
 	    			break;
 	    		} else {
 	    			CommonMethods.pauseForSeconds(5);
@@ -127,9 +129,9 @@ public class BrowserSetupStepDefs {
 	public void relaunch_edge_if_a_new_update_needs_applied() {
 		String strUpdateStatus = CommonMethods.getElementText(driver, EdgeBrowser.lblUpdateStatus, "Update status text");
 
-		if (strUpdateStatus.contains(Constants.EDGE_RELAUNCH)) {
+		if (strUpdateStatus.contains(EDGE_RELAUNCH)) {
 	    	driver.quit();
 	    } // end if
 	}
 	
-} // end BrowserSetupStepDefs.java
+}

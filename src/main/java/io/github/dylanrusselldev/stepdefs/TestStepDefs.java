@@ -24,7 +24,7 @@ public class TestStepDefs {
 
     public TestStepDefs() {
         this.driver = Hooks.getDriver();
-    } // end constructor
+    }
 
     @Given("the user navigates to the calculator website")
     public void the_user_navigates_to_the_calculator_website() {
@@ -51,8 +51,6 @@ public class TestStepDefs {
     public void the_screen_recorder_is_started() throws Exception {
         ScreenRecorderUtil.startRecord("navigate");
     }
-
-    // SELENIUM DEMO SITE STEPS
 
     @Given("the user navigates to the Selenium Demo website")
     public void the_user_navigates_to_the_selenium_demo_website() {
@@ -99,7 +97,6 @@ public class TestStepDefs {
 
     @When("the user clicks the {string} code")
     public void the_user_clicks_the_code(String code) {
-        // Start DevTools listener
         DevToolsListener devToolsListener = new DevToolsListener(driver);
         devToolsListener.startDevToolsListener();
 
@@ -145,4 +142,4 @@ public class TestStepDefs {
         CommonMethods.screenshot(driver);
     }
 
-} // end TestStepDefs.java
+}

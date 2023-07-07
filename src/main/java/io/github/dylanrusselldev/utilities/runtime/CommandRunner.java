@@ -25,15 +25,14 @@ public class CommandRunner {
             CommonMethods.pauseForSeconds(2);
         } catch (Exception e) {
             LOGGER.error("Error. Could not run the following command: " + cmd, e);
-        } // end try-catch
+        }
 
-    } // end executeCommand()
+    }
 
     /**
      * End the WebDriver .exe via the command line.
      */
     public static void endDriverExe() {
-
         String cmd = "taskkill /F /IM WEBDRIVEREXE";
 
         switch (RuntimeInfo.getBrowserName()) {
@@ -56,13 +55,11 @@ public class CommandRunner {
             default:
                 LOGGER.logAndFail("-DBrowser was not defined properly");
                 break;
-
-        } // end switch statement
+        }
 
         LOGGER.info("Ending any remaining drivers");
-
         executeCommand(cmd);
 
-    } // end endDriverExe()
+    }
 
-} // end CommandRunner()
+}

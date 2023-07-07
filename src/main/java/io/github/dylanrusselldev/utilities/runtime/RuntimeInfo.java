@@ -16,9 +16,8 @@ import java.util.List;
 
 public class RuntimeInfo {
 
-    private static final LoggerClass LOGGER = new LoggerClass(RuntimeInfo.class);
-
     public static Capabilities capabilities;
+    private static final LoggerClass LOGGER = new LoggerClass(RuntimeInfo.class);
 
     /**
      * Retrieve the Browser argument from the -DBrowser property.
@@ -36,13 +35,14 @@ public class RuntimeInfo {
             } else {
                 LOGGER.logAndFail(" Error. The -DBrowser property only accepts 'chrome', 'edge', 'firefox', or 'ie' as an argument");
                 return null;
-            } // end if else
+            }
+
         } catch (Exception e) {
             LOGGER.logAndFail(" The -DBrowser property was not initialized correctly", e);
             return null;
-        } // end try catch
+        }
 
-    } // end getBrowserName()
+    }
 
     private static void setCapabilities(Capabilities cap) {
         capabilities = cap;
@@ -54,23 +54,18 @@ public class RuntimeInfo {
      * @return the browser name and version
      */
     public static String getBrowserVersion(Capabilities cap) {
-
         setCapabilities(cap);
 
         try {
-
             String str = cap.getBrowserName().equalsIgnoreCase("Msedge") ? "MS Edge" : cap.getBrowserName();
             String info = str + " " + cap.getBrowserVersion();
             return info.substring(0, 1).toUpperCase() + info.substring(1);
-
         } catch (Exception e) {
-
             LOGGER.warn("Could not find browser name and version the tests were executed on", e);
             return null;
+        }
 
-        } // end try catch
-
-    } // end getBrowserVersion()
+    }
 
     /**
      * Identify the Operating System that the scripts are executing on.
@@ -78,7 +73,6 @@ public class RuntimeInfo {
      * @return string OS as a string
      */
     public static String getOSInfo() {
-
         String os = System.getProperty("os.name").toLowerCase();
         String strOS;
 
@@ -92,11 +86,10 @@ public class RuntimeInfo {
             strOS = "Solaris";
         } else {
             strOS = "Other";
-        } // end if-else statement
+        }
 
         return strOS;
-
-    } // end getOSInfo()
+    }
 
     /**
      * Retrieve the number of threads given in the -DThreads property.
@@ -110,28 +103,21 @@ public class RuntimeInfo {
         final int MAX_THREADS = 4;
 
         try {
-
             threads = Integer.parseInt(System.getProperty("Threads"));
 
             if (threads <= MAX_THREADS && threads >= MIN_THREADS) {
-
                 return threads;
-
             } else {
-
                 LOGGER.logAndFail(" The -DThreads property argument must be greater than 0 and less than or equal to 4");
                 return null;
-
-            } // end if else
+            }
 
         } catch (Exception e) {
-
             LOGGER.logAndFail(" The -DThreads property was not initialized correctly", e);
             return null;
+        }
 
-        } // end try catch
-
-    } // end getThreads()
+    }
 
     /**
      * Returns a string of the most unique Cucumber tag associated with the current scenario
@@ -150,27 +136,20 @@ public class RuntimeInfo {
     public static boolean isHeadless() {
 
         try {
-
             String headless = System.getProperty("Headless").toLowerCase();
 
             if (headless.equals("true") || headless.equals("false")) {
-
                 return Boolean.parseBoolean(headless);
-
             } else {
-
                 LOGGER.logAndFail(" Error. The -DHeadless property only accepts 'true' or 'false' as an argument");
                 return false;
-
-            } // end if else
+            }
 
         } catch (Exception e) {
-
             LOGGER.logAndFail(" The -DHeadless property was not initialized correctly", e);
             return false;
+        }
 
-        } // end try catch
+    }
 
-    } // end isHeadless()
-
-} // end RuntimeInfo.java
+}

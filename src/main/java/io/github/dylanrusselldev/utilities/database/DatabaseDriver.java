@@ -6,6 +6,7 @@
 
 package io.github.dylanrusselldev.utilities.database;
 
+import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.LoggerClass;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 
@@ -23,23 +24,18 @@ public class DatabaseDriver {
 
     public DatabaseDriver() {
 
-        // Attempt to connect to the DB using the information in the properties file
         try {
-
             Class.forName("com.mysql.cj.jdbc.Driver");
             String url = readConfigFile.properties.getProperty("dbURL");
             String username = readConfigFile.properties.getProperty("dbUser");
             String password = readConfigFile.properties.getProperty("dbPass");
             connection = DriverManager.getConnection(url, username, password);
             connection.setAutoCommit(false);
-
         } catch (Exception e) {
-
             LOGGER.logAndFail("Could not establish connection to the Database", e);
+        }
 
-        } // end try-catch
-
-    } // end constructor
+    }
 
     /**
      * Creates a new connection to the database with the specified URL,
@@ -50,34 +46,33 @@ public class DatabaseDriver {
      * @param password the password to use for authentication
      */
     private void createConnection(String url, String username, String password) {
+
         try {
             connection = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
             LOGGER.logAndFail("Failed to connect to database using URL [" + url + "]", e);
-        } // end try-catch
-    } // end createConnection()
+        }
+
+    }
 
     /**
      * Close the connection to the database.
      */
     public void closeConnection() {
+
         try {
 
             if (connection != null && !connection.isClosed()) {
-
                 connection.close();
                 connection = null;
                 LOGGER.info("Connection to the Database is closed");
-
-            } // end if
+            }
 
         } catch (SQLException e) {
-
             LOGGER.logAndFail("Unable to close the connection to the Database", e);
+        }
 
-        } // end try-catch
-
-    } // end closeConnection()
+    }
 
     /**
      * Get the result returned from an executed query statement.
@@ -90,15 +85,12 @@ public class DatabaseDriver {
         ResultSet rs = getResult(query);
 
         while (rs.next()) {
-
             strData = rs.getString(1);
-
-        } // end while
+        }
 
         LOGGER.info("Query Result: " + strData);
-
         return strData;
-    } // end queryData()
+    }
 
     /**
      * Executes a given query.
@@ -110,21 +102,17 @@ public class DatabaseDriver {
 
         if (connection == null || connection.isClosed()) {
             LOGGER.logAndFail("There is not active connection to the database.");
-        } // end if
+        }
 
         try {
-
             PreparedStatement ps = connection.prepareStatement(query);
-            ps.setQueryTimeout(Integer.parseInt(readConfigFile.properties.getProperty("timeout")));
+            ps.setQueryTimeout(Integer.parseInt(String.valueOf(Constants.TIMEOUT)));
             return ps.executeQuery();
-
         } catch (Exception e) {
-
             LOGGER.logAndFail("Error encountered when executing query: " + query, e);
             return null;
+        }
 
-        } // end try-catch
+    }
 
-    } // end getResult()
-
-} // end DatabaseDriver.java
+}

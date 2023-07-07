@@ -54,11 +54,11 @@ public class PDFValidation {
             PDDocument pdDocument = PDDocument.load(bis);
             content = pdfTextStripper.getText(pdDocument);
             pdDocument.close();
-        } // end if else
+        }
 
         assertTrue(content.contains(textToVerify), "The expected text: " + textToVerify + " was not present in the pdf: " + pdfName);
 
-    } // end verifyPDFContent()
+    }
 
     /**
      * Method to validate a PDF's text that is locally downloaded.
@@ -84,12 +84,12 @@ public class PDFValidation {
             Files.deleteIfExists(path);
         } catch (IOException i) {
             fail("File could not be located");
-        } // end try-catch
+        }
 
         assertTrue(txt.contains(txtVerify), "Validation failed. The text: '" + txtVerify + " ' "
                 + " was not present in the " + pdfName + " PDF\n");
 
-    } // end verifyDownloadedPDFText()
+    }
 
     /**
      * Saves a local copy of a PDF that is accessed via a blob url.
@@ -109,9 +109,9 @@ public class PDFValidation {
             fos.close();
         } catch (Exception e) {
             fail("Could not save local copy of the report: " + pdfName);
-        } // end try-catch
+        }
 
-    } // end savePDFInTab
+    }
 
     /**
      * Executes a script that saves the page contents into a Base64 String
@@ -141,6 +141,6 @@ public class PDFValidation {
                 + "xhr.send();";
 
         return (String) ((RemoteWebDriver) driver).executeAsyncScript(script, url);
-    } // end getBytesBase64FromBlob
+    }
 
-} // end PDFValidations.java
+}

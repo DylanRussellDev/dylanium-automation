@@ -47,7 +47,7 @@ import static org.monte.media.VideoFormatKeys.QualityKey;
 public class ScreenRecorderUtil extends ScreenRecorder {
 
     public static ScreenRecorder screenRecorder;
-    private String name;
+    private final String name;
     private static final LoggerClass LOGGER = new LoggerClass(ScreenRecorderUtil.class);
 
     public ScreenRecorderUtil(GraphicsConfiguration cfg, Rectangle captureArea, Format fileFormat,
@@ -55,7 +55,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
             throws IOException, AWTException {
         super(cfg, captureArea, fileFormat, screenFormat, mouseFormat, audioFormat, movieFolder);
         this.name = name;
-    } // end constructor
+    }
 
     /**
      * Create the file for the screen recorder.
@@ -66,18 +66,16 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     @Override
     protected File createMovieFile(Format fileFormat) throws IOException {
 
-        // Create the directory for the AVI file
         if (!movieFolder.exists()) {
             movieFolder.mkdirs();
         } else if (!movieFolder.isDirectory()) {
             throw new IOException("\"" + movieFolder + "\" is not a directory.");
-        } // end if else
+        }
 
-        // Create the video file name using date and time for clarity
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
 
         return new File(movieFolder, name + "-" + dateFormat.format(new Date()) + "." + Registry.getInstance().getExtension(fileFormat));
-    } // end createMovieFile()
+    }
 
     /**
      * Start the screen recorder.
@@ -89,7 +87,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
         if (RuntimeInfo.getThreads() > 1) {
             LOGGER.logAndFail("Using the screen recorder during parallel execution has the " +
                     "chance of another browser window opening over the current test. Please run with -DThreads=1");
-        } // end if
+        }
 
         if (!RuntimeInfo.isHeadless()) {
             File file = new File(Constants.VIDEO_FOLDER_PATH);
@@ -114,13 +112,13 @@ public class ScreenRecorderUtil extends ScreenRecorder {
                     new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black", FrameRateKey, Rational.valueOf(30)),
                     null, file, methodName);
 
-            // Start the recording
             screenRecorder.start();
             LOGGER.info("Started recording the screen");
         } else if (RuntimeInfo.isHeadless()) {
             LOGGER.logAndFail("Unable to record screen while executing in headless mode.");
-        } // end if else
-    } // end startRecord()
+        }
+
+    }
 
     /**
      * Stop the screen recorder.
@@ -131,14 +129,14 @@ public class ScreenRecorderUtil extends ScreenRecorder {
             screenRecorder.stop();
             LOGGER.info("Stopped the screen recorder");
             CommonMethods.pauseForSeconds(1);
-            AVItoMP4.convertAVIToMP4();
+            AVItoMP4.convertAVIToMP4(CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "avi"));
             attachVideo();
             screenRecorder = null;
         } else {
             LOGGER.info("Screen recorder was not used");
-        } // end if
+        }
 
-    } // end stopRecord()
+    }
 
     /**
      * Attach the screen recorder file to the execution report.
@@ -147,6 +145,6 @@ public class ScreenRecorderUtil extends ScreenRecorder {
         FileInputStream fis = new FileInputStream(CommonMethods.getNewestFile(Constants.VIDEO_FOLDER_PATH, "mp4"));
         byte[] byteArr = IOUtils.toByteArray(fis);
         Hooks.getScenario().attach(byteArr, "video/mp4", "Click to view video");
-    } // end attachVideo()
+    }
 
-} // end ScreenRecorderUtil
+}

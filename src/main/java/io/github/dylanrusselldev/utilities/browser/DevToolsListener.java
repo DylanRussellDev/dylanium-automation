@@ -46,7 +46,7 @@ public class DevToolsListener {
             LOGGER.warn("Could not create a DevTools session", e);
         } // end try-catch
 
-    } // end constructor
+    }
 
     /**
      * Start a DevTools listener.
@@ -54,7 +54,6 @@ public class DevToolsListener {
     public void startDevToolsListener() {
 
         try {
-
             LOGGER.info("Started the DevTools Listener");
 
             devTools.addListener(Network.responseReceived(), receive -> {
@@ -62,27 +61,26 @@ public class DevToolsListener {
 
                 // If a network response has a status code >= 400, add the info to the ArrayList
                 if (statusCode >= 400) {
-
                     devtoolErrors.add("DevTools error found.\n" +
                             "URL: " + receive.getResponse().getUrl().replace("https://", "") + "\n" +
                             "Status: " + receive.getResponse().getStatus() + "\n" +
                             "Error: " + receive.getResponse().getStatusText());
-
                 } // end if
 
-            }); // end addListener
+            });
+
         } catch (Exception e) {
             LOGGER.warn("Could not create a DevTools session", e);
         } // end try-catch
 
-    } // end startDevToolsListener()
+    }
 
     /**
      * Print the captured DevTools errors using the scenario object.
      */
     public static void logDevToolErrors() {
-        if (!devtoolErrors.isEmpty()) {
 
+        if (!devtoolErrors.isEmpty()) {
             HashSet<String> set = new HashSet<>(devtoolErrors);
             devtoolErrors.clear();
 
@@ -92,6 +90,6 @@ public class DevToolsListener {
 
         } // end if
 
-    } // end logDevToolErrors()
+    }
 
-} // end DevToolsListener.java
+}

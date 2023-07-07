@@ -18,7 +18,7 @@ public class LoggerClass {
 
     public LoggerClass(Class<?> className) {
         this.logger = LoggerFactory.getLogger(className);
-    } // end constructor
+    }
 
     public void info(String msg) {
         logger.info(msg);
@@ -93,4 +93,4 @@ public class LoggerClass {
         info(msg);
     }
 
-} // end LoggerClass
+}

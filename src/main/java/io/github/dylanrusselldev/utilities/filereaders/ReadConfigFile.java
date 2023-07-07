@@ -41,8 +41,8 @@ public class ReadConfigFile {
         } catch (FileNotFoundException e) {
             LOGGER.logAndFail("The properties file could not be found at this location: "
                     + Constants.PROP_FILEPATH + "Automation.properties", e);
-        } // end outer try catch
+        }
 
-    } // end constructor
+    }
 
-} // end ReadConfigFile.java
+}

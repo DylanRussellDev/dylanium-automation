@@ -17,11 +17,9 @@ public class ThreadSetter implements IAlterSuiteListener {
 
     @Override
     public void alter(List<XmlSuite> suites) {
-
         XmlSuite suite = suites.get(0);
         suite.setDataProviderThreadCount(RuntimeInfo.getThreads());
         suite.setThreadCount(RuntimeInfo.getThreads());
+    }
 
-    } // end alter
-
-} // end ThreadSetter
+}
