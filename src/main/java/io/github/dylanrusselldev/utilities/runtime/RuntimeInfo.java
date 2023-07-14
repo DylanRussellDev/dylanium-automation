@@ -8,7 +8,7 @@
 package io.github.dylanrusselldev.utilities.runtime;
 
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 import org.openqa.selenium.Capabilities;
 
 import java.util.ArrayList;

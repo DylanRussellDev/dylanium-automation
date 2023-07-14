@@ -5,8 +5,9 @@
  * 			The file to open in the target directory is: overview-features.html file
  */
 
-package io.github.dylanrusselldev.utilities.core;
+package io.github.dylanrusselldev.utilities.reporting;
 
+import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;

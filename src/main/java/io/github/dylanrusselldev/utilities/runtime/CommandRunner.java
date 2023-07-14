@@ -7,7 +7,7 @@
 package io.github.dylanrusselldev.utilities.runtime;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 
 public class CommandRunner {
 

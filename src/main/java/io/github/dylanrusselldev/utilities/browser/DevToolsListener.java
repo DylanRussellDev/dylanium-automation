@@ -7,7 +7,7 @@
 package io.github.dylanrusselldev.utilities.browser;
 
 import com.google.common.collect.ImmutableMap;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;

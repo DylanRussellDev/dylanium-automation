@@ -10,7 +10,7 @@
 
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 
-            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %highlight(%-5level) | %cyan(%-25.-25logger{15}) | %-20.20thread | %msg %ex{10}%nopex%n</pattern>
+            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %highlight(%-5level) | %cyan(%-25.-25logger{15}) | %-20.20thread | %msg %n%ex{10}%nopex</pattern>
 
         </encoder>
 
@@ -26,7 +26,7 @@
 
         <encoder>
 
-            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %-5level | %-25.-25logger{15} | %-20.20thread | %msg %ex%nopex%n</pattern>
+            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %-5level | %-25.-25logger{15} | %-20.20thread | %msg %n%ex%nopex</pattern>
 
         </encoder>
 

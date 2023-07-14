@@ -1,4 +1,4 @@
-package io.github.dylanrusselldev.utilities.core;
+package io.github.dylanrusselldev.utilities.reporting;
 
 /*
  * Filename: CaptureScreenshot.java
@@ -6,6 +6,7 @@ package io.github.dylanrusselldev.utilities.core;
  * Purpose: Captures a screenshot of the entire webpage.
  */
 
+import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;

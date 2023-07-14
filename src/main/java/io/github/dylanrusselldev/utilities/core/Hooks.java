@@ -14,6 +14,8 @@ import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.browser.WebDriverSetter;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.MasterthoughtReport;
 import io.github.dylanrusselldev.utilities.runtime.CommandRunner;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import io.github.dylanrusselldev.utilities.screenrecorder.ScreenRecorderUtil;
@@ -32,7 +34,6 @@ public class Hooks implements IExecutionListener {
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private static final ThreadLocal<Scenario> scenario = new ThreadLocal<>();
 
-    private static Capabilities capabilities;
     private static final LoggerClass LOGGER = new LoggerClass(Hooks.class);
 
     /**
@@ -64,7 +65,7 @@ public class Hooks implements IExecutionListener {
         getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
 
         // Get the browser name and version to include in the reports
-        capabilities = ((RemoteWebDriver) getDriver()).getCapabilities();
+        Capabilities capabilities = ((RemoteWebDriver) getDriver()).getCapabilities();
         LOGGER.logCucumberReport("Executing on: " + RuntimeInfo.getBrowserVersion(capabilities));
 
         LOGGER.info("Beginning Scenario: " + Thread.currentThread().getName());
@@ -82,7 +83,7 @@ public class Hooks implements IExecutionListener {
 
         // If the test failed, take a screenshot and print the DevTools errors
         if (getScenario().isFailed()) {
-            CommonMethods.screenshot(getDriver());
+            CommonMethods.fullScreenshot(getDriver());
             DevToolsListener.logDevToolErrors();
         } // end outer if
 

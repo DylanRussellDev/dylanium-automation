@@ -7,7 +7,7 @@
 package io.github.dylanrusselldev.utilities.filereaders;
 
 import io.github.dylanrusselldev.utilities.core.Constants;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

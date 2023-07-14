@@ -12,7 +12,7 @@ package io.github.dylanrusselldev.utilities.screenrecorder;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.apache.commons.io.IOUtils;
 import org.monte.media.Format;
@@ -89,35 +89,34 @@ public class ScreenRecorderUtil extends ScreenRecorder {
                     "chance of another browser window opening over the current test. Please run with -DThreads=1");
         }
 
-        if (!RuntimeInfo.isHeadless()) {
-            File file = new File(Constants.VIDEO_FOLDER_PATH);
-
-            // Get the size of the screen
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            int width = screenSize.width;
-            int height = screenSize.height;
-
-            Rectangle rectangle = new Rectangle(0, 0, width, height);
-
-            GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment()
-                    .getDefaultScreenDevice()
-                    .getDefaultConfiguration();
-
-            // Build the screen recorder object
-            screenRecorder = new ScreenRecorderUtil(gc, rectangle,
-                    new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_AVI),
-                    new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
-                            CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, DepthKey, 24, FrameRateKey,
-                            Rational.valueOf(15), QualityKey, 1.0f, KeyFrameIntervalKey, 15 * 60),
-                    new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black", FrameRateKey, Rational.valueOf(30)),
-                    null, file, methodName);
-
-            screenRecorder.start();
-            LOGGER.info("Started recording the screen");
-        } else if (RuntimeInfo.isHeadless()) {
-            LOGGER.logAndFail("Unable to record screen while executing in headless mode.");
+        if (RuntimeInfo.isHeadless()) {
+            LOGGER.logAndFail("The screen recorder cannot be used while in Headless mode");
         }
 
+        File file = new File(Constants.VIDEO_FOLDER_PATH);
+
+        // Get the size of the screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int width = screenSize.width;
+        int height = screenSize.height;
+
+        Rectangle rectangle = new Rectangle(0, 0, width, height);
+
+        GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice()
+                .getDefaultConfiguration();
+
+        // Build the screen recorder object
+        screenRecorder = new ScreenRecorderUtil(gc, rectangle,
+                new Format(MediaTypeKey, MediaType.FILE, MimeTypeKey, MIME_AVI),
+                new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE,
+                        CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, DepthKey, 24, FrameRateKey,
+                        Rational.valueOf(15), QualityKey, 1.0f, KeyFrameIntervalKey, 15 * 60),
+                new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black", FrameRateKey, Rational.valueOf(30)),
+                null, file, methodName);
+
+        screenRecorder.start();
+        LOGGER.info("Started recording the screen");
     }
 
     /**
@@ -125,7 +124,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
      */
     public static void stopRecord() throws IOException {
 
-        if (RuntimeInfo.isHeadless() && screenRecorder != null) {
+        if (screenRecorder != null) {
             screenRecorder.stop();
             LOGGER.info("Stopped the screen recorder");
             CommonMethods.pauseForSeconds(1);

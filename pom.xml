@@ -18,7 +18,7 @@
         <testng.version>7.8.0</testng.version>
         <cucumber.version>7.12.1</cucumber.version>
         <cucumberjvm.version>1.0.6</cucumberjvm.version>
-        <webdrivermanager.version>5.3.3</webdrivermanager.version>
+        <webdrivermanager.version>5.4.0</webdrivermanager.version>
         <masterthought.version>5.7.5</masterthought.version>
         <jasypt.version>1.9.3</jasypt.version>
         <ooxml.version>5.2.3</ooxml.version>

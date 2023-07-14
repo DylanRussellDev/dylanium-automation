@@ -7,7 +7,7 @@
 package io.github.dylanrusselldev.utilities.database;
 
 import io.github.dylanrusselldev.utilities.core.Constants;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 
 import java.sql.Connection;

@@ -29,9 +29,9 @@ import java.util.Map;
 public class BrowserPreferences {
 
     /**
-     * Set the preferred options to the ChromeDriver.
+     * Setup the preferred options for the ChromeDriver.
      *
-     * @return the complete Chrome Options
+     * @return the Chrome Options
      */
     public static ChromeOptions chromePrefs() throws IOException {
 
@@ -40,7 +40,7 @@ public class BrowserPreferences {
         System.setProperty("webdriver.chrome.args", "disable-logging");
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
-        // Disables the PDF viewer in Chrome to enable file downloads
+        // Disables the PDF viewer in Chrome to automatically download pdf files
         HashMap<String, Object> chromeMap = new HashMap<>();
         chromeMap.put("plugins.plugins_disabled", new String[]{"Chrome PDF Viewer"});
         chromeMap.put("plugins.always_open_pdf_externally", true);
@@ -60,7 +60,6 @@ public class BrowserPreferences {
                 "dns-prefetch-disable",
                 "disable-extensions");
 
-        // Enable Headless execution if -DHeadless is set to true
         if (RuntimeInfo.isHeadless()) {
 
             chromeOptions.addArguments(
@@ -68,7 +67,7 @@ public class BrowserPreferences {
                     "window-size=1920,1080");
 
             chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-            enableHeadlessDownloads(chromeOptions);
+            overrideDownloadDirectory(chromeOptions);
 
         } // end if
 
@@ -107,7 +106,6 @@ public class BrowserPreferences {
                 "dns-prefetch-disable",
                 "disable-extensions");
 
-        // Enable Headless execution if -DHeadless is set to true
         if (RuntimeInfo.isHeadless()) {
 
             edgeOptions.addArguments(
@@ -125,23 +123,22 @@ public class BrowserPreferences {
     /**
      * Enables the functionality of downloading files in headless mode by sending a command to the browser.
      *
-     * @param cOptions the Chrome Options object
+     * @param chromeOptions the Chrome Options
      */
-    public static void enableHeadlessDownloads(ChromeOptions cOptions) throws IOException {
+    public static void overrideDownloadDirectory(ChromeOptions chromeOptions) throws IOException {
 
         ChromeDriverService chromeDriverService = ChromeDriverService.createDefaultService();
-        Hooks.setDriver(new ChromeDriver(chromeDriverService, cOptions));
+        Hooks.setDriver(new ChromeDriver(chromeDriverService, chromeOptions));
 
         Map<String, Object> commandParams = new HashMap<>();
-        Map<String, Object> params = new HashMap<>();
-
         commandParams.put("cmd", "Page.setDownloadBehavior");
+
+        Map<String, Object> params = new HashMap<>();
         params.put("behavior", "allow");
         params.put("downloadPath", Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName());
         commandParams.put("params", params);
 
         ObjectMapper objectMapper = new ObjectMapper();
-
         String cmd = objectMapper.writeValueAsString(commandParams);
         String sendCmd = chromeDriverService.getUrl().toString()
                 + "/session/" + ((RemoteWebDriver) Hooks.getDriver()).getSessionId() + "/chromium/send_command";

@@ -9,7 +9,7 @@ package io.github.dylanrusselldev.utilities.browser;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;

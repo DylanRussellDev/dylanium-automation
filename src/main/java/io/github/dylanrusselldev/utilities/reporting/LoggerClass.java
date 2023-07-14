@@ -5,8 +5,9 @@
  *          the console, a log file, an html file and the Masterthought report
  */
 
-package io.github.dylanrusselldev.utilities.core;
+package io.github.dylanrusselldev.utilities.reporting;
 
+import io.github.dylanrusselldev.utilities.core.Hooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

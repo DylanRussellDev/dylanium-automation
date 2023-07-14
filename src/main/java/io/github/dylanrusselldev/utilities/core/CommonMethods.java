@@ -7,6 +7,8 @@
 package io.github.dylanrusselldev.utilities.core;
 
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
+import io.github.dylanrusselldev.utilities.reporting.CaptureScreenshot;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -72,6 +74,7 @@ public class CommonMethods {
 
         try {
             driver.findElement(element).click();
+            LOGGER.info("Clicked on: " + str);
         } catch (ElementClickInterceptedException e) {
             LOGGER.logAndFail("Unable to click on the '" + str + "' because it became detached from the DOM structure", e);
         } catch (StaleElementReferenceException s) {
@@ -118,7 +121,7 @@ public class CommonMethods {
             driver.findElement(element).clear();
             driver.findElement(element).sendKeys(input);
         } catch (Exception e) {
-            LOGGER.logAndFail("Could not input text '" + input + "' into " + str, e);
+            LOGGER.logAndFail("Could not input text: " + input + " into " + str, e);
         }
 
     }
@@ -140,6 +143,8 @@ public class CommonMethods {
             if (val.isEmpty()) {
                 val = driver.findElement(element).getAttribute("value");
             }
+
+            LOGGER.info("Returning text value: " + val);
 
             return val;
         } catch (Exception e) {
@@ -299,6 +304,7 @@ public class CommonMethods {
 
         try {
             driver.get(readConfigFile.properties.getProperty(propertyURL));
+            LOGGER.info("Navigating to URL" + readConfigFile.properties.getProperty(propertyURL));
         } catch (Exception e) {
             LOGGER.logAndFail("Could not navigate to " + propertyURL, e);
         }
@@ -345,7 +351,7 @@ public class CommonMethods {
      *
      * @param driver WebDriver
      */
-    public static void screenshot(WebDriver driver) {
+    public static void fullScreenshot(WebDriver driver) {
 
         try {
             BufferedImage image = CaptureScreenshot.takeScreenshot(driver);

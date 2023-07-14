@@ -1,10 +1,10 @@
-package io.github.dylanrusselldev.stepdefs;
+package io.github.dylanrusselldev.steps;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 import io.github.dylanrusselldev.webelements.EdgeBrowser;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -13,17 +13,17 @@ import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
 
-public class BrowserSetupStepDefs {
+public class BrowserSteps {
 
 	private final WebDriver driver;
-	private static final LoggerClass LOGGER = new LoggerClass(BrowserSetupStepDefs.class);
+	private static final LoggerClass LOGGER = new LoggerClass(BrowserSteps.class);
 	private static final String CHECKING_FOR_UPDATES = "Checking for updates";
 	private static final String IS_UP_TO_DATE = "is up to date";
 	private static final String UPDATING = "Updating";
 	private static final String CHROME_RELAUNCH = "Nearly up to date";
 	private static final String EDGE_RELAUNCH = "restart Microsoft Edge";
 
-	public BrowserSetupStepDefs() {
+	public BrowserSteps() {
 		this.driver = Hooks.getDriver();
 	}
 	

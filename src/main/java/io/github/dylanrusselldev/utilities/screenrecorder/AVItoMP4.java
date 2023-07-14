@@ -8,7 +8,7 @@
 package io.github.dylanrusselldev.utilities.screenrecorder;
 
 import io.github.dylanrusselldev.utilities.core.Constants;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.encode.AudioAttributes;

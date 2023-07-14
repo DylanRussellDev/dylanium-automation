@@ -1,4 +1,4 @@
-package io.github.dylanrusselldev.stepdefs;
+package io.github.dylanrusselldev.steps;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -6,7 +6,7 @@ import io.cucumber.java.en.When;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.core.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import io.github.dylanrusselldev.utilities.screenrecorder.ScreenRecorderUtil;
 import io.github.dylanrusselldev.webelements.CalculatorObjects;
@@ -16,13 +16,13 @@ import org.openqa.selenium.WebDriver;
 
 import static org.testng.Assert.assertEquals;
 
-public class TestStepDefs {
+public class DemoSteps {
 
     private final WebDriver driver;
     private static final ReadConfigFile readConfigFile = new ReadConfigFile();
-    private static final LoggerClass LOGGER = new LoggerClass(TestStepDefs.class);
+    private static final LoggerClass LOGGER = new LoggerClass(DemoSteps.class);
 
-    public TestStepDefs() {
+    public DemoSteps() {
         this.driver = Hooks.getDriver();
     }
 
@@ -44,7 +44,7 @@ public class TestStepDefs {
         String result = CommonMethods.getElementText(driver, CalculatorObjects.txtOutput, "Result").replaceAll("\\s", "");
         LOGGER.info("Calculated Result: " + answer);
         assertEquals(answer, result, "Output: " + answer + " is not correct");
-        CommonMethods.screenshot(driver);
+        CommonMethods.fullScreenshot(driver);
     }
 
     @Given("the screen recorder is started")
@@ -139,7 +139,7 @@ public class TestStepDefs {
         CommonMethods.blurElement(driver, DemoSiteObjects.txtPassword, "Username text box");
 
         CommonMethods.pauseForSeconds(3);
-        CommonMethods.screenshot(driver);
+        CommonMethods.fullScreenshot(driver);
     }
 
 }
