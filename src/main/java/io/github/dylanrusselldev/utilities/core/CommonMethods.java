@@ -1,14 +1,8 @@
-/*
- * Filename: CommonMethods.java
- * Author: Dylan Russell
- * Purpose: Commonly used methods during test execution.
- */
-
 package io.github.dylanrusselldev.utilities.core;
 
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import io.github.dylanrusselldev.utilities.reporting.CaptureScreenshot;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -36,6 +30,11 @@ import java.io.FileFilter;
 import java.time.Duration;
 import java.util.Arrays;
 
+/*
+ * Filename: CommonMethods.java
+ * Author: Dylan Russell
+ * Purpose: Commonly used methods during test execution.
+ */
 public class CommonMethods {
 
     private static final LoggerClass LOGGER = new LoggerClass(CommonMethods.class);

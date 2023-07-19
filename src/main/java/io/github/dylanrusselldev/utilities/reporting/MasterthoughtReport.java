@@ -1,13 +1,7 @@
-/*
- * Filename: MasterthoughtReport.java
- * Author: Dylan Russell
- * Purpose: Generates the Masterthought test execution report.
- * 			The file to open in the target directory is: overview-features.html file
- */
-
 package io.github.dylanrusselldev.utilities.reporting;
 
 import io.github.dylanrusselldev.utilities.core.Constants;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import net.masterthought.cucumber.Configuration;
 import net.masterthought.cucumber.ReportBuilder;
@@ -17,6 +11,12 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+ * Filename: MasterthoughtReport.java
+ * Author: Dylan Russell
+ * Purpose: Generates the Masterthought test execution report.
+ * 			The file to open in the target directory is: overview-features.html file
+ */
 public class MasterthoughtReport {
 
     private static final LoggerClass LOGGER = new LoggerClass(MasterthoughtReport.class);

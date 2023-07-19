@@ -1,13 +1,7 @@
-/*
- * Filename: ReadConfigFile.java
- * Author: Dylan Russell
- * Purpose: Enables the use of reading data of the properties file.
- */
-
 package io.github.dylanrusselldev.utilities.filereaders;
 
 import io.github.dylanrusselldev.utilities.core.Constants;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -15,6 +9,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
+/*
+ * Filename: ReadConfigFile.java
+ * Author: Dylan Russell
+ * Purpose: Enables the use of reading data of the properties file.
+ */
 public class ReadConfigFile {
 
     public Properties properties;

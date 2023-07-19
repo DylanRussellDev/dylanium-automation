@@ -1,9 +1,3 @@
-/*
- * Filename: ExcelHelper.java
- * Author: Dylan Russell
- * Purpose: Class that enables the use of reading data from an Excel file
- */
-
 package io.github.dylanrusselldev.utilities.filereaders;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -18,6 +12,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+/*
+ * Filename: ExcelHelper.java
+ * Author: Dylan Russell
+ * Purpose: Class that enables the use of reading data from an Excel file
+ */
 public class ExcelHelper {
 
     private final Sheet sheet;

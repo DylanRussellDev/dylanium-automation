@@ -1,9 +1,3 @@
-/*
- * Filename: EncryptionApp.java
- * Author: Dylan Russell
- * Purpose: A Java swing applet that accepts a string input and encrypts it to put into a properties file.
- */
-
 package io.github.dylanrusselldev.utilities.applets;
 
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
@@ -26,6 +20,11 @@ import java.awt.event.WindowEvent;
 
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
+/*
+ * Filename: EncryptionApp.java
+ * Author: Dylan Russell
+ * Purpose: A Java swing applet that accepts a string input and encrypts it to put into a properties file.
+ */
 public class EncryptionApp extends JPanel implements ActionListener {
 
     private static final ReadConfigFile readConfigFile = new ReadConfigFile();
@@ -123,5 +122,5 @@ public class EncryptionApp extends JPanel implements ActionListener {
         // Launch app in the center of screen
         frame.setLocationRelativeTo(null);
     }
-    
+
 } // end Encryption.java

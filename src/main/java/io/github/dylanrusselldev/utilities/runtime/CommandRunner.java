@@ -1,14 +1,13 @@
+package io.github.dylanrusselldev.utilities.runtime;
+
+import io.github.dylanrusselldev.utilities.core.CommonMethods;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
+
 /*
  * Filename: CommandRunner.java
  * Author: Dylan Russell
  * Purpose: Methods that allow commands to be run via the Windows Command Prompt
  */
-
-package io.github.dylanrusselldev.utilities.runtime;
-
-import io.github.dylanrusselldev.utilities.core.CommonMethods;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
-
 public class CommandRunner {
 
     private static final LoggerClass LOGGER = new LoggerClass(CommandRunner.class);

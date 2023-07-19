@@ -1,10 +1,3 @@
-/*
- * Filename: Hooks.java
- * Author: Dylan Russell
- * Purpose: Setup Before and After options for test execution. Methods are called from the BrowserPreferences.java file
- * 			to help launch the drivers with the correct preferences.
- */
-
 package io.github.dylanrusselldev.utilities.core;
 
 import io.cucumber.java.After;
@@ -14,7 +7,7 @@ import io.cucumber.java.Scenario;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.browser.WebDriverSetter;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.reporting.MasterthoughtReport;
 import io.github.dylanrusselldev.utilities.runtime.CommandRunner;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
@@ -29,6 +22,11 @@ import org.testng.IExecutionListener;
 import java.io.IOException;
 import java.time.Duration;
 
+/*
+ * Filename: Hooks.java
+ * Author: Dylan Russell
+ * Purpose: Methods that perform actions before and after the test suites and scenarios.
+ */
 public class Hooks implements IExecutionListener {
 
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();

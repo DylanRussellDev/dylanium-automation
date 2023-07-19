@@ -6,7 +6,7 @@ import io.cucumber.java.en.When;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import io.github.dylanrusselldev.utilities.screenrecorder.ScreenRecorderUtil;
 import io.github.dylanrusselldev.webelements.CalculatorObjects;

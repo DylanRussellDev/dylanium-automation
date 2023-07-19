@@ -1,11 +1,3 @@
-/*
- * Filename: Runner.java
- * Author: Dylan Russell
- * Purpose: The cucumber options for test execution.
- * 			If test execution is not working, check the correct
- * 			package names and folder locations are used.
- */
-
 package runners;
 
 import io.cucumber.testng.CucumberOptions;

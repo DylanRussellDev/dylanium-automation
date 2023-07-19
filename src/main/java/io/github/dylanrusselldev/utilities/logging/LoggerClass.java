@@ -1,11 +1,4 @@
-/*
- * Filename: LoggerClass.java
- * Author: Dylan Russell
- * Purpose: Provides methods that, once called, will log information to
- *          the console, a log file, an html file and the Masterthought report
- */
-
-package io.github.dylanrusselldev.utilities.reporting;
+package io.github.dylanrusselldev.utilities.logging;
 
 import io.github.dylanrusselldev.utilities.core.Hooks;
 import org.slf4j.Logger;
@@ -13,6 +6,12 @@ import org.slf4j.LoggerFactory;
 
 import static org.testng.Assert.fail;
 
+/*
+ * Filename: LoggerClass.java
+ * Author: Dylan Russell
+ * Purpose: Provides methods that, once called, will log information to
+ *          the console, a log file, an html file and the Masterthought report
+ */
 public class LoggerClass {
 
     private final Logger logger;
@@ -26,7 +25,7 @@ public class LoggerClass {
     }
 
     public void info(String msg, Exception e) {
-        logger.info(msg, e);
+        logger.info(msg, ExceptionFormatter.formatException(e));
     }
 
     public void warn(String msg) {
@@ -34,7 +33,7 @@ public class LoggerClass {
     }
 
     public void warn(String msg, Exception e) {
-        logger.warn(msg, e);
+        logger.warn(msg, ExceptionFormatter.formatException(e));
     }
 
     public void error(String msg) {
@@ -42,7 +41,7 @@ public class LoggerClass {
     }
 
     public void error(String msg, Exception e) {
-        logger.error(msg, e);
+        logger.error(msg, ExceptionFormatter.formatException(e));
     }
 
     public void debug(String msg) {
@@ -50,7 +49,7 @@ public class LoggerClass {
     }
 
     public void debug(String msg, Exception e) {
-        logger.debug(msg, e);
+        logger.debug(msg, ExceptionFormatter.formatException(e));
     }
 
     public void trace(String msg) {
@@ -58,7 +57,7 @@ public class LoggerClass {
     }
 
     public void trace(String msg, Exception e) {
-        logger.trace(msg, e);
+        logger.trace(msg, ExceptionFormatter.formatException(e));
     }
 
     /**
@@ -80,7 +79,7 @@ public class LoggerClass {
      * @param e   the Exception
      */
     public void logAndFail(String msg, Exception e) {
-        error(msg, e);
+        error(msg, ExceptionFormatter.formatException(e));
         fail(msg + "\n");
     }
 

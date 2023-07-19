@@ -1,13 +1,7 @@
-/*
- * Filename: DatabaseDriver.java
- * Author: Dylan Russell
- * Purpose: Enables the use of connecting to a database in order to perform validations through it
- */
-
 package io.github.dylanrusselldev.utilities.database;
 
 import io.github.dylanrusselldev.utilities.core.Constants;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 
 import java.sql.Connection;
@@ -16,6 +10,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*
+ * Filename: DatabaseDriver.java
+ * Author: Dylan Russell
+ * Purpose: Enables the use of connecting to a database in order to perform validations through it
+ */
 public class DatabaseDriver {
 
     private Connection connection;

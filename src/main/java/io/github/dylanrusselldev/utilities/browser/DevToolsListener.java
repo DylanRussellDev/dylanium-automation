@@ -1,13 +1,7 @@
-/*
- * Filename: DevToolsListener.java
- * Author: Dylan Russell
- * Purpose: Creates a DevTools listener that will output network errors that do not return with a status code of 200.
- */
-
 package io.github.dylanrusselldev.utilities.browser;
 
 import com.google.common.collect.ImmutableMap;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -21,6 +15,11 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+/*
+ * Filename: DevToolsListener.java
+ * Author: Dylan Russell
+ * Purpose: Creates a DevTools listener that will output network errors that do not return with a status code of 200.
+ */
 public class DevToolsListener {
 
     private final DevTools devTools;

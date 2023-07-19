@@ -1,18 +1,9 @@
-/*
- * Filename: ScreenRecorderUtil.java
- * Author: Dylan Russell
- * Purpose: Enables the ability to record the desktop during test execution and save the file as an AVI file.
- *          In the stopRecord method, the AVI file is converted to a MP4 for easy viewing on any system and
- *          to also embed in the test execution report.
- *          Please note that screen recording will not capture browser actions while executing in Headless mode.
- */
-
 package io.github.dylanrusselldev.utilities.screenrecorder;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.apache.commons.io.IOUtils;
 import org.monte.media.Format;
@@ -44,6 +35,14 @@ import static org.monte.media.VideoFormatKeys.DepthKey;
 import static org.monte.media.VideoFormatKeys.ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE;
 import static org.monte.media.VideoFormatKeys.QualityKey;
 
+/*
+ * Filename: ScreenRecorderUtil.java
+ * Author: Dylan Russell
+ * Purpose: Enables the ability to record the desktop during test execution and save the file as an AVI file.
+ *          In the stopRecord method, the AVI file is converted to a MP4 for easy viewing on any system and
+ *          to also embed in the test execution report.
+ *          Please note that screen recording will not capture browser actions while executing in Headless mode.
+ */
 public class ScreenRecorderUtil extends ScreenRecorder {
 
     public static ScreenRecorder screenRecorder;

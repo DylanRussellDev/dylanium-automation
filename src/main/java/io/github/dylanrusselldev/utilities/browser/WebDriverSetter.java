@@ -1,15 +1,9 @@
-/*
- * Filename: WebDriverSetter.java
- * Author: Dylan Russell
- * Purpose: Sets the WebDriver type based on the argument in the -DBrowser maven goal
- */
-
 package io.github.dylanrusselldev.utilities.browser;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -19,6 +13,11 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 import java.io.IOException;
 import java.time.Duration;
 
+/*
+ * Filename: WebDriverSetter.java
+ * Author: Dylan Russell
+ * Purpose: Sets the WebDriver type based on the argument in the -DBrowser maven goal
+ */
 public class WebDriverSetter {
 
     private static final LoggerClass LOGGER = new LoggerClass(WebDriverSetter.class);

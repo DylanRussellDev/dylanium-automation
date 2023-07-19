@@ -1,12 +1,7 @@
 package io.github.dylanrusselldev.utilities.reporting;
 
-/*
- * Filename: CaptureScreenshot.java
- * Author: Dylan Russell
- * Purpose: Captures a screenshot of the entire webpage.
- */
-
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -19,6 +14,11 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
+/*
+ * Filename: CaptureScreenshot.java
+ * Author: Dylan Russell
+ * Purpose: Captures a screenshot of the entire webpage.
+ */
 public class CaptureScreenshot {
 
     private static final LoggerClass LOGGER = new LoggerClass(CaptureScreenshot.class);

@@ -1,14 +1,7 @@
-/*
- * Filename: AVItoMP4.java
- * Author: Dylan Russell
- * Purpose: Converts the .avi files generated from the methods in ScreenRecorderUtil.java to MP4 files.
- *          The MP4 files can be attached to the test execution reports.
- */
-
 package io.github.dylanrusselldev.utilities.screenrecorder;
 
 import io.github.dylanrusselldev.utilities.core.Constants;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import ws.schild.jave.Encoder;
 import ws.schild.jave.MultimediaObject;
 import ws.schild.jave.encode.AudioAttributes;
@@ -20,6 +13,12 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/*
+ * Filename: AVItoMP4.java
+ * Author: Dylan Russell
+ * Purpose: Converts the .avi files generated from the methods in ScreenRecorderUtil.java to MP4 files.
+ *          The MP4 files can be attached to the test execution reports.
+ */
 public class AVItoMP4 {
 
     private static final LoggerClass LOGGER = new LoggerClass(AVItoMP4.class);

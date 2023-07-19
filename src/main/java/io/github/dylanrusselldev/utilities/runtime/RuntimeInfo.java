@@ -1,19 +1,18 @@
+package io.github.dylanrusselldev.utilities.runtime;
+
+import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
+import org.openqa.selenium.Capabilities;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /*
  * Filename: RuntimeInfo.java
  * Author: Dylan Russell
  * Purpose: A class that houses methods can return information about the current
  *          suite being executed.
  */
-
-package io.github.dylanrusselldev.utilities.runtime;
-
-import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.reporting.LoggerClass;
-import org.openqa.selenium.Capabilities;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class RuntimeInfo {
 
     public static Capabilities capabilities;

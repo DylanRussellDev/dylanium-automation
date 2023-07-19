@@ -1,9 +1,3 @@
-/*
- * Filename: PDFValidation.java
- * Author: Dylan Russell
- * Purpose: Provides different methods that can be used to validate PDFs during test executions.
- */
-
 package io.github.dylanrusselldev.utilities.filereaders;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
@@ -27,6 +21,11 @@ import java.util.Base64;
 import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
+/*
+ * Filename: PDFValidation.java
+ * Author: Dylan Russell
+ * Purpose: Provides different methods that can be used to validate PDFs during test executions.
+ */
 public class PDFValidation {
 
     /**
