@@ -43,7 +43,7 @@ public class AVItoMP4 {
         videoAttributes.setCodec("libx264");
         videoAttributes.setBitRate(500000);   // Increase the value of the Bit Rate for higher quality video
         videoAttributes.setFrameRate(15);
-        videoAttributes.setSize(new VideoSize(1280, 720));
+        videoAttributes.setSize(new VideoSize(1920, 1080));
 
         EncodingAttributes encodingAttributes = new EncodingAttributes();
         encodingAttributes.setOutputFormat("mp4");

@@ -78,10 +78,8 @@ public class ScreenRecorderUtil extends ScreenRecorder {
 
     /**
      * Start the screen recorder.
-     *
-     * @param methodName the name of the method where the screen recorder is being started
      */
-    public static void startRecord(String methodName) throws Exception {
+    public static void startRecord() throws Exception {
 
         if (RuntimeInfo.getThreads() > 1) {
             LOGGER.logAndFail("Using the screen recorder during parallel execution has the " +
@@ -112,7 +110,7 @@ public class ScreenRecorderUtil extends ScreenRecorder {
                         CompressorNameKey, ENCODING_AVI_TECHSMITH_SCREEN_CAPTURE, DepthKey, 24, FrameRateKey,
                         Rational.valueOf(15), QualityKey, 1.0f, KeyFrameIntervalKey, 15 * 60),
                 new Format(MediaTypeKey, MediaType.VIDEO, EncodingKey, "black", FrameRateKey, Rational.valueOf(30)),
-                null, file, methodName);
+                null, file, "main");
 
         screenRecorder.start();
         LOGGER.info("Started recording the screen");

@@ -49,7 +49,7 @@ public class DemoSteps {
 
     @Given("the screen recorder is started")
     public void the_screen_recorder_is_started() throws Exception {
-        ScreenRecorderUtil.startRecord("navigate");
+        ScreenRecorderUtil.startRecord();
     }
 
     @Given("the user navigates to the Selenium Demo website")
