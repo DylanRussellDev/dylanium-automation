@@ -20,7 +20,6 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.IExecutionListener;
 
 import java.io.IOException;
-import java.time.Duration;
 
 /*
  * Filename: Hooks.java
@@ -49,25 +48,15 @@ public class Hooks implements IExecutionListener {
      */
     @Before
     public void start(Scenario scenObj) throws Exception {
-
-        // Set the scenario object
         scenario.set(scenObj);
-
-        // Set the name of the thread to be the cucumber tag
         Thread.currentThread().setName(RuntimeInfo.getUniqueScenarioTag());
 
-        // Setup the WebDriver
         WebDriverSetter.setDriver();
 
-        // Set the page timeout
-        getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
-
-        // Get the browser name and version to include in the reports
         Capabilities capabilities = ((RemoteWebDriver) getDriver()).getCapabilities();
         LOGGER.logCucumberReport("Executing on: " + RuntimeInfo.getBrowserVersion(capabilities));
 
         LOGGER.info("Beginning Scenario: " + Thread.currentThread().getName());
-
     }
 
     /**
@@ -75,47 +64,34 @@ public class Hooks implements IExecutionListener {
      */
     @After
     public void afterScenario() throws IOException {
-
-        // Stop the screen recording if it was started
         ScreenRecorderUtil.stopRecord();
 
-        // If the test failed, take a screenshot and print the DevTools errors
         if (getScenario().isFailed()) {
             CommonMethods.fullScreenshot(getDriver());
             DevToolsListener.logDevToolErrors();
-        } // end outer if
+        }
 
-        // Quit the driver
         getDriver().quit();
-
-        // Remove the driver from the thread
         driver.remove();
-
     }
 
     /**
      * Code that executes after the entire test suite.
      */
     public void onExecutionFinish() {
-
-        // Generate the Masterthought report
         MasterthoughtReport.generateTestReport();
-
-        // End any potentially hanging drivers
         CommandRunner.endDriverExe();
+
         LOGGER.info("*** TEST SUITE FINISHED ***");
 
         // Open the Masterthought report and html log file after execution has finished.
         WebDriverManager.chromedriver().setup();
         ChromeDriver driver = new ChromeDriver();
-
         driver.get(Constants.LOG_FOLDER_PATH + "execution-log.html");
         CommonMethods.pauseForSeconds(1);
-
         driver.manage().window().maximize();
         driver.switchTo().newWindow(WindowType.TAB);
         driver.get(Constants.MASTERTHOUGHT_REPORT_PATH + "cucumber-html-reports\\overview-features.html");
-
     }
 
     /**

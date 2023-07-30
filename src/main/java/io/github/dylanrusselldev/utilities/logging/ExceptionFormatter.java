@@ -75,9 +75,9 @@ public class ExceptionFormatter {
                 methodName = traceElement.getMethodName();
                 lineNumber = traceElement.getLineNumber();
                 break;
-            } // end if
+            }
 
-        } // end for
+        }
 
         StackTraceElement stackTraceElement = new StackTraceElement(className, methodName, "Line", lineNumber);
         return new StackTraceElement[]{stackTraceElement};

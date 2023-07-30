@@ -35,7 +35,7 @@ public class ReadConfigFile {
                 bufferedReader.close();
             } catch (IOException e) {
                 LOGGER.logAndFail("Could not load the properties file", e);
-            } // end inner try catch
+            }
 
         } catch (FileNotFoundException e) {
             LOGGER.logAndFail("The properties file could not be found at this location: "
