@@ -29,33 +29,20 @@ public class MasterthoughtReport {
         LOGGER.info("*** Now generating the Masterthought report ***");
 
         try {
-
-            // Folder where the reports are generated
             File outDirectory = new File(Constants.MASTERTHOUGHT_REPORT_PATH);
-
-            // Set the cucumber JSON file
             List<String> list = new ArrayList<>();
             list.add(Constants.CUCUMBER_JSON_REPORT_PATH);
 
-            // Configuration object for adding custom formatting
             Configuration configuration = new Configuration(outDirectory, "Tests");
-
-            // Add OS and Browser info
             configuration.addClassifications("OS", RuntimeInfo.getOSInfo());
             configuration.addClassifications("Browser", RuntimeInfo.getBrowserVersion(RuntimeInfo.capabilities));
-
-            // Automatically expand all steps in the report
             configuration.addPresentationModes(PresentationMode.EXPAND_ALL_STEPS);
 
-            // Generate the report
             ReportBuilder reportBuilder = new ReportBuilder(list, configuration);
             reportBuilder.generateReports();
-
         } catch (Exception e) {
-
             LOGGER.logAndFail("Error encountered when generating the Masterthought report.", e);
-
-        } // end try-catch
+        }
 
     }
 

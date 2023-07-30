@@ -61,13 +61,13 @@ public class BrowserSteps {
 	    			break;
 	    		} else {
 	    			CommonMethods.pauseForSeconds(5);
-	    		} // end inner if-else
+	    		}
 	    		
-	    	} // end for
+	    	}
 	    	
 	    } else {
 			LOGGER.info("Chrome is up to date");
-	    } // end outer if-else
+	    }
 	}
 	
 	@Then("close Chrome {string} if a new update needs applied")
@@ -89,9 +89,9 @@ public class BrowserSteps {
                     Runtime.getRuntime().exec("taskkill /F /IM chromedriver-dev.exe");
                     break;
 
-	    	} // end switch
+	    	}
 
-	    } // end if
+	    }
 
 	}
 
@@ -115,13 +115,13 @@ public class BrowserSteps {
 	    			break;
 	    		} else {
 	    			CommonMethods.pauseForSeconds(5);
-	    		} // end inner if-else
+	    		}
 
-	    	} // end for
+	    	}
 	    	
 	    } else {
 			LOGGER.info("Edge is up to date");
-	    } // end outer if-else
+	    }
 
 	}
 
@@ -131,7 +131,7 @@ public class BrowserSteps {
 
 		if (strUpdateStatus.contains(EDGE_RELAUNCH)) {
 	    	driver.quit();
-	    } // end if
+	    }
 	}
 	
 }

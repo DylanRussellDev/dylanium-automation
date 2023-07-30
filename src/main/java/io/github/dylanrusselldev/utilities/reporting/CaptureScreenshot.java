@@ -44,32 +44,24 @@ public class CaptureScreenshot {
         TakesScreenshot takesScreenshot = (TakesScreenshot) new Augmenter().augment(wd);
 
         try {
-
             bais = new ByteArrayInputStream(takesScreenshot.getScreenshotAs(OutputType.BYTES));
             return ImageIO.read(bais);
-
         } catch (IOException e) {
-
             LOGGER.logAndFail("Unable to parse screenshot", e);
             return null;
-
         } finally {
 
             try {
 
                 if (bais != null) {
-
                     bais.close();
-
-                } // end if
+                }
 
             } catch (IOException i) {
-
                 LOGGER.logAndFail("Unable to close ByteArrayInputStream", i);
+            }
 
-            } // end inner try-catch
-
-        } // end outer try-catch
+        }
 
     }
 
@@ -86,13 +78,11 @@ public class CaptureScreenshot {
         Graphics2D graphics = finalScreenshot.createGraphics();
 
         for (int i = 0; i < scrollTimes; i++) {
-
             javascriptExecutor.executeScript("scrollTo(0, arguments[0])", pageHeight * i);
             CommonMethods.pauseForSeconds(0.5);
             BufferedImage partialImage = screenshotCurrentView(driver);
             graphics.drawImage(partialImage, 0, i * pageHeight, null);
-
-        } // end for
+        }
 
         if (tail > 0) {
             javascriptExecutor.executeScript("scrollTo(0, document.body.scrollHeight)");
@@ -100,7 +90,7 @@ public class CaptureScreenshot {
             BufferedImage last = screenshotCurrentView(driver);
             BufferedImage tailImage = last.getSubimage(0, last.getHeight() - tail, last.getWidth(), tail);
             graphics.drawImage(tailImage, 0, scrollTimes * pageHeight, null);
-        } // end if
+        }
 
         graphics.dispose();
         return finalScreenshot;

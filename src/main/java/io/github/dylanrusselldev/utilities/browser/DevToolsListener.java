@@ -35,7 +35,7 @@ public class DevToolsListener {
             devTools = ((EdgeDriver) driver).getDevTools();
         } else {
             devTools = null;
-        } // end if statement
+        }
 
         try {
             devTools.createSessionIfThereIsNotOne();
@@ -43,7 +43,7 @@ public class DevToolsListener {
             LOGGER.info("Started the DevTools Listener");
         } catch (Exception e) {
             LOGGER.warn("Could not create a DevTools session", e);
-        } // end try-catch
+        }
 
     }
 
@@ -64,13 +64,13 @@ public class DevToolsListener {
                             "URL: " + receive.getResponse().getUrl().replace("https://", "") + "\n" +
                             "Status: " + receive.getResponse().getStatus() + "\n" +
                             "Error: " + receive.getResponse().getStatusText());
-                } // end if
+                }
 
             });
 
         } catch (Exception e) {
             LOGGER.warn("Could not create a DevTools session", e);
-        } // end try-catch
+        }
 
     }
 
@@ -85,9 +85,9 @@ public class DevToolsListener {
 
             for (String s : set) {
                 LOGGER.logCucumberReport(s);
-            } // end for
+            }
 
-        } // end if
+        }
 
     }
 

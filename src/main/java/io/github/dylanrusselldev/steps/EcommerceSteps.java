@@ -41,7 +41,7 @@ public class EcommerceSteps {
                 CommonMethods.isElementPresent(driver, eCommerceObjects.msgSuccessProductComparison, "Success Message");
                 CommonMethods.fullScreenshot(driver);
                 break;
-        } // end case statement
+        }
     }
 
     @When("clicks the Product Compare link")

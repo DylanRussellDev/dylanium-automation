@@ -88,7 +88,7 @@ public class EncryptionApp extends JPanel implements ActionListener {
 
         } else {
             JOptionPane.showMessageDialog(jFrame, "Error Occured");
-        } // end if-else
+        }
 
     }
 
@@ -123,4 +123,4 @@ public class EncryptionApp extends JPanel implements ActionListener {
         frame.setLocationRelativeTo(null);
     }
 
-} // end Encryption.java
+}
