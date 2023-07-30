@@ -53,13 +53,10 @@ public class WebDriverSetter {
                 LOGGER.logAndFail("Browser was not defined properly");
                 break;
 
-        } // end switch
+        }
 
-        // Set the page timeout
-        Hooks.getDriver()
-                .manage()
-                .timeouts()
-                .pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
+        Hooks.getDriver().manage().window().maximize();
+        Hooks.getDriver().manage().timeouts().pageLoadTimeout(Duration.ofSeconds(Constants.TIMEOUT));
 
     }
 

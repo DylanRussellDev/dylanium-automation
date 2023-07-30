@@ -12,6 +12,8 @@ import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -32,7 +34,7 @@ public class BrowserPreferences {
      *
      * @return the Chrome Options
      */
-    public static ChromeOptions chromePrefs() throws IOException {
+    public static ChromeOptions chromePrefs() {
 
         // Disable unneccessary log messages from Selenium and Chrome
         java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.WARNING);
@@ -50,25 +52,19 @@ public class BrowserPreferences {
         chromeOptions.setExperimentalOption("prefs", chromeMap);
         chromeOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
         chromeOptions.addArguments(
-                "remote-allow-origins=*",
                 "no-sandbox",
-                "start-maximized",
                 "disable-dev-shm-usage",
                 "enable-automation",
                 "disable-gpu",
                 "dns-prefetch-disable",
-                "disable-extensions");
+                "disable-extensions",
+                "ignore-certificate-errors",
+                "ignore-urlfetcher-cert-requests");
 
         if (RuntimeInfo.isHeadless()) {
-
-            chromeOptions.addArguments(
-                    "headless=new",
-                    "window-size=1920,1080");
-
+            chromeOptions.addArguments("headless=new", "window-size=1920,1080");
             chromeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-            overrideDownloadDirectory(chromeOptions);
-
-        } // end if
+        }
 
         return chromeOptions;
 
@@ -88,7 +84,7 @@ public class BrowserPreferences {
 
         // Set the default download directory
         HashMap<String, Object> edgeMap = new HashMap<>();
-        edgeMap.put("plugins.plugins_disabled", new String[]{"Edge PDF Viewer"});
+        edgeMap.put("plugins.plugins_disabled", new String[]{"Chromium PDF Viewer"});
         edgeMap.put("plugins.always_open_pdf_externally", true);
         edgeMap.put("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
 
@@ -98,22 +94,18 @@ public class BrowserPreferences {
         edgeOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
         edgeOptions.addArguments(
                 "no-sandbox",
-                "start-maximized",
                 "disable-dev-shm-usage",
                 "enable-automation",
                 "disable-gpu",
                 "dns-prefetch-disable",
-                "disable-extensions");
+                "disable-extensions",
+                "ignore-certificate-errors",
+                "ignore-urlfetcher-cert-requests");
 
         if (RuntimeInfo.isHeadless()) {
-
-            edgeOptions.addArguments(
-                    "headless=new",
-                    "window-size=1920,1080");
-
+            edgeOptions.addArguments("headless=new", "window-size=1920,1080");
             edgeOptions.setPageLoadStrategy(PageLoadStrategy.NORMAL);
-
-        } // end if
+        }
 
         return edgeOptions;
 
@@ -121,13 +113,26 @@ public class BrowserPreferences {
 
     /**
      * Enables the functionality of downloading files in headless mode by sending a command to the browser.
-     *
-     * @param chromeOptions the Chrome Options
      */
-    public static void overrideDownloadDirectory(ChromeOptions chromeOptions) throws IOException {
+    public static void overrideDownloadDirectory() throws IOException {
 
-        ChromeDriverService chromeDriverService = ChromeDriverService.createDefaultService();
-        Hooks.setDriver(new ChromeDriver(chromeDriverService, chromeOptions));
+        String sendCmd = "";
+
+        if (RuntimeInfo.getBrowserName().contains("chrome")) {
+
+            ChromeDriverService chromeDriverService = ChromeDriverService.createDefaultService();
+            Hooks.setDriver(new ChromeDriver(chromeDriverService, chromePrefs()));
+            sendCmd = chromeDriverService.getUrl().toString()
+                    + "/session/" + ((RemoteWebDriver) Hooks.getDriver()).getSessionId() + "/chromium/send_command";
+
+        } else if (RuntimeInfo.getBrowserName().contains("edge")) {
+
+            EdgeDriverService edgeDriverService = EdgeDriverService.createDefaultService();
+            Hooks.setDriver(new EdgeDriver(edgeDriverService, edgePrefs()));
+            sendCmd = edgeDriverService.getUrl().toString()
+                    + "/session/" + ((RemoteWebDriver) Hooks.getDriver()).getSessionId() + "/chromium/send_command";
+
+        }
 
         Map<String, Object> commandParams = new HashMap<>();
         commandParams.put("cmd", "Page.setDownloadBehavior");
@@ -139,8 +144,7 @@ public class BrowserPreferences {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String cmd = objectMapper.writeValueAsString(commandParams);
-        String sendCmd = chromeDriverService.getUrl().toString()
-                + "/session/" + ((RemoteWebDriver) Hooks.getDriver()).getSessionId() + "/chromium/send_command";
+
 
         HttpPost httpPost = new HttpPost(sendCmd);
         httpPost.addHeader("content-type", "application/json");
