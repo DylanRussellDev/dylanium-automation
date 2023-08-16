@@ -6,13 +6,16 @@ import io.cucumber.java.en.When;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Hooks;
-import io.github.dylanrusselldev.utilities.logging.LoggerClass;
+import io.github.dylanrusselldev.utilities.filereaders.PDFValidation;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
+import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.screenrecorder.ScreenRecorderUtil;
 import io.github.dylanrusselldev.webelements.CalculatorObjects;
 import io.github.dylanrusselldev.webelements.DemoSiteObjects;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+
+import java.io.IOException;
 
 import static org.testng.Assert.assertEquals;
 
@@ -39,8 +42,8 @@ public class DemoSteps {
         CommonMethods.click(driver, CalculatorObjects.btnEquals, "Equals Button");
     }
 
-    @Then("verify the output is {string}")
-    public void verify_the_output_is(String answer) {
+    @When("the correct result is {string}")
+    public void the_correct_result_is(String answer) {
         String result = CommonMethods.getElementText(driver, CalculatorObjects.txtOutput, "Result").replaceAll("\\s", "");
         LOGGER.info("Calculated Result: " + answer);
         assertEquals(answer, result, "Output: " + answer + " is not correct");
@@ -89,8 +92,8 @@ public class DemoSteps {
         CommonMethods.click(driver, DemoSiteObjects.btnLogin, "Login button");
     }
 
-    @Then("a success message will be displayed")
-    public void a_success_message_will_be_displayed() {
+    @Then("a success message is displayed")
+    public void a_success_message_is_displayed() {
         CommonMethods.isElementPresent(driver, DemoSiteObjects.msgSuccessLogin, "Login Successful message");
         CommonMethods.partialScreenshot(driver);
     }
@@ -104,8 +107,8 @@ public class DemoSteps {
                 "Status Code " + code + " option");
     }
 
-    @Then("print the DevTools error information in the report")
-    public void print_the_DevTools_information_in_the_report() {
+    @Then("the DevTools error information is logged in the report")
+    public void the_DevTools_error_information_is_logged_in_the_report() {
         CommonMethods.isElementPresent(driver, DemoSiteObjects.lbl500Text, "500 status code text");
         CommonMethods.partialScreenshot(driver);
         DevToolsListener.logDevToolErrors();
@@ -116,13 +119,13 @@ public class DemoSteps {
         CommonMethods.isElementPresent(driver, DemoSiteObjects.hdInputs, "Inputs header text");
     }
 
-    @Then("the scenario will fail and a user friendly exception message will display on the report")
-    public void the_scenario_will_fail_and_a_user_friendly_exception_message_will_display_on_the_report() {
+    @Then("the scenario will fail with a user friendly exception message displayed on the report")
+    public void the_scenario_will_fail_with_a_user_friendly_exception_message_displayed_on_the_report() {
         CommonMethods.enterText(driver, DemoSiteObjects.hdInputs, "text comment", "Inputs header text");
     }
 
-    @Then("log the user actions when they click different buttons")
-    public void log_the_user_actions_when_they_click_different_buttons() {
+    @Then("the user's actions are logged when different buttons are clicked")
+    public void the_user_s_actions_are_logged_when_different_buttons_are_clicked() {
         CommonMethods.click(driver, DemoSiteObjects.hdAddRemoveElements, "Add/Remove Elements heading");
         CommonMethods.click(driver, DemoSiteObjects.btnAddElement, "Add Element button");
         LOGGER.logCucumberReport("User clicked on the Add Element button");
@@ -140,6 +143,16 @@ public class DemoSteps {
 
         CommonMethods.pauseForSeconds(3);
         CommonMethods.fullScreenshot(driver);
+    }
+
+    @When("the user downloads the sample pdf")
+    public void the_user_downloads_the_sample_pdf() {
+        CommonMethods.click(driver, DemoSiteObjects.lnkSamplePDF, "Sample PDF link");
+    }
+
+    @Then("the downloaded PDF contains the text {string}")
+    public void the_downloaded_pdf_contains_the_text(String text) throws IOException {
+        PDFValidation.verifyDownloadedPDFText(driver, text, "sample.pdf");
     }
 
 }

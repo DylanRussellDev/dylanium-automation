@@ -1,8 +1,8 @@
 package io.github.dylanrusselldev.utilities.core;
 
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
-import io.github.dylanrusselldev.utilities.reporting.CaptureScreenshot;
 import io.github.dylanrusselldev.utilities.logging.LoggerClass;
+import io.github.dylanrusselldev.utilities.reporting.CaptureScreenshot;
 import org.apache.commons.io.comparator.LastModifiedFileComparator;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
@@ -153,6 +153,13 @@ public class CommonMethods {
 
     }
 
+    public static File retrieveFile(WebDriver driver, String filename) {
+        File file = new File(Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName() + "\\" + filename);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constants.TIMEOUT));
+        wait.until(x -> file.exists());
+        return file;
+    }
+
     /**
      * Returns the most recent file in a folder location with a given file extension.
      *
@@ -163,34 +170,28 @@ public class CommonMethods {
         File newestFile = null;
         FileFilter fileFilter = new WildcardFileFilter("*." + ext);
 
-        try {
+        for (int i = 0; i < 5; i++) {
+            File directory = new File(folderPath);
+            File[] filesArray = directory.listFiles(fileFilter);
 
-            for (int i = 0; i < 5; i++) {
-                File directory = new File(folderPath);
-                File[] filesArray = directory.listFiles(fileFilter);
+            if (filesArray.length > 0) {
+                Arrays.sort(filesArray, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
 
-                if (filesArray.length > 0) {
-                    Arrays.sort(filesArray, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
-
-                    // If the file is still downloading, wait 5 seconds and check again
-                    if (filesArray[0].getName().contains(".crdownload")) {
-                        LOGGER.info("The file is currently downloading...");
-                        CommonMethods.pauseForSeconds(5);
-                    } else {
-                        newestFile = filesArray[0];
-                        LOGGER.info("The newest file in the folder is: " + newestFile.getName());
-                        break;
-                    }
-
-                } else {
-                    LOGGER.warn("No files found in the folder path: " + folderPath + ". Checking again in a moment.");
+                // If the file is still downloading, wait 5 seconds and check again
+                if (filesArray[0].getName().contains(".crdownload")) {
+                    LOGGER.info("The file is currently downloading...");
                     CommonMethods.pauseForSeconds(5);
+                } else {
+                    newestFile = filesArray[0];
+                    LOGGER.info("The newest file in the folder is: " + newestFile.getName());
+                    break;
                 }
 
+            } else {
+                LOGGER.warn("No files found in the folder path: " + folderPath + ". Checking again in a moment.");
+                CommonMethods.pauseForSeconds(5);
             }
 
-        } catch (Exception e) {
-            LOGGER.logAndFail("Timeout Error. Unable to locate any files in the folder path: " + folderPath, e);
         }
 
         return newestFile;
@@ -400,10 +401,10 @@ public class CommonMethods {
      * @param str     the WebElement type for the log message
      */
     public static void switchiFrame(WebDriver driver, By element, String str) {
-        isElementPresent(driver, element, str);
-
+        WebDriverWait wait = (WebDriverWait) new WebDriverWait(driver, Duration.ofSeconds(Constants.TIMEOUT))
+                .ignoring(StaleElementReferenceException.class);
         try {
-            driver.switchTo().frame(driver.findElement(element));
+            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(element));
         } catch (Exception e) {
             LOGGER.logAndFail("Could not switch to iFrame: " + str, e);
         }

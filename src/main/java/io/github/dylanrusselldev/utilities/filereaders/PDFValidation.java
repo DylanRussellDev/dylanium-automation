@@ -1,7 +1,6 @@
 package io.github.dylanrusselldev.utilities.filereaders;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
-import io.github.dylanrusselldev.utilities.core.Constants;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.openqa.selenium.WebDriver;
@@ -65,8 +64,9 @@ public class PDFValidation {
      * @param txtVerify the text to check
      * @param pdfName   the PDF name for exception message
      */
-    public static void verifyDownloadedPDFText(String txtVerify, String pdfName) throws IOException {
-        URL url = new URL("file:///" + CommonMethods.getNewestFile(Constants.TARGET_FILE_DOWNLOADS, "pdf"));
+    public static void verifyDownloadedPDFText(WebDriver driver, String txtVerify, String pdfName) throws IOException {
+        URL url = new URL("file:///" + CommonMethods.retrieveFile(driver, pdfName));
+
         InputStream is = url.openStream();
         BufferedInputStream bis = new BufferedInputStream(is);
         PDDocument pdDocument = PDDocument.load(bis);
@@ -76,7 +76,8 @@ public class PDFValidation {
         bis.close();
         is.close();
 
-        String p = String.valueOf(CommonMethods.getNewestFile(Constants.TARGET_FILE_DOWNLOADS, "pdf"));
+        String p = String.valueOf(CommonMethods.retrieveFile(driver, pdfName));
+//        String p = String.valueOf(CommonMethods.getNewestFile(Constants.TARGET_FILE_DOWNLOADS, "pdf"));
         Path path = Paths.get(p);
 
         try {

@@ -12,12 +12,12 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <selenium.version>4.10.0</selenium.version>
+        <selenium.version>4.11.0</selenium.version>
         <testng.version>7.8.0</testng.version>
-        <cucumber.version>7.12.1</cucumber.version>
+        <cucumber.version>7.13.0</cucumber.version>
         <cucumberjvm.version>1.0.6</cucumberjvm.version>
-        <webdrivermanager.version>5.4.0</webdrivermanager.version>
-        <masterthought.version>5.7.5</masterthought.version>
+        <webdrivermanager.version>5.4.1</webdrivermanager.version>
+        <masterthought.version>5.7.6</masterthought.version>
         <jasypt.version>1.9.3</jasypt.version>
         <ooxml.version>5.2.3</ooxml.version>
         <mysql.version>8.0.33</mysql.version>

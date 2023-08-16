@@ -45,7 +45,7 @@ public class BrowserPreferences {
         HashMap<String, Object> chromeMap = new HashMap<>();
         chromeMap.put("plugins.plugins_disabled", new String[]{"Chrome PDF Viewer"});
         chromeMap.put("plugins.always_open_pdf_externally", true);
-        chromeMap.put("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
+        chromeMap.put("download.default_directory", Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName());
 
         // Add Chrome Options
         ChromeOptions chromeOptions = new ChromeOptions();
