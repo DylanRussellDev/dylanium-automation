@@ -1,8 +1,7 @@
 package io.github.dylanrusselldev.utilities.browser;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import io.github.dylanrusselldev.steps.Hooks;
 import io.github.dylanrusselldev.utilities.core.Constants;
-import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,7 +9,6 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
-import java.io.IOException;
 import java.time.Duration;
 
 /*
@@ -25,32 +23,28 @@ public class WebDriverSetter {
     /**
      * Set the preferred browser for execution based of the -DBrowser Maven argument.
      */
-    public static synchronized void setDriver() throws IOException {
+    public static synchronized void setDriver() {
 
         switch (RuntimeInfo.getBrowserName()) {
 
             case "chrome":
-                WebDriverManager.chromedriver().setup();
                 Hooks.setDriver(new ChromeDriver(BrowserPreferences.chromePrefs()));
                 break;
 
             case "edge":
-                WebDriverManager.edgedriver().setup();
                 Hooks.setDriver(new EdgeDriver(BrowserPreferences.edgePrefs()));
                 break;
 
             case "firefox":
-                WebDriverManager.firefoxdriver().setup();
                 Hooks.setDriver(new FirefoxDriver());
                 break;
 
             case "ie":
-                WebDriverManager.iedriver().setup();
                 Hooks.setDriver(new InternetExplorerDriver());
                 break;
 
             default:
-                LOGGER.logAndFail("Browser was not defined properly");
+                LOGGER.fail("Browser was not defined properly");
                 break;
 
         }

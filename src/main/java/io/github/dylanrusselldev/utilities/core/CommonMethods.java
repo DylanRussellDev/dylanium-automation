@@ -1,5 +1,6 @@
 package io.github.dylanrusselldev.utilities.core;
 
+import io.github.dylanrusselldev.steps.Hooks;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.reporting.CaptureScreenshot;
@@ -55,7 +56,7 @@ public class CommonMethods {
         try {
             js.executeScript("arguments[0].setAttribute('style', 'filter: blur(0.25rem);');", ele);
         } catch (Exception e) {
-            LOGGER.logAndFail("Could not blur out " + str, e);
+            LOGGER.fail("Could not blur out " + str, e);
         }
 
     }
@@ -75,11 +76,11 @@ public class CommonMethods {
             driver.findElement(element).click();
             LOGGER.info("Clicked on: " + str);
         } catch (ElementClickInterceptedException e) {
-            LOGGER.logAndFail("Unable to click on the '" + str + "' because it became detached from the DOM structure", e);
+            LOGGER.fail("Unable to click on the '" + str + "' because it became detached from the DOM structure", e);
         } catch (StaleElementReferenceException s) {
-            LOGGER.logAndFail("Unable to click on the '" + str + "' because the DOM changed", s);
+            LOGGER.fail("Unable to click on the '" + str + "' because the DOM changed", s);
         } catch (TimeoutException t) {
-            LOGGER.logAndFail("After clicking on the '" + str + "', the page took too long to load", t);
+            LOGGER.fail("After clicking on the '" + str + "', the page took too long to load", t);
         }
 
     }
@@ -99,7 +100,7 @@ public class CommonMethods {
             decryptor.setKeyObtentionIterations(Integer.parseInt(readConfigFile.properties.getProperty("keyIterations")));
             return decryptor.decrypt(readConfigFile.properties.getProperty(property));
         } catch (Exception e) {
-            LOGGER.logAndFail("Error encountered when trying to decrypt the information", e);
+            LOGGER.fail("Error encountered when trying to decrypt the information", e);
             return null;
         }
 
@@ -120,7 +121,7 @@ public class CommonMethods {
             driver.findElement(element).clear();
             driver.findElement(element).sendKeys(input);
         } catch (Exception e) {
-            LOGGER.logAndFail("Could not input text: " + input + " into " + str, e);
+            LOGGER.fail("Could not input text: " + input + " into " + str, e);
         }
 
     }
@@ -147,7 +148,7 @@ public class CommonMethods {
 
             return val;
         } catch (Exception e) {
-            LOGGER.logAndFail("Could not get text from: " + str + "\n");
+            LOGGER.fail("Could not get text from: " + str + "\n");
             return null;
         }
 
@@ -213,7 +214,7 @@ public class CommonMethods {
         try {
             js.executeScript("arguments[0].setAttribute('style','background: yellow; border: 2px solid red;'):", ele);
         } catch (Exception e) {
-            LOGGER.logAndFail("Unable to highlight element: " + str, e);
+            LOGGER.fail("Unable to highlight element: " + str, e);
         }
 
     }
@@ -232,7 +233,7 @@ public class CommonMethods {
             JavascriptExecutor executor = (JavascriptExecutor) driver;
             executor.executeScript("arguments[0].onmouseover()", driver.findElement(element));
         } catch (Exception e) {
-            LOGGER.logAndFail(str + " could not be hovered over", e);
+            LOGGER.fail(str + " could not be hovered over", e);
         }
 
     }
@@ -251,7 +252,7 @@ public class CommonMethods {
             Actions action = new Actions(driver);
             action.moveToElement(driver.findElement(element)).perform();
         } catch (Exception e) {
-            LOGGER.logAndFail(str + " could not be hovered over", e);
+            LOGGER.fail(str + " could not be hovered over", e);
         }
 
     }
@@ -269,7 +270,7 @@ public class CommonMethods {
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constants.TIMEOUT));
             wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(element)));
         } catch (Exception e) {
-            LOGGER.logAndFail(str + " was not in a clickable state", e);
+            LOGGER.fail(str + " was not in a clickable state", e);
         }
 
     }
@@ -289,7 +290,7 @@ public class CommonMethods {
             wait.until(ExpectedConditions.refreshed(ExpectedConditions.visibilityOfElementLocated(element)));
             wait.until(ExpectedConditions.refreshed(ExpectedConditions.presenceOfElementLocated(element)));
         } catch (Exception e) {
-            LOGGER.logAndFail(str + " was not present on the page within " + Constants.TIMEOUT + " seconds", e);
+            LOGGER.fail(str + " was not present on the page within " + Constants.TIMEOUT + " seconds", e);
         }
 
     }
@@ -306,7 +307,7 @@ public class CommonMethods {
             driver.get(readConfigFile.properties.getProperty(propertyURL));
             LOGGER.info("Navigating to URL" + readConfigFile.properties.getProperty(propertyURL));
         } catch (Exception e) {
-            LOGGER.logAndFail("Could not navigate to " + propertyURL, e);
+            LOGGER.fail("Could not navigate to " + propertyURL, e);
         }
 
     }
@@ -323,7 +324,7 @@ public class CommonMethods {
             final byte[] partialCapture = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             Hooks.getScenario().attach(partialCapture, "image/png", "Click to view screenshot");
         } catch (Exception e) {
-            LOGGER.logAndFail("Could not capture a partial screenshot", e);
+            LOGGER.fail("Could not capture a partial screenshot", e);
         }
 
     }
@@ -341,7 +342,7 @@ public class CommonMethods {
         try {
             Thread.sleep(intMilli);
         } catch (InterruptedException e) {
-            LOGGER.logAndFail("Unable to pause execution for " + seconds + " seconds", e);
+            LOGGER.fail("Unable to pause execution for " + seconds + " seconds", e);
         }
 
     }
@@ -384,11 +385,11 @@ public class CommonMethods {
         try {
             select.selectByIndex(index);
         } catch (ElementClickInterceptedException e) {
-            LOGGER.logAndFail(str + " could not be clicked because another element was concealing it", e);
+            LOGGER.fail(str + " could not be clicked because another element was concealing it", e);
         } catch (NoSuchElementException n) {
-            LOGGER.logAndFail("There is no option listed in the " + str + " at position " + index, n);
+            LOGGER.fail("There is no option listed in the " + str + " at position " + index, n);
         } catch (StaleElementReferenceException s) {
-            LOGGER.logAndFail(str + " became detached from the DOM when trying to interact with it", s);
+            LOGGER.fail(str + " became detached from the DOM when trying to interact with it", s);
         }
 
     }
@@ -406,7 +407,7 @@ public class CommonMethods {
         try {
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(element));
         } catch (Exception e) {
-            LOGGER.logAndFail("Could not switch to iFrame: " + str, e);
+            LOGGER.fail("Could not switch to iFrame: " + str, e);
         }
 
         pauseForSeconds(1);

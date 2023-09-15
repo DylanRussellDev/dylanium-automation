@@ -34,11 +34,11 @@ public class ReadConfigFile {
                 properties.load(bufferedReader);
                 bufferedReader.close();
             } catch (IOException e) {
-                LOGGER.logAndFail("Could not load the properties file", e);
+                LOGGER.fail("Could not load the properties file", e);
             }
 
         } catch (FileNotFoundException e) {
-            LOGGER.logAndFail("The properties file could not be found at this location: "
+            LOGGER.fail("The properties file could not be found at this location: "
                     + Constants.PROP_FILEPATH + "Automation.properties", e);
         }
 

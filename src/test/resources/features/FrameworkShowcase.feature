@@ -14,6 +14,7 @@ Feature: Various test cases to demonstrate the framework's capabilities
 		And the user selects the "WYSIWYG Editor" as an Available Example
 		Then the user is able to input "Hello World" into the text area
 		And the screen recorder is stopped
+
 	@Decryption
 	Scenario: Demonstrate the decryption functionality
 		Given the user navigates to the Selenium Demo website

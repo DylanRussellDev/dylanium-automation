@@ -1,12 +1,13 @@
-package io.github.dylanrusselldev.utilities.core;
+package io.github.dylanrusselldev.steps;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.browser.WebDriverSetter;
+import io.github.dylanrusselldev.utilities.core.CommonMethods;
+import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.reporting.MasterthoughtReport;
 import io.github.dylanrusselldev.utilities.runtime.CommandRunner;
@@ -67,7 +68,7 @@ public class Hooks implements IExecutionListener {
         ScreenRecorderUtil.stopRecord();
 
         if (getScenario().isFailed()) {
-            CommonMethods.fullScreenshot(getDriver());
+            CommonMethods.partialScreenshot(getDriver());
             DevToolsListener.logDevToolErrors();
         }
 
@@ -85,7 +86,6 @@ public class Hooks implements IExecutionListener {
         LOGGER.info("*** TEST SUITE FINISHED ***");
 
         // Open the Masterthought report and html log file after execution has finished.
-        WebDriverManager.chromedriver().setup();
         ChromeDriver driver = new ChromeDriver();
         driver.get(Constants.LOG_FOLDER_PATH + "execution-log.html");
         CommonMethods.pauseForSeconds(1);

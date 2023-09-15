@@ -1,8 +1,8 @@
 package io.github.dylanrusselldev.utilities.browser;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.dylanrusselldev.steps.Hooks;
 import io.github.dylanrusselldev.utilities.core.Constants;
-import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.classic.methods.HttpPost;
@@ -112,7 +112,7 @@ public class BrowserPreferences {
     }
 
     /**
-     * Enables the functionality of downloading files in headless mode by sending a command to the browser.
+     * Override the default download directory for a browser that is managed by an organization.
      */
     public static void overrideDownloadDirectory() throws IOException {
 
@@ -144,7 +144,6 @@ public class BrowserPreferences {
 
         ObjectMapper objectMapper = new ObjectMapper();
         String cmd = objectMapper.writeValueAsString(commandParams);
-
 
         HttpPost httpPost = new HttpPost(sendCmd);
         httpPost.addHeader("content-type", "application/json");

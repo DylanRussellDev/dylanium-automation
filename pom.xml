@@ -12,12 +12,12 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <selenium.version>4.11.0</selenium.version>
+        <selenium.version>4.12.0</selenium.version>
         <testng.version>7.8.0</testng.version>
-        <cucumber.version>7.13.0</cucumber.version>
+        <cucumber.version>7.14.0</cucumber.version>
         <cucumberjvm.version>1.0.6</cucumberjvm.version>
-        <webdrivermanager.version>5.4.1</webdrivermanager.version>
         <masterthought.version>5.7.6</masterthought.version>
+        <httpclient.version>5.2.1</httpclient.version>
         <jasypt.version>1.9.3</jasypt.version>
         <ooxml.version>5.2.3</ooxml.version>
         <mysql.version>8.0.33</mysql.version>
@@ -71,18 +71,18 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- WebDriver Manager-->
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>${webdrivermanager.version}</version>
-        </dependency>
-
         <!-- Masterthought Reports -->
         <dependency>
             <groupId>net.masterthought</groupId>
             <artifactId>maven-cucumber-reporting</artifactId>
             <version>${masterthought.version}</version>
+        </dependency>
+
+        <!-- HTTP client allows for overriding the default download directory for managed browsers -->
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>${httpclient.version}</version>
         </dependency>
 
         <!-- Jasypt  -->

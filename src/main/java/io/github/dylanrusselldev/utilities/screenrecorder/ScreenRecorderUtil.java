@@ -2,7 +2,7 @@ package io.github.dylanrusselldev.utilities.screenrecorder;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
 import io.github.dylanrusselldev.utilities.core.Constants;
-import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.steps.Hooks;
 import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import io.github.dylanrusselldev.utilities.runtime.RuntimeInfo;
 import org.apache.commons.io.IOUtils;
@@ -82,12 +82,12 @@ public class ScreenRecorderUtil extends ScreenRecorder {
     public static void startRecord() throws Exception {
 
         if (RuntimeInfo.getThreads() > 1) {
-            LOGGER.logAndFail("Using the screen recorder during parallel execution has the " +
+            LOGGER.fail("Using the screen recorder during parallel execution has the " +
                     "chance of another browser window opening over the current test. Please run with -DThreads=1");
         }
 
         if (RuntimeInfo.isHeadless()) {
-            LOGGER.logAndFail("The screen recorder cannot be used while in Headless mode");
+            LOGGER.fail("The screen recorder cannot be used while in Headless mode");
         }
 
         File file = new File(Constants.VIDEO_FOLDER_PATH);

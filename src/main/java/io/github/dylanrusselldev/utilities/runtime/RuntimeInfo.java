@@ -1,6 +1,6 @@
 package io.github.dylanrusselldev.utilities.runtime;
 
-import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.steps.Hooks;
 import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 import org.openqa.selenium.Capabilities;
 
@@ -32,12 +32,12 @@ public class RuntimeInfo {
             if (browser.equals("chrome") || browser.equals("edge") || browser.equals("firefox") || browser.equals("ie")) {
                 return browser;
             } else {
-                LOGGER.logAndFail(" Error. The -DBrowser property only accepts 'chrome', 'edge', 'firefox', or 'ie' as an argument");
+                LOGGER.fail(" Error. The -DBrowser property only accepts 'chrome', 'edge', 'firefox', or 'ie' as an argument");
                 return null;
             }
 
         } catch (Exception e) {
-            LOGGER.logAndFail(" The -DBrowser property was not initialized correctly", e);
+            LOGGER.fail(" The -DBrowser property was not initialized correctly", e);
             return null;
         }
 
@@ -107,12 +107,12 @@ public class RuntimeInfo {
             if (threads <= MAX_THREADS && threads >= MIN_THREADS) {
                 return threads;
             } else {
-                LOGGER.logAndFail(" The -DThreads property argument must be greater than 0 and less than or equal to 4");
+                LOGGER.fail(" The -DThreads property argument must be greater than 0 and less than or equal to 4");
                 return null;
             }
 
         } catch (Exception e) {
-            LOGGER.logAndFail(" The -DThreads property was not initialized correctly", e);
+            LOGGER.fail(" The -DThreads property was not initialized correctly", e);
             return null;
         }
 
@@ -140,12 +140,12 @@ public class RuntimeInfo {
             if (headless.equals("true") || headless.equals("false")) {
                 return Boolean.parseBoolean(headless);
             } else {
-                LOGGER.logAndFail(" Error. The -DHeadless property only accepts 'true' or 'false' as an argument");
+                LOGGER.fail(" Error. The -DHeadless property only accepts 'true' or 'false' as an argument");
                 return false;
             }
 
         } catch (Exception e) {
-            LOGGER.logAndFail(" The -DHeadless property was not initialized correctly", e);
+            LOGGER.fail(" The -DHeadless property was not initialized correctly", e);
             return false;
         }
 

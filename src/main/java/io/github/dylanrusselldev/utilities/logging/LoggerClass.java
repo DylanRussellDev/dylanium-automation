@@ -1,10 +1,9 @@
 package io.github.dylanrusselldev.utilities.logging;
 
-import io.github.dylanrusselldev.utilities.core.Hooks;
+import io.github.dylanrusselldev.steps.Hooks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static org.testng.Assert.fail;
+import org.testng.Assert;
 
 /*
  * Filename: LoggerClass.java
@@ -66,9 +65,9 @@ public class LoggerClass {
      *
      * @param msg the message to include in the log files
      */
-    public void logAndFail(String msg) {
+    public void fail(String msg) {
         error(msg);
-        fail(msg + "\n");
+        Assert.fail(msg + "\n");
     }
 
     /**
@@ -78,9 +77,9 @@ public class LoggerClass {
      * @param msg the message to include in the log files
      * @param e   the Exception
      */
-    public void logAndFail(String msg, Exception e) {
+    public void fail(String msg, Exception e) {
         error(msg, ExceptionFormatter.formatException(e));
-        fail(msg + "\n");
+        Assert.fail(msg + "\n");
     }
 
     /**

@@ -52,7 +52,7 @@ public class CommandRunner {
                 break;
 
             default:
-                LOGGER.logAndFail("-DBrowser was not defined properly");
+                LOGGER.fail("-DBrowser was not defined properly");
                 break;
         }
 

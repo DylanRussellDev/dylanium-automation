@@ -5,7 +5,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
-import io.github.dylanrusselldev.utilities.core.Hooks;
 import io.github.dylanrusselldev.utilities.filereaders.PDFValidation;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import io.github.dylanrusselldev.utilities.logging.LoggerClass;
@@ -142,7 +141,7 @@ public class DemoSteps {
         CommonMethods.blurElement(driver, DemoSiteObjects.txtPassword, "Username text box");
 
         CommonMethods.pauseForSeconds(3);
-        CommonMethods.fullScreenshot(driver);
+        CommonMethods.partialScreenshot(driver);
     }
 
     @When("the user downloads the sample pdf")

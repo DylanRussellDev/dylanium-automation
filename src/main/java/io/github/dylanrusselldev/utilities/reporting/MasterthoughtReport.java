@@ -41,7 +41,7 @@ public class MasterthoughtReport {
             ReportBuilder reportBuilder = new ReportBuilder(list, configuration);
             reportBuilder.generateReports();
         } catch (Exception e) {
-            LOGGER.logAndFail("Error encountered when generating the Masterthought report.", e);
+            LOGGER.fail("Error encountered when generating the Masterthought report.", e);
         }
 
     }

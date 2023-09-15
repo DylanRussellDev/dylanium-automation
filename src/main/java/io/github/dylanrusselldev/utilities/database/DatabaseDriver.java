@@ -31,7 +31,7 @@ public class DatabaseDriver {
             connection = DriverManager.getConnection(url, username, password);
             connection.setAutoCommit(false);
         } catch (Exception e) {
-            LOGGER.logAndFail("Could not establish connection to the Database", e);
+            LOGGER.fail("Could not establish connection to the Database", e);
         }
 
     }
@@ -49,7 +49,7 @@ public class DatabaseDriver {
         try {
             connection = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
-            LOGGER.logAndFail("Failed to connect to database using URL [" + url + "]", e);
+            LOGGER.fail("Failed to connect to database using URL [" + url + "]", e);
         }
 
     }
@@ -68,7 +68,7 @@ public class DatabaseDriver {
             }
 
         } catch (SQLException e) {
-            LOGGER.logAndFail("Unable to close the connection to the Database", e);
+            LOGGER.fail("Unable to close the connection to the Database", e);
         }
 
     }
@@ -100,7 +100,7 @@ public class DatabaseDriver {
     private ResultSet getResult(String query) throws SQLException {
 
         if (connection == null || connection.isClosed()) {
-            LOGGER.logAndFail("There is not active connection to the database.");
+            LOGGER.fail("There is not active connection to the database.");
         }
 
         try {
@@ -108,7 +108,7 @@ public class DatabaseDriver {
             ps.setQueryTimeout(Integer.parseInt(String.valueOf(Constants.TIMEOUT)));
             return ps.executeQuery();
         } catch (Exception e) {
-            LOGGER.logAndFail("Error encountered when executing query: " + query, e);
+            LOGGER.fail("Error encountered when executing query: " + query, e);
             return null;
         }
 

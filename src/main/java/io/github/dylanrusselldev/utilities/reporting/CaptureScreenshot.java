@@ -47,7 +47,7 @@ public class CaptureScreenshot {
             bais = new ByteArrayInputStream(takesScreenshot.getScreenshotAs(OutputType.BYTES));
             return ImageIO.read(bais);
         } catch (IOException e) {
-            LOGGER.logAndFail("Unable to parse screenshot", e);
+            LOGGER.fail("Unable to parse screenshot", e);
             return null;
         } finally {
 
@@ -58,7 +58,7 @@ public class CaptureScreenshot {
                 }
 
             } catch (IOException i) {
-                LOGGER.logAndFail("Unable to close ByteArrayInputStream", i);
+                LOGGER.fail("Unable to close ByteArrayInputStream", i);
             }
 
         }
