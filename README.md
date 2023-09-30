@@ -3,7 +3,7 @@ An open-source BDD Selenium Java test automation framework.
 
 # Features
 
-This framework includes many features that can perform a wide variety of validation tasks. Including, but not limited to:
+This framework includes a wide variety of features. Including, but not limited to:
 
 - Detailed test execution reports
 - Parallel execution
