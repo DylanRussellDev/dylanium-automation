@@ -1,6 +1,5 @@
 package io.github.dylanrusselldev.utilities.filereaders;
 
-import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 
 import java.io.BufferedReader;
@@ -22,12 +21,11 @@ public class ReadConfigFile {
     /**
      * Load the properties file.
      */
-    public ReadConfigFile() {
+    public ReadConfigFile(String filePath) {
         BufferedReader bufferedReader;
-        String path = Constants.PROP_FILEPATH + "Automation.properties";
 
         try {
-            bufferedReader = new BufferedReader(new FileReader(path));
+            bufferedReader = new BufferedReader(new FileReader(filePath));
             properties = new Properties();
 
             try {
@@ -38,8 +36,7 @@ public class ReadConfigFile {
             }
 
         } catch (FileNotFoundException e) {
-            LOGGER.fail("The properties file could not be found at this location: "
-                    + Constants.PROP_FILEPATH + "Automation.properties", e);
+            LOGGER.fail("The properties file could not be found at this location: " + filePath, e);
         }
 
     }

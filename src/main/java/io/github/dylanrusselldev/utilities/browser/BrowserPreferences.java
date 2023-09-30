@@ -36,8 +36,6 @@ public class BrowserPreferences {
      */
     public static ChromeOptions chromePrefs() {
 
-        // Disable unneccessary log messages from Selenium and Chrome
-        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.WARNING);
         System.setProperty("webdriver.chrome.args", "disable-logging");
         System.setProperty("webdriver.chrome.silentOutput", "true");
 
@@ -47,7 +45,6 @@ public class BrowserPreferences {
         chromeMap.put("plugins.always_open_pdf_externally", true);
         chromeMap.put("download.default_directory", Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName());
 
-        // Add Chrome Options
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("prefs", chromeMap);
         chromeOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);
@@ -77,18 +74,14 @@ public class BrowserPreferences {
      */
     public static EdgeOptions edgePrefs() {
 
-        // Disable unnecessary console logging from Selenium and Edge
-        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.WARNING);
         System.setProperty("webdriver.edge.args", "disable-logging");
         System.setProperty("webdriver.edge.silentOutput", "true");
 
-        // Set the default download directory
         HashMap<String, Object> edgeMap = new HashMap<>();
         edgeMap.put("plugins.plugins_disabled", new String[]{"Chromium PDF Viewer"});
         edgeMap.put("plugins.always_open_pdf_externally", true);
         edgeMap.put("download.default_directory", Constants.DOWNLOAD_DIRECTORY);
 
-        // Add Edge Options
         EdgeOptions edgeOptions = new EdgeOptions();
         edgeOptions.setExperimentalOption("prefs", edgeMap);
         edgeOptions.setCapability(CapabilityType.ACCEPT_INSECURE_CERTS, true);

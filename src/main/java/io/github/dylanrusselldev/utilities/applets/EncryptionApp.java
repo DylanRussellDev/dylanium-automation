@@ -1,5 +1,6 @@
 package io.github.dylanrusselldev.utilities.applets;
 
+import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.jasypt.iv.RandomIvGenerator;
@@ -27,7 +28,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
  */
 public class EncryptionApp extends JPanel implements ActionListener {
 
-    private static final ReadConfigFile readConfigFile = new ReadConfigFile();
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "Automation.properties");
 
     private static final String OK = "OK";
     private final JFrame jFrame;

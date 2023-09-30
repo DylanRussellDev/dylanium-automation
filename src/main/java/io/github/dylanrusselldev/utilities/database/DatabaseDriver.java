@@ -19,7 +19,7 @@ public class DatabaseDriver {
 
     private Connection connection;
     private static final LoggerClass LOGGER = new LoggerClass(DatabaseDriver.class);
-    private static final ReadConfigFile readConfigFile = new ReadConfigFile();
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "Automation.properties");
 
     public DatabaseDriver() {
 

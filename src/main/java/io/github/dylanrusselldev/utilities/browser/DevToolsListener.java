@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.devtools.Command;
 import org.openqa.selenium.devtools.DevTools;
-import org.openqa.selenium.devtools.v116.network.Network;
+import org.openqa.selenium.devtools.v117.network.Network;
 import org.openqa.selenium.edge.EdgeDriver;
 
 import java.util.ArrayList;
@@ -58,7 +58,6 @@ public class DevToolsListener {
             devTools.addListener(Network.responseReceived(), receive -> {
                 Integer statusCode = receive.getResponse().getStatus();
 
-                // If a network response has a status code >= 400, add the info to the ArrayList
                 if (statusCode >= 400) {
                     devtoolErrors.add("DevTools error found.\n" +
                             "URL: " + receive.getResponse().getUrl().replace("https://", "") + "\n" +

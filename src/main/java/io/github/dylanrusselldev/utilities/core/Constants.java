@@ -11,7 +11,7 @@ public class Constants {
     public static final Long TIMEOUT = Long.parseLong("60");
 
     // target folder
-    public static final String TEST_RESULTS = System.getProperty("user.dir") + "\\test-results";
+    private static final String TEST_RESULTS = System.getProperty("user.dir") + "\\test-results";
 
     // Masterthought Report
     public static final String MASTERTHOUGHT_REPORT_PATH =  TEST_RESULTS + "\\masterthought-report\\";

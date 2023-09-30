@@ -5,6 +5,7 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.github.dylanrusselldev.utilities.browser.DevToolsListener;
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
+import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.filereaders.PDFValidation;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
 import io.github.dylanrusselldev.utilities.logging.LoggerClass;
@@ -21,7 +22,7 @@ import static org.testng.Assert.assertEquals;
 public class DemoSteps {
 
     private final WebDriver driver;
-    private static final ReadConfigFile readConfigFile = new ReadConfigFile();
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "Automation.properties");
     private static final LoggerClass LOGGER = new LoggerClass(DemoSteps.class);
 
     public DemoSteps() {
@@ -151,7 +152,7 @@ public class DemoSteps {
 
     @Then("the downloaded PDF contains the text {string}")
     public void the_downloaded_pdf_contains_the_text(String text) throws IOException {
-        PDFValidation.verifyDownloadedPDFText(driver, text, "sample.pdf");
+        PDFValidation.verifyDownloadedPDFText(driver, text, "55264219 ANGEL ALBERT.pdf");
     }
 
 }

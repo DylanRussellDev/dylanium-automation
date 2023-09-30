@@ -39,7 +39,7 @@ import java.util.Arrays;
 public class CommonMethods {
 
     private static final LoggerClass LOGGER = new LoggerClass(CommonMethods.class);
-    private static final ReadConfigFile readConfigFile = new ReadConfigFile();
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "Automation.properties");
 
     /**
      * Blurs an element via it's CSS property.

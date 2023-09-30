@@ -4,7 +4,7 @@
 
     <listeners>
         <listener class-name="runners.ThreadSetter"/>
-        <listener class-name="io.github.dylanrusselldev.utilities.core.Hooks"/>
+        <listener class-name="io.github.dylanrusselldev.steps.Hooks"/>
     </listeners>
 
     <test name="Selenium Tests">

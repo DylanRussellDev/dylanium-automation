@@ -77,7 +77,6 @@ public class PDFValidation {
         is.close();
 
         String p = String.valueOf(CommonMethods.retrieveFile(driver, pdfName));
-//        String p = String.valueOf(CommonMethods.getNewestFile(Constants.TARGET_FILE_DOWNLOADS, "pdf"));
         Path path = Paths.get(p);
 
         try {
