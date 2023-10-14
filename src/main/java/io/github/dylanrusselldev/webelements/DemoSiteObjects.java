@@ -23,12 +23,11 @@ public class DemoSiteObjects {
 
     // Inputs
     public static final By hdInputs = By.xpath("//h3[text()='Inputs']");
-    public static final By txtNumbers = By.id("invalidID");
 
     // Add/Remove Elements
     public static final By hdAddRemoveElements = By.xpath("//h3[text()='Add/Remove Elements']");
     public static final By btnAddElement = By.xpath("//button[text()='Add Element']");
     public static final By btnDelete = By.xpath("//button[text()='Delete']");
 
-    public static final By lnkSamplePDF = By.xpath("//a[@href='download/55264219 ANGEL ALBERT.pdf']");
+    public static final By lnkSamplePDF = By.xpath("//a[@href='download/sample.pdf']");
 }

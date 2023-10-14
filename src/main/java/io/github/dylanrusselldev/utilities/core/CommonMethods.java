@@ -155,10 +155,19 @@ public class CommonMethods {
     }
 
     public static File retrieveFile(WebDriver driver, String filename) {
-        File file = new File(Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName() + "\\" + filename);
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constants.TIMEOUT));
-        wait.until(x -> file.exists());
-        return file;
+
+        try {
+            File file = new File(Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName() + "\\" + filename);
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constants.TIMEOUT));
+            wait.until(x -> file.exists());
+            LOGGER.info("Located the " + filename + " file");
+            return file;
+        } catch (Exception e) {
+            LOGGER.fail("Unable to locate the file: " + filename + " in folder location: " +
+                    Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName() + "\\" + filename);
+            return null;
+        }
+
     }
 
     /**

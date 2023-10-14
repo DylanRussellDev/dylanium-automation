@@ -1,6 +1,8 @@
 package io.github.dylanrusselldev.utilities.filereaders;
 
 import io.github.dylanrusselldev.utilities.core.CommonMethods;
+import org.apache.pdfbox.Loader;
+import org.apache.pdfbox.io.RandomAccessReadBufferedFile;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.openqa.selenium.WebDriver;
@@ -41,21 +43,19 @@ public class PDFValidation {
         if (driver.getCurrentUrl().contains("blob")) {
             saveBlobPDF(driver, pdfName);
             File file = new File("./downloadedPDF");
-            PDDocument pdDocument = PDDocument.load(file);
+            PDDocument pdDocument = Loader.loadPDF(file);
             content = pdfTextStripper.getText(pdDocument);
             pdDocument.close();
-            file.delete();
-        } else {
+        } else {  // TODO: Possibly remove because the PDF viewer is disabled by default.
             URL url = new URL(driver.getCurrentUrl());
             InputStream is = url.openStream();
             BufferedInputStream bis = new BufferedInputStream(is);
-            PDDocument pdDocument = PDDocument.load(bis);
+            PDDocument pdDocument = Loader.loadPDF(new RandomAccessReadBufferedFile(bis.toString()));
             content = pdfTextStripper.getText(pdDocument);
             pdDocument.close();
         }
 
         assertTrue(content.contains(textToVerify), "The expected text: " + textToVerify + " was not present in the pdf: " + pdfName);
-
     }
 
     /**
@@ -65,16 +65,10 @@ public class PDFValidation {
      * @param pdfName   the PDF name for exception message
      */
     public static void verifyDownloadedPDFText(WebDriver driver, String txtVerify, String pdfName) throws IOException {
-        URL url = new URL("file:///" + CommonMethods.retrieveFile(driver, pdfName));
-
-        InputStream is = url.openStream();
-        BufferedInputStream bis = new BufferedInputStream(is);
-        PDDocument pdDocument = PDDocument.load(bis);
+        PDDocument pdDocument = Loader.loadPDF(CommonMethods.retrieveFile(driver, pdfName));
         PDFTextStripper pdfTextStripper = new PDFTextStripper();
         String txt = pdfTextStripper.getText(pdDocument);
         pdDocument.close();
-        bis.close();
-        is.close();
 
         String p = String.valueOf(CommonMethods.retrieveFile(driver, pdfName));
         Path path = Paths.get(p);
@@ -87,7 +81,6 @@ public class PDFValidation {
 
         assertTrue(txt.contains(txtVerify), "Validation failed. The text: '" + txtVerify + " ' "
                 + " was not present in the " + pdfName + " PDF\n");
-
     }
 
     /**

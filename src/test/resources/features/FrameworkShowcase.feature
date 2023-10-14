@@ -55,4 +55,4 @@ Feature: Various test cases to demonstrate the framework's capabilities
 		Given the user navigates to the Selenium Demo website
 		When the user selects the "File Download" as an Available Example
 		And the user downloads the sample pdf
-		Then the downloaded PDF contains the text "Certified Tester in DevOps"
+		Then the downloaded PDF contains the text "PDF Test File"

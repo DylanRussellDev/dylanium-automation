@@ -152,7 +152,7 @@ public class DemoSteps {
 
     @Then("the downloaded PDF contains the text {string}")
     public void the_downloaded_pdf_contains_the_text(String text) throws IOException {
-        PDFValidation.verifyDownloadedPDFText(driver, text, "55264219 ANGEL ALBERT.pdf");
+        PDFValidation.verifyDownloadedPDFText(driver, text, "sample.pdf");
     }
 
 }
