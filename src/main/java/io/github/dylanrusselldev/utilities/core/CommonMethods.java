@@ -154,6 +154,12 @@ public class CommonMethods {
 
     }
 
+    /**
+     * Returns a file based off the filename.
+     *
+     * @param driver WebDriver
+     * @param filename the filename
+     */
     public static File retrieveFile(WebDriver driver, String filename) {
 
         try {
