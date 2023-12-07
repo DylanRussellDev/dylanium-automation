@@ -25,7 +25,7 @@ import java.util.Map;
 /*
  * Filename: BrowserPreferences.java
  * Author: Dylan Russell
- * Purpose: Sets browser preferences for the webdrivers
+ * Purpose: Sets browser preferences for the webdrivers.
  */
 public class BrowserPreferences {
 
@@ -43,7 +43,7 @@ public class BrowserPreferences {
         HashMap<String, Object> chromeMap = new HashMap<>();
         chromeMap.put("plugins.plugins_disabled", new String[]{"Chrome PDF Viewer"});
         chromeMap.put("plugins.always_open_pdf_externally", true);
-        chromeMap.put("download.default_directory", Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName());
+        chromeMap.put("download.default_directory", Constants.TARGET_FILE_DOWNLOADS + "\\" + Hooks.getScenario().getName());
 
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setExperimentalOption("prefs", chromeMap);
@@ -132,7 +132,7 @@ public class BrowserPreferences {
 
         Map<String, Object> params = new HashMap<>();
         params.put("behavior", "allow");
-        params.put("downloadPath", Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName());
+        params.put("downloadPath", Constants.TARGET_FILE_DOWNLOADS + "\\" + Hooks.getScenario().getName());
         commandParams.put("params", params);
 
         ObjectMapper objectMapper = new ObjectMapper();

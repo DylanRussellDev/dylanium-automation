@@ -39,7 +39,7 @@ import java.util.Arrays;
 public class CommonMethods {
 
     private static final LoggerClass LOGGER = new LoggerClass(CommonMethods.class);
-    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "Automation.properties");
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "\\automation.properties");
 
     /**
      * Blurs an element via it's CSS property.
@@ -163,14 +163,14 @@ public class CommonMethods {
     public static File retrieveFile(WebDriver driver, String filename) {
 
         try {
-            File file = new File(Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName() + "\\" + filename);
+            File file = new File(Constants.TARGET_FILE_DOWNLOADS + "\\" + Hooks.getScenario().getName() + "\\" + filename);
             WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(Constants.TIMEOUT));
             wait.until(x -> file.exists());
             LOGGER.info("Located the " + filename + " file");
             return file;
         } catch (Exception e) {
             LOGGER.fail("Unable to locate the file: " + filename + " in folder location: " +
-                    Constants.TARGET_FILE_DOWNLOADS + Hooks.getScenario().getName() + "\\" + filename);
+                    Constants.TARGET_FILE_DOWNLOADS + "\\" + Hooks.getScenario().getName() + "\\" + filename);
             return null;
         }
 
@@ -185,19 +185,22 @@ public class CommonMethods {
     public static File getNewestFile(String folderPath, String ext) {
         File newestFile = null;
         FileFilter fileFilter = new WildcardFileFilter("*." + ext);
+        File directory = new File(folderPath);
+        File[] filesArray;
 
         for (int i = 0; i < 5; i++) {
-            File directory = new File(folderPath);
-            File[] filesArray = directory.listFiles(fileFilter);
+            filesArray = directory.listFiles(fileFilter);
 
-            if (filesArray.length > 0) {
+            if (filesArray != null && filesArray.length > 0) {
                 Arrays.sort(filesArray, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
 
-                // If the file is still downloading, wait 5 seconds and check again
-                if (filesArray[0].getName().contains(".crdownload")) {
+                String fileName = filesArray[0].getName();
+
+                if (filesArray[0].getName().endsWith(".crdownload")) {
                     LOGGER.info("The file is currently downloading...");
                     CommonMethods.pauseForSeconds(5);
                 } else {
+                    filesArray = directory.listFiles(fileFilter);
                     newestFile = filesArray[0];
                     LOGGER.info("The newest file in the folder is: " + newestFile.getName());
                     break;
@@ -320,7 +323,7 @@ public class CommonMethods {
 
         try {
             driver.get(readConfigFile.properties.getProperty(propertyURL));
-            LOGGER.info("Navigating to URL" + readConfigFile.properties.getProperty(propertyURL));
+            LOGGER.info("Navigating to URL " + readConfigFile.properties.getProperty(propertyURL));
         } catch (Exception e) {
             LOGGER.fail("Could not navigate to " + propertyURL, e);
         }
