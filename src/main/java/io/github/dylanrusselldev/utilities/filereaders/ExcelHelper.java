@@ -15,7 +15,7 @@ import java.util.Iterator;
 /*
  * Filename: ExcelHelper.java
  * Author: Dylan Russell
- * Purpose: Class that enables the use of reading data from an Excel file
+ * Purpose: Enables the use of reading and writing data to and from Excel files.
  */
 public class ExcelHelper {
 

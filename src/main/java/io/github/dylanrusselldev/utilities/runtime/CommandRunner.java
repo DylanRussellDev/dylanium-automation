@@ -6,7 +6,7 @@ import io.github.dylanrusselldev.utilities.logging.LoggerClass;
 /*
  * Filename: CommandRunner.java
  * Author: Dylan Russell
- * Purpose: Methods that allow commands to be run via the Windows Command Prompt
+ * Purpose: Methods that allow commands to be run just like using the Windows Command Prompt.
  */
 public class CommandRunner {
 

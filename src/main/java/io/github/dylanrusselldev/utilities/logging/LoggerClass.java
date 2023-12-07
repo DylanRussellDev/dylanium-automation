@@ -8,8 +8,8 @@ import org.testng.Assert;
 /*
  * Filename: LoggerClass.java
  * Author: Dylan Russell
- * Purpose: Provides methods that, once called, will log information to
- *          the console, a log file, an html file and the Masterthought report
+ * Purpose: Provides methods that will log information to
+ *          the console, a log file, an html file, and the Masterthought report.
  */
 public class LoggerClass {
 

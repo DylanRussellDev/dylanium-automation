@@ -39,9 +39,7 @@ import static org.monte.media.VideoFormatKeys.QualityKey;
  * Filename: ScreenRecorderUtil.java
  * Author: Dylan Russell
  * Purpose: Enables the ability to record the desktop during test execution and save the file as an AVI file.
- *          In the stopRecord method, the AVI file is converted to a MP4 for easy viewing on any system and
- *          to also embed in the test execution report.
- *          Please note that screen recording will not capture browser actions while executing in Headless mode.
+ *          Screen recording is not supported during headless and parallel execution.
  */
 public class ScreenRecorderUtil extends ScreenRecorder {
 

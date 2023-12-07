@@ -11,7 +11,7 @@ import java.util.Properties;
 /*
  * Filename: ReadConfigFile.java
  * Author: Dylan Russell
- * Purpose: Enables the use of reading data of the properties file.
+ * Purpose: Enables the use of reading data from properties files.
  */
 public class ReadConfigFile {
 

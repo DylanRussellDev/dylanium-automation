@@ -15,7 +15,6 @@ import java.util.List;
  * Filename: MasterthoughtReport.java
  * Author: Dylan Russell
  * Purpose: Generates the Masterthought test execution report.
- * 			The file to open in the target directory is: overview-features.html file
  */
 public class MasterthoughtReport {
 

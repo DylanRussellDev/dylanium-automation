@@ -10,7 +10,7 @@ import java.util.List;
  * Filename: ThreadSetter.java
  * Author: Dylan Russell
  * Purpose: Enables the number provided for the -DThreads maven goal to control
- *          how many browser instances will be launched while executing in parallel.
+ *          how many browser instances will be launched for parallel execution.
  */
 public class ThreadSetter implements IAlterSuiteListener {
 
