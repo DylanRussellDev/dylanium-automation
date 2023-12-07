@@ -3,15 +3,8 @@
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 
-        <target>System.err</target>
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
-
-            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %highlight(%-5level) | %cyan(%-25.-25logger{15}) | %-20.20thread | %msg %n%ex{10}%nopex</pattern>
-
+            <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %highlight(%-5level) | %cyan(%-25.-25logger{15}) | %-20.20thread | %msg %n%ex%nopex</pattern>
         </encoder>
 
     </appender>
@@ -25,9 +18,7 @@
         <immediateFlush>true</immediateFlush>
 
         <encoder>
-
             <pattern>%d{MM-dd-yyyy} | %d{HH:mm:ss.SSS} | %-5level | %-25.-25logger{15} | %-20.20thread | %msg %n%ex%nopex</pattern>
-
         </encoder>
 
     </appender>
@@ -40,9 +31,7 @@
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
 
             <layout class="ch.qos.logback.classic.html.HTMLLayout">
-
                 <pattern>%d{MM-dd-yyyy}%d{HH:mm:ss.SSS}%level%logger{15}%thread%msg</pattern>
-
             </layout>
 
         </encoder>

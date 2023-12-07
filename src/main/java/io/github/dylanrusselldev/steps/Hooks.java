@@ -43,7 +43,7 @@ public class Hooks implements IExecutionListener {
     }
 
     /**
-     * Code that executes before every cucumber scenario
+     * Code that executes before every cucumber scenario.
      *
      * @param scenObj the Scenario object
      */
@@ -87,11 +87,11 @@ public class Hooks implements IExecutionListener {
 
         // Open the Masterthought report and html log file after execution has finished.
         ChromeDriver driver = new ChromeDriver();
-        driver.get(Constants.LOG_FOLDER_PATH + "execution-log.html");
+        driver.get(Constants.LOG_FOLDER_PATH + "\\execution-log.html");
         CommonMethods.pauseForSeconds(1);
         driver.manage().window().maximize();
         driver.switchTo().newWindow(WindowType.TAB);
-        driver.get(Constants.MASTERTHOUGHT_REPORT_PATH + "cucumber-html-reports\\overview-features.html");
+        driver.get(Constants.MASTERTHOUGHT_REPORT_PATH + "\\cucumber-html-reports\\overview-features.html");
     }
 
     /**

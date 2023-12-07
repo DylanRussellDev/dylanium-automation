@@ -22,7 +22,7 @@ import static org.testng.Assert.assertEquals;
 public class DemoSteps {
 
     private final WebDriver driver;
-    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "Automation.properties");
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "\\automation.properties");
     private static final LoggerClass LOGGER = new LoggerClass(DemoSteps.class);
 
     public DemoSteps() {

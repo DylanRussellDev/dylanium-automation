@@ -1,4 +1,4 @@
-package io.github.dylanrusselldev.utilities.applets;
+package io.github.dylanrusselldev.utilities.security;
 
 import io.github.dylanrusselldev.utilities.core.Constants;
 import io.github.dylanrusselldev.utilities.filereaders.ReadConfigFile;
@@ -28,7 +28,7 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
  */
 public class EncryptionApp extends JPanel implements ActionListener {
 
-    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "Automation.properties");
+    private static final ReadConfigFile readConfigFile = new ReadConfigFile(Constants.PROP_FILEPATH + "\\automation.properties");
 
     private static final String OK = "OK";
     private final JFrame jFrame;
