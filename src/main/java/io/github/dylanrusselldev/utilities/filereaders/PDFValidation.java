@@ -25,7 +25,7 @@ import static org.testng.Assert.fail;
 /*
  * Filename: PDFValidation.java
  * Author: Dylan Russell
- * Purpose: Provides different methods that can be used to validate PDFs during test executions.
+ * Purpose: Provides different methods that can be used to validate PDFs during test execution.
  */
 public class PDFValidation {
 

@@ -14,7 +14,7 @@ import java.time.Duration;
 /*
  * Filename: WebDriverSetter.java
  * Author: Dylan Russell
- * Purpose: Sets the WebDriver type based on the argument in the -DBrowser maven goal
+ * Purpose: Sets the WebDriver type based on the argument in the -DBrowser maven goal.
  */
 public class WebDriverSetter {
 

@@ -10,8 +10,7 @@ import java.util.List;
 /*
  * Filename: RuntimeInfo.java
  * Author: Dylan Russell
- * Purpose: A class that houses methods can return information about the current
- *          suite being executed.
+ * Purpose: Provides methods that can return information about the current suite being executed.
  */
 public class RuntimeInfo {
 

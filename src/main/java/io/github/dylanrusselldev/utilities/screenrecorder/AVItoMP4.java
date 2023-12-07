@@ -17,7 +17,6 @@ import java.util.Date;
  * Filename: AVItoMP4.java
  * Author: Dylan Russell
  * Purpose: Converts the .avi files generated from the methods in ScreenRecorderUtil.java to MP4 files.
- *          The MP4 files can be attached to the test execution reports.
  */
 public class AVItoMP4 {
 
