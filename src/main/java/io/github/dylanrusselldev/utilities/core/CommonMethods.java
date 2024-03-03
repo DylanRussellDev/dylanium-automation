@@ -194,13 +194,10 @@ public class CommonMethods {
             if (filesArray != null && filesArray.length > 0) {
                 Arrays.sort(filesArray, LastModifiedFileComparator.LASTMODIFIED_REVERSE);
 
-                String fileName = filesArray[0].getName();
-
                 if (filesArray[0].getName().endsWith(".crdownload")) {
                     LOGGER.info("The file is currently downloading...");
                     CommonMethods.pauseForSeconds(5);
                 } else {
-                    filesArray = directory.listFiles(fileFilter);
                     newestFile = filesArray[0];
                     LOGGER.info("The newest file in the folder is: " + newestFile.getName());
                     break;
